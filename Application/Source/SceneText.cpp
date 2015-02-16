@@ -83,6 +83,10 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[WALL]->textureID = LoadTGA("Image//Wall.tga");
 	meshList[TILE] = MeshBuilder::GenerateQuad("tile", Color(1, 1, 1), 1.f, 1.f);
 	meshList[TILE]->textureID = LoadTGA("Image//Tile.tga");
+	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
+	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
+	meshList[EXTSIDE] = MeshBuilder::GenerateQuad("Exterior Side", Color(1, 1, 1), 1.f, 1.f);
+	meshList[EXTSIDE]->textureID = LoadTGA("Image//ExtSide.tga");
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
@@ -203,6 +207,37 @@ void SceneText::Render()
 			}
 		}
 	}
+
+	//Exterior Front
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 100, 300);
+	modelStack.Scale(800, 200, 500);
+	RenderMesh(meshList[EXTFRONT], false);
+	modelStack.PopMatrix();
+
+	//Exterior Left
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Translate(0, 100, 400);
+	modelStack.Scale(600, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
+
+	//Exterior Right
+	modelStack.PushMatrix();
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Translate(0, 100, 400);
+	modelStack.Scale(600, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
+
+	//Exterior Back
+	modelStack.PushMatrix();
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Translate(0, 100, 300);
+	modelStack.Scale(800, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
 
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
