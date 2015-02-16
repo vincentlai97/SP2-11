@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include <math.h>
 #include "CameraFly.h"
+#include "Camera2.h"
 #include "Mtx44.h"
 #include "MatrixStack.h"
 #include "MyMath.h"
@@ -22,6 +23,7 @@ class SceneText : public Scene
 		GEO_FRONT,
 		GEO_BACK,
 		GEO_TEXT,
+		GEO_FLOOR,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -55,6 +57,7 @@ private:
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[1];
+	void RenderSkyBox();
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderModel();
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -70,7 +73,7 @@ public:
 
 	MS modelStack, viewStack, projectionStack;
 
-	CameraFly camera;
+	Camera2 camera;
 
 	void load();
 	void reset();
