@@ -25,6 +25,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float height, double* xPos, double* yPos)
 {
 	static const float CAMERA_SPEED = 50.f;
+	static const float MOUSE_SPEED = 50.f;
 
 	double mouseX = width;
 	double mouseY = height;
@@ -32,7 +33,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 	if(Application::IsKeyPressed(VK_LEFT) || (*xPos > mouseX))
 	{
 		
-		float yaw = (float)(CAMERA_SPEED * dt * (mouseX - *xPos));
+		float yaw = (float)(MOUSE_SPEED * dt * (mouseX - *xPos));
 		Vector3 view = (target - position).Normalized();
 		Mtx44 rotation;
 		rotation.SetToRotation(yaw, 0, 1, 0);
@@ -42,7 +43,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 	}
 	if(Application::IsKeyPressed(VK_RIGHT) || (*xPos < mouseX))
 	{
-		float yaw = (float)(-CAMERA_SPEED * dt * (*xPos - mouseX));
+		float yaw = (float)(-MOUSE_SPEED * dt * (*xPos - mouseX));
 		Vector3 view = (target - position).Normalized();
 		Mtx44 rotation;
 		rotation.SetToRotation(yaw, 0, 1, 0);
@@ -52,7 +53,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 	}
 	if(Application::IsKeyPressed(VK_UP) || (*yPos > mouseY))
 	{
-		float pitch = (float)(CAMERA_SPEED * dt * (mouseY - *yPos));
+		float pitch = (float)(MOUSE_SPEED * dt * (mouseY - *yPos));
 		Vector3 view = (target - position).Normalized();
 		Vector3 right = view.Cross(up);
 		right.y = 0;
@@ -65,7 +66,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 	}
 	if(Application::IsKeyPressed(VK_DOWN) || (*yPos < mouseY))
 	{
-		float pitch = (float)(-CAMERA_SPEED * dt * (*yPos - mouseY));
+		float pitch = (float)(-MOUSE_SPEED * dt * (*yPos - mouseY));
 		Vector3 view = (target - position).Normalized();
 		Vector3 right = view.Cross(up);
 		right.y = 0;
@@ -134,16 +135,16 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 		incr += right * CAMERA_SPEED * dt;
 	}
 
-	if (checkCollision(v, incr))
-	{
-		bool overlap[3];
-		overlap[0] = checkCollision(v, Vector3(incr.x, 0, 0));
-		overlap[1] = checkCollision(v, Vector3(0, incr.y, 0));
-		overlap[2] = checkCollision(v, Vector3(0, 0, incr.z));
-		if (overlap[0]) incr.x = 0;
-		if (overlap[1]) incr.y = 0;
-		if (overlap[2]) incr.z = 0;
-	}
+	//if (checkCollision(v, incr))
+	//{
+	//	bool overlap[3];
+	//	overlap[0] = checkCollision(v, Vector3(incr.x, 0, 0));
+	//	overlap[1] = checkCollision(v, Vector3(0, incr.y, 0));
+	//	overlap[2] = checkCollision(v, Vector3(0, 0, incr.z));
+	//	if (overlap[0]) incr.x = 0;
+	//	if (overlap[1]) incr.y = 0;
+	//	if (overlap[2]) incr.z = 0;
+	//}
 	position += incr;
 	target += incr;
 }
