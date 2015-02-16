@@ -2,7 +2,7 @@
 #define SCENE_TEXT_H
 #include "Scene.h"
 #include <math.h>
-#include "Camera2.h"
+#include "CameraFly.h"
 #include "Mtx44.h"
 #include "MatrixStack.h"
 #include "MyMath.h"
@@ -70,7 +70,7 @@ public:
 
 	MS modelStack, viewStack, projectionStack;
 
-	Camera2 camera;
+	CameraFly camera;
 
 	void load();
 	void reset();
