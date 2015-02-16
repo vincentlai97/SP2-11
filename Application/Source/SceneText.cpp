@@ -79,36 +79,28 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	
 	//skybox
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//stadium wall.tga");
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//stadium wall.tga");
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//ceiling.tga");
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//Stadium Floor.tga");
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//stadium wall.tga");
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//stadium wall.tga");
+	meshList[WALL] = MeshBuilder::GenerateQuad("wall", Color(1, 1, 1), 1.f, 1.f);
+	meshList[WALL]->textureID = LoadTGA("Image//Wall.tga");
+	meshList[TILE] = MeshBuilder::GenerateQuad("tile", Color(1, 1, 1), 1.f, 1.f);
+	meshList[TILE]->textureID = LoadTGA("Image//Tile.tga");
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
-	v.push_back(Vector3(100, 100, -100));
-	v.push_back(Vector3(-100, -100, -120));
-	v.push_back(Vector3(100, 100, 120));
-	v.push_back(Vector3(-100, -100, 100));
-	v.push_back(Vector3(100, -20, 100));
-	v.push_back(Vector3(-100, -40, -100));
-	v.push_back(Vector3(100, 50, 100));
-	v.push_back(Vector3(-100, 30, -100));
-	v.push_back(Vector3(-100, 100, 100));
-	v.push_back(Vector3(-120, -100, -100));
-	v.push_back(Vector3(120, 100, 100));
-	v.push_back(Vector3(100, -100, -100));
+	v.push_back(Vector3(400, 200, -300));
+	v.push_back(Vector3(-400, 0, -320));
+	v.push_back(Vector3(400, 200, 320));
+	v.push_back(Vector3(-400, 0, 300));
+	v.push_back(Vector3(400, 0, 300));
+	v.push_back(Vector3(-400, -20, -300));
+	v.push_back(Vector3(400, 220, 300));
+	v.push_back(Vector3(-400, 200, -300));
+	v.push_back(Vector3(-400, 200, 300));
+	v.push_back(Vector3(-420, 0, -300));
+	v.push_back(Vector3(420, 200, 300));
+	v.push_back(Vector3(400, 0, -300));
 
-	camera.Init(Vector3(0, 0, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
@@ -166,62 +158,52 @@ void SceneText::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	modelStack.PushMatrix(); {
-		modelStack.Translate(0, 0, -99);
-		modelStack.Scale(200, 60, 200);
+	for (int count = 0; count < 2; count++)
+	for (int countx = -20; countx <= 20; countx++)
+	{
+		for (int countz = -15; countz <= 15; countz++)
+		{
+			modelStack.PushMatrix(); {
+				modelStack.Translate(countx * 20, 90 * count, countz * 20);
+				modelStack.Rotate(90 + count * 180, -1, 0, 0);
+				modelStack.Scale(20, 20, 20);
 
-		RenderMesh(meshList[GEO_FRONT], false);
-	} modelStack.PopMatrix();
+				RenderMesh(meshList[TILE], false);
+			} modelStack.PopMatrix();
+		}
+	}
 
-	modelStack.PushMatrix(); {
-		modelStack.Translate(0, 0, 99);
-		modelStack.Rotate(180, 0, 1, 0);
-		modelStack.Scale(200, 60, 200);
+	for (int count = -1; count < 2; count += 2)
+	{
+		for (int hor = -20; hor <= 20; hor++)
+		{
+			for (int ver = 0; ver <= 10; ver ++)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(hor * 20, ver * 20, 300 * count);
+					modelStack.Rotate(90 + 90 * count, 0, 1, 0);
+					modelStack.Scale(20, 20, 20);
+					RenderMesh(meshList[WALL], false);
+				} modelStack.PopMatrix();
+			}
+		}
+	}
+	for (int count = -1; count < 2; count += 2)
+	{
+		for (int hor = -15; hor <= 15; hor++)
+		{
+			for (int ver = 0; ver <= 10; ver ++)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(-400 * count, ver * 20, hor * 20);
+					modelStack.Rotate(90 * count, 0, 1, 0);
+					modelStack.Scale(20, 20, 20);
+					RenderMesh(meshList[WALL], false);
+				} modelStack.PopMatrix();
+			}
+		}
+	}
 
-		RenderMesh(meshList[GEO_BACK], false);
-	} modelStack.PopMatrix();
-
-
-	modelStack.PushMatrix(); {
-		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Translate(0, 30, 0);
-		modelStack.Rotate(90, 1, 0, 0);
-		modelStack.Scale(200, 200, 200);
-
-		RenderMesh(meshList[GEO_TOP], false);
-	} modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Rotate(90, 0, -1, 0);
-		modelStack.Translate(0, -20, 0);
-		modelStack.Rotate(90, -1, 0, 0);
-		modelStack.Scale(200, 200, 200);
-
-		RenderMesh(meshList[GEO_BOTTOM], false);
-	} modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(-99, 0, 0);
-		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Scale(200, 60, 200);
-
-		RenderMesh(meshList[GEO_LEFT], false);
-	} modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(99, 0, 0);
-		modelStack.Rotate(90, 0, -1, 0);
-		modelStack.Scale(200, 60, 200);
-
-		RenderMesh(meshList[GEO_RIGHT], false);
-	} modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Scale(10, 10, 10);
-
-		RenderText(meshList[GEO_TEXT], "Hello World", Color(0, 1, 0));
-	} modelStack.PopMatrix();
-	
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
 }

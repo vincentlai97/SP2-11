@@ -2,6 +2,7 @@
 #define SCENE_TEXT_H
 #include "Scene.h"
 #include <math.h>
+#include "Camera2.h"
 #include "CameraFly.h"
 #include "Mtx44.h"
 #include "MatrixStack.h"
@@ -15,12 +16,8 @@ class SceneText : public Scene
 	{
 		GEO_AXES,
 		GEO_QUAD,
-		GEO_LEFT,
-		GEO_RIGHT,
-		GEO_TOP,
-		GEO_BOTTOM,
-		GEO_FRONT,
-		GEO_BACK,
+		WALL,
+		TILE,
 		GEO_TEXT,
 		NUM_GEOMETRY,
 	};

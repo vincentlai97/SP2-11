@@ -95,7 +95,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 		Reset();
 	}
 	
-	if (Application::IsKeyPressed(VK_SPACE) && position.y < -4)
+	if (Application::IsKeyPressed(VK_SPACE) && position.y < 16)
 	{
 		state = JUMPING;
 	}
@@ -104,13 +104,13 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 	view.y = 0;
 	view.Normalize();
 	Vector3 incr(0, 0, 0);
-	if (state == NJUMPING && position.y > -5)
+	if (state == NJUMPING && position.y > 15)
 	{
 		incr.y -= CAMERA_SPEED * dt;
 	}
 	else if (state == JUMPING)
 	{
-		if (position.y > 20) state = NJUMPING;
+		if (position.y > 40) state = NJUMPING;
 		else incr.y += CAMERA_SPEED * dt;
 	}
 	if (Application::IsKeyPressed('W'))

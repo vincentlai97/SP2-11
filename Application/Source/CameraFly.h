@@ -1,5 +1,5 @@
-#ifndef CAMERA_2_H
-#define CAMERA_2_H
+#ifndef CAMERA_FLY_H
+#define CAMERA_FLY_H
 
 #include "Camera.h"
 #include "Vector3.h"
