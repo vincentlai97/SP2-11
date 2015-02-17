@@ -73,7 +73,7 @@ public:
 
 	MS modelStack, viewStack, projectionStack;
 
-	Camera2 camera;
+	CameraFly camera;
 
 	void load();
 	void reset();

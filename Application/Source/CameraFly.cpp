@@ -23,8 +23,8 @@ void CameraFly::Init(const Vector3& pos, const Vector3& target, const Vector3& u
 
 void CameraFly::Update(double dt, const std::vector<Vector3> v, float width, float height, double* xPos, double* yPos)
 {
-	static const float CAMERA_SPEED = 50.f;
-	static const float MOUSE_SPEED = 10.f;
+	static const float CAMERA_SPEED = 100.f;
+	static const float MOUSE_SPEED = 20.f;
 
 	double mouseX = width;
 	double mouseY = height;
