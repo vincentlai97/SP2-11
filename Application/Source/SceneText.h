@@ -19,6 +19,7 @@ class SceneText : public Scene
 		GEO_QUAD,
 		WALL,
 		TILE,
+		ESCALATOR,
 		EXTFRONT,
 		EXTSIDE,
 		EXTTOP,
@@ -91,6 +92,8 @@ public:
 	double yPos;
 
 	std::vector<Vector3> v;
+	std::vector<Vector3> escalatorUp;
+	std::vector<Vector3> escalatorDown;
 };
 
 #endif
