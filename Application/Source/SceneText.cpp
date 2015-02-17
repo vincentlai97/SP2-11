@@ -179,100 +179,9 @@ void SceneText::Render()
 
 	RenderInterior();
 
-	//Environment Front
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -2000);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_FRONT], false);
-	modelStack.PopMatrix();
+	RenderExterior();
 
-	//Environment Back
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 13.5, 2000);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();
-
-	//Environment Top
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 2000.05, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_TOP], false);
-	modelStack.PopMatrix();
-
-	//Environment Bottom
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, -1, 0);
-	modelStack.Translate(0, -1980, 0);
-	modelStack.Rotate(90, -1, 0, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BOTTOM], false);
-	modelStack.PopMatrix();
-
-	//Environment Left
-	modelStack.PushMatrix();
-	modelStack.Translate(-2000, 30, 0);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_LEFT], false);
-	modelStack.PopMatrix();
-
-	//Environemtn Right
-	modelStack.PushMatrix();
-	modelStack.Translate(2000, 13, 0);
-	modelStack.Rotate(90, 0, -1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_RIGHT], false);
-	modelStack.PopMatrix();
-
-	//Exterior Front
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTFRONT], false);
-	modelStack.PopMatrix();
-
-	//Exterior Left
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
-	//Exterior Right
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
-	//Exterior Back
-	modelStack.PushMatrix();
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
-	//Environment Floor
-	for(int i = 0; i <= 20; i++)
-	{
-		for(int a = 0; a < 20; a++)
-		{
-			modelStack.PushMatrix();
-			modelStack.Rotate(90, 0, -1, 0);
-			modelStack.Translate(i * 100 - 800, -20, a * 100 - 800);
-			modelStack.Rotate(90, -1, 0, 0);
-			modelStack.Scale(100, 100, 100);
-			RenderMesh(meshList[GEO_FLOOR], false);
-			modelStack.PopMatrix();
-		}
-	}
+	RenderSkyBox();
 
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
@@ -341,6 +250,73 @@ void SceneText::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
+void SceneText::RenderSkyBox()
+{
+		//Environment Front
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, -2000);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_FRONT], false);
+	modelStack.PopMatrix();
+
+	//Environment Back
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 13.5, 2000);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_BACK], false);
+	modelStack.PopMatrix();
+
+	//Environment Top
+	modelStack.PushMatrix();
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Translate(0, 2000.05, 0);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_TOP], false);
+	modelStack.PopMatrix();
+
+	//Environment Bottom
+	modelStack.PushMatrix();
+	modelStack.Rotate(90, 0, -1, 0);
+	modelStack.Translate(0, -1980, 0);
+	modelStack.Rotate(90, -1, 0, 0);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_BOTTOM], false);
+	modelStack.PopMatrix();
+
+	//Environment Left
+	modelStack.PushMatrix();
+	modelStack.Translate(-2000, 30, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_LEFT], false);
+	modelStack.PopMatrix();
+
+	//Environment Right
+	modelStack.PushMatrix();
+	modelStack.Translate(2000, 13, 0);
+	modelStack.Rotate(90, 0, -1, 0);
+	modelStack.Scale(4000, 4000, 4000);
+	RenderMesh(meshList[GEO_RIGHT], false);
+	modelStack.PopMatrix();
+
+	//Environment Floor
+	for(int i = 0; i <= 20; i++)
+	{
+		for(int a = 0; a < 20; a++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Rotate(90, 0, -1, 0);
+			modelStack.Translate(i * 100 - 800, -1, a * 100 - 800);
+			modelStack.Rotate(90, -1, 0, 0);
+			modelStack.Scale(100, 100, 100);
+			RenderMesh(meshList[GEO_FLOOR], false);
+			modelStack.PopMatrix();
+		}
+	}
+}
+
 void SceneText::RenderInterior()
 {
 	for (int count = 0; count < 2; count++)
@@ -405,6 +381,40 @@ void SceneText::RenderInterior()
 			}
 		}
 	}
+}
+
+void SceneText::RenderExterior()
+{
+	//Exterior Front
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 100, 300);
+	modelStack.Scale(800, 200, 500);
+	RenderMesh(meshList[EXTFRONT], false);
+	modelStack.PopMatrix();
+
+	//Exterior Left
+	modelStack.PushMatrix();
+	modelStack.Rotate(-90, 0, 1, 0);
+	modelStack.Translate(0, 100, 400);
+	modelStack.Scale(600, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
+
+	//Exterior Right
+	modelStack.PushMatrix();
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Translate(0, 100, 400);
+	modelStack.Scale(600, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
+
+	//Exterior Back
+	modelStack.PushMatrix();
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Translate(0, 100, 300);
+	modelStack.Scale(800, 200, 500);
+	RenderMesh(meshList[EXTSIDE], false);
+	modelStack.PopMatrix();
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
