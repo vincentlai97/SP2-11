@@ -23,6 +23,12 @@ class SceneText : public Scene
 		EXTSIDE,
 		EXTTOP,
 		GEO_TEXT,
+		GEO_TOP,
+		GEO_BOTTOM,
+		GEO_FRONT,
+		GEO_BACK,
+		GEO_LEFT,
+		GEO_RIGHT,
 		GEO_FLOOR,
 		NUM_GEOMETRY,
 	};
