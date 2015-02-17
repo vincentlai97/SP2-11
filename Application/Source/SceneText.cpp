@@ -119,7 +119,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	v.push_back(Vector3(420, 200, 300));
 	v.push_back(Vector3(400, 0, -300));
 
-	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 20, -50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
@@ -353,6 +353,7 @@ void SceneText::RenderInterior()
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 
+				if (!(countx > 13 && countz < -13 && count == 1))
 				RenderMesh(meshList[TILE], false);
 			} modelStack.PopMatrix();
 		}
@@ -367,7 +368,8 @@ void SceneText::RenderInterior()
 				modelStack.Translate(countx * 20 + 10, 90 * count+ 110, countz * 20 + 10);
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
-
+				
+				if (!(countx > 13 && countz < -13 && count == 0))
 				RenderMesh(meshList[TILE], false);
 			} modelStack.PopMatrix();
 		}
