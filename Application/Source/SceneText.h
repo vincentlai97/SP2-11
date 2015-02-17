@@ -33,6 +33,12 @@ class SceneText : public Scene
 		GEO_FLOOR,
 		trolley,
 		shelf,
+		Can1,
+		Can2,
+		Can3,
+		Can4,
+		Box1,
+		Box2,
 		GEO_LIGHTBALL,
 		NUM_GEOMETRY,
 	};
@@ -89,7 +95,7 @@ public:
 
 	MS modelStack, viewStack, projectionStack;
 
-	Camera2 camera;
+	CameraFly camera;
 
 	void load();
 	void reset();

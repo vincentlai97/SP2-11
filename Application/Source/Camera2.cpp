@@ -25,7 +25,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float height, double* xPos, double* yPos)
 {
 	static const float CAMERA_SPEED = 70.f;
-	static const float MOUSE_SPEED = 20.f;
+	static const float MOUSE_SPEED = 10.f;
 
 	double mouseX = width;
 	double mouseY = height;

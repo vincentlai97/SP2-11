@@ -191,19 +191,162 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[trolley]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[trolley]->material.kShininess = 5.f;
 
-	//Shelf Obj
-	meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
-	meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
-	Object Shelf;
-	Shelf.Position = Vector3(30, 0, 0);
-	Shelf.Size = Vector3(3.5f,3.5f,3.5f);
-	Shelf.ENUM = shelf;
-	obj.push_back(Shelf);
-	meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[shelf]->material.kShininess = 5.f;
+	//Shelf Obj 1st Row
+	for (int pos = 250; pos > 100; pos -= 50)
+	{
+		meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
+		meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
+		Object Shelf;
+		Shelf.Position = Vector3(250, 0, pos);
+		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
+		Shelf.ENUM = shelf;
+		obj.push_back(Shelf);
+		meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		meshList[shelf]->material.kShininess = 5.f;
+	}
+	//Shelf Obj 2st Row
+	for (int pos = 250; pos > 100; pos -= 50)
+	{
+		meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
+		meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
+		Object Shelf;
+		Shelf.Position = Vector3(100, 0, pos);
+		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
+		Shelf.ENUM = shelf;
+		obj.push_back(Shelf);
+		meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		meshList[shelf]->material.kShininess = 5.f;
+	}
+	//Can4 face side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 125; row += 5)
+		{
+			meshList[Can4] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can4.obj");
+			meshList[Can4]->textureID = LoadTGA("Image//Can4.tga");
+			Object CAN4;
+			CAN4.Position = Vector3(row, column, 250);
+			CAN4.Size = Vector3(3.5f, 3.5f, 3.5f);
+			CAN4.ENUM = Can4;
+			obj.push_back(CAN4);
+			meshList[Can4]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Can4]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Can4]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Can4]->material.kShininess = 5.f;
+		}
+	}
 
+	//Can4 back side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 125; row += 5)
+		{
+			meshList[Can4] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can4.obj");
+			meshList[Can4]->textureID = LoadTGA("Image//Can4.tga");
+			Object CAN4;
+			CAN4.Position = Vector3(row, column, 245);
+			CAN4.Size = Vector3(3.5f, 3.5f, 3.5f);
+			CAN4.rotation = 180.0f;
+			CAN4.Rotation = Vector3(0, 1, 0);
+			CAN4.ENUM = Can4;
+			obj.push_back(CAN4);
+			meshList[Can4]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Can4]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Can4]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Can4]->material.kShininess = 5.f;
+		}
+	}
+
+	//Box 1 face side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 125; row += 5)
+		{
+			meshList[Box1] = MeshBuilder::GenerateOBJ("Box1", "OBJ//Box1.obj");
+			meshList[Box1]->textureID = LoadTGA("Image//Box1.tga");
+			Object BOX1;
+			BOX1.Position = Vector3(row, column, 200);
+			BOX1.Size = Vector3(3.5f, 3.5f, 3.5f);
+			//BOX1.rotation = 180.0f;
+			//BOX1.Rotation = Vector3(0, 1, 0);
+			BOX1.ENUM = Box1;
+			obj.push_back(BOX1);
+			meshList[Box1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Box1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Box1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Box1]->material.kShininess = 5.f;
+		}
+	}
+	//Box 1 back side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 125; row += 5)
+		{
+			meshList[Box1] = MeshBuilder::GenerateOBJ("Box1", "OBJ//Box1.obj");
+			meshList[Box1]->textureID = LoadTGA("Image//Box1.tga");
+			Object BOX1;
+			BOX1.Position = Vector3(row, column, 195);
+			BOX1.Size = Vector3(3.5f, 3.5f, 3.5f);
+			BOX1.rotation = 180.0f;
+			BOX1.Rotation = Vector3(0, 1, 0);
+			BOX1.ENUM = Box1;
+			obj.push_back(BOX1);
+			meshList[Box1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Box1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Box1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Box1]->material.kShininess = 5.f;
+		}
+	}
+
+
+	//Box 1 face side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 125; row += 5)
+		{
+			meshList[Box2] = MeshBuilder::GenerateOBJ("Box2", "OBJ//Box2.obj");
+			meshList[Box2]->textureID = LoadTGA("Image//Box2.tga");
+			Object BOX2;
+			BOX2.Position = Vector3(row, column, 150);
+			BOX2.Size = Vector3(3.5f, 3.5f, 3.5f);
+			BOX2.ENUM = Box2;
+			obj.push_back(BOX2);
+			meshList[Box2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Box2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Box2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Box2]->material.kShininess = 5.f;
+		}
+	}
+	//Box 1 back side
+	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	{
+		count++;
+		for (int row = 75; row < 135; row += 5)
+		{
+			meshList[Box2] = MeshBuilder::GenerateOBJ("Box2", "OBJ//Box2.obj");
+			meshList[Box2]->textureID = LoadTGA("Image//Box2.tga");
+			Object BOX2;
+			BOX2.Position = Vector3(row, column, 145);
+			BOX2.Size = Vector3(3.5f, 3.5f, 3.5f);
+			BOX2.rotation = 180.0f;
+			BOX2.Rotation = Vector3(0, 1, 0);
+			BOX2.ENUM = Box2;
+			obj.push_back(BOX2);
+			meshList[Box2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+			meshList[Box2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+			meshList[Box2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+			meshList[Box2]->material.kShininess = 5.f;
+		}
+	}
 
 	v.push_back(Vector3(400, 200, -300));
 	v.push_back(Vector3(-400, 0, -320));
@@ -323,14 +466,13 @@ void SceneText::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate(obj[i].Position.x, obj[i].Position.y, obj[i].Position.z);
 		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
+		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
 		RenderMesh(meshList[obj[i].ENUM], false);
 		modelStack.PopMatrix();
 	}
 	modelStack.PushMatrix();
-	
-	RenderInterior();
 
-	RenderInterior();
+	//RenderInterior();
 	
 	RenderExterior();
 
