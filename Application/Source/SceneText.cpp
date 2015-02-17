@@ -109,6 +109,8 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[TILE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[TILE]->material.kShininess = 3.f;
 
+	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
+
 	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
 	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
 	meshList[EXTFRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
@@ -177,7 +179,6 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
-
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
 	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
@@ -204,19 +205,29 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[shelf]->material.kShininess = 5.f;
 
-
-	v.push_back(Vector3(400, 200, -300));
+	//Interior Hitbox
+	v.push_back(Vector3(400, 160, -300)); // front
 	v.push_back(Vector3(-400, 0, -320));
-	v.push_back(Vector3(400, 200, 320));
+	v.push_back(Vector3(400, 160, 320)); // back
 	v.push_back(Vector3(-400, 0, 300));
-	v.push_back(Vector3(400, 0, 300));
+	v.push_back(Vector3(400, 0, 300)); // bottom
 	v.push_back(Vector3(-400, -20, -300));
-	v.push_back(Vector3(400, 220, 300));
-	v.push_back(Vector3(-400, 200, -300));
-	v.push_back(Vector3(-400, 200, 300));
+	v.push_back(Vector3(400, 180, 300)); // top
+	v.push_back(Vector3(-400, 160, -300));
+	v.push_back(Vector3(-400, 160, 300)); // left
 	v.push_back(Vector3(-420, 0, -300));
-	v.push_back(Vector3(420, 200, 300));
+	v.push_back(Vector3(420, 160, 300)); // right
 	v.push_back(Vector3(400, 0, -300));
+	v.push_back(Vector3(400, 90, 300)); // middle
+	v.push_back(Vector3(-400, 70, -300));
+
+	//Escalator Hitbox
+	v.push_back(Vector3(360, 90, -220));
+	v.push_back(Vector3(220, 0, -300));
+	escalatorUp.push_back(Vector3(360, 90, -260));
+	escalatorUp.push_back(Vector3(210, 0, -300));
+	escalatorDown.push_back(Vector3(360, 95, -220));
+	escalatorDown.push_back(Vector3(220, 21, -260));
 
 	camera.Init(Vector3(0, 20, -50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
@@ -267,6 +278,22 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 
 	fps = 1.f / dt;
+	if (camera.checkCollision(escalatorUp, Vector3(0, 0, 0)))
+	{
+		camera.position.x += 45 * dt;
+		camera.position.y += 30 * dt;
+		camera.target.x += 45 * dt;
+		camera.target.y += 30 * dt;
+		
+	}
+	else if (camera.checkCollision(escalatorDown, Vector3(0, 0, 0)))
+	{
+		camera.position.x -= 50 * dt;
+		camera.position.y -= 30 * dt;
+		camera.target.x -= 50 * dt;
+		camera.target.y -= 30 * dt;
+		
+	}
 	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
 }
 
@@ -329,16 +356,25 @@ void SceneText::Render()
 	modelStack.PushMatrix();
 	
 	RenderInterior();
-
-	RenderInterior();
 	
+	modelStack.PushMatrix(); {
+		modelStack.Translate(220, 0, -260);
+		modelStack.Rotate(90, 0, -1, 0);
+		modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+		modelStack.Scale(80, 166.43, 0);
+		modelStack.Translate(0, 0.5, 0);
+
+		RenderMesh(meshList[ESCALATOR], false);
+	} modelStack.PopMatrix();
+
 	RenderExterior();
 
 	RenderSkyBox();
-		modelStack.PopMatrix();
 
-	std::string str = to_string(fps);
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
@@ -487,7 +523,7 @@ void SceneText::RenderInterior()
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 
-				if (!(countx > 10 && countx < 18 && countz < -13 && count == 1))
+				if (!(countx > 10 && countx < 18 && countz < -11 && count == 1))
 				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
@@ -504,7 +540,7 @@ void SceneText::RenderInterior()
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 				
-				if (!(countx > 10 && countx < 18 && countz < -13 && count == 0))
+				if (!(countx > 10 && countx < 18 && countz < -11 && count == 0))
 				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
