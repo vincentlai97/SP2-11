@@ -343,43 +343,46 @@ void SceneText::RenderMesh(Mesh *mesh, bool enableLight)
 
 void SceneText::RenderInterior()
 {
+	// First floor Floor and Ceiling
 	for (int count = 0; count < 2; count++)
 	for (int countx = -20; countx < 20; countx++)
 	{
 		for (int countz = -15; countz < 15; countz++)
 		{
 			modelStack.PushMatrix(); {
-				modelStack.Translate(countx * 20 + 10, 90 * count, countz * 20 + 10);
+				modelStack.Translate(countx * 20 + 10, 70 * count, countz * 20 + 10);
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 
-				if (!(countx > 13 && countz < -13 && count == 1))
+				if (!(countx > 10 && countx < 18 && countz < -13 && count == 1))
 				RenderMesh(meshList[TILE], false);
 			} modelStack.PopMatrix();
 		}
 	}
-
+	
+	// Second floor Floor and Ceiling
 	for (int count = 0; count < 2; count++)
 	for (int countx = -20; countx < 20; countx++)
 	{
 		for (int countz = -15; countz < 15; countz++)
 		{
 			modelStack.PushMatrix(); {
-				modelStack.Translate(countx * 20 + 10, 90 * count+ 110, countz * 20 + 10);
+				modelStack.Translate(countx * 20 + 10, 70 * count + 90, countz * 20 + 10);
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 				
-				if (!(countx > 13 && countz < -13 && count == 0))
+				if (!(countx > 10 && countx < 18 && countz < -13 && count == 0))
 				RenderMesh(meshList[TILE], false);
 			} modelStack.PopMatrix();
 		}
 	}
 
+	// Front and Back
 	for (int count = -1; count < 2; count += 2)
 	{
 		for (int hor = -20; hor < 20; hor++)
 		{
-			for (int ver = 0; ver < 10; ver ++)
+			for (int ver = 0; ver < 8; ver ++)
 			{
 				modelStack.PushMatrix(); {
 					modelStack.Translate(hor * 20 + 10, ver * 20 + 10, 300 * count);
@@ -390,11 +393,13 @@ void SceneText::RenderInterior()
 			}
 		}
 	}
+
+	// Left and Right
 	for (int count = -1; count < 2; count += 2)
 	{
 		for (int hor = -15; hor < 15; hor++)
 		{
-			for (int ver = 0; ver < 10; ver ++)
+			for (int ver = 0; ver < 8; ver ++)
 			{
 				modelStack.PushMatrix(); {
 					modelStack.Translate(-400 * count, ver * 20 + 10, hor * 20 + 10);
