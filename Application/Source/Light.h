@@ -5,10 +5,22 @@
 
 struct Light
 {
+	enum LIGHT_TYPE
+	{
+		LIGHT_POINT = 0,
+		LIGHT_DIRECTIONAL,
+		LIGHT_SPOT,
+	};
+	
 	Position position;
 	Color color;
+	LIGHT_TYPE type;
+	Vector3 spotDirection;
 	float power;
 	float kC, kL, kQ;
+	float cosCutoff;
+	float cosInner;
+	float exponent;
 
 public:
 	Light()

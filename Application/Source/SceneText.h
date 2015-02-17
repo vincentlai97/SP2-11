@@ -33,6 +33,7 @@ class SceneText : public Scene
 		GEO_FLOOR,
 		trolley,
 		shelf,
+		GEO_LIGHTBALL,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -50,6 +51,11 @@ class SceneText : public Scene
 		U_LIGHT0_KC,
 		U_LIGHT0_KL,
 		U_LIGHT0_KQ,
+		U_LIGHT0_TYPE,
+		U_LIGHT0_SPOTDIRECTION,
+		U_LIGHT0_COSCUTOFF,
+		U_LIGHT0_COSINNER,
+		U_LIGHT0_EXPONENT,
 		U_LIGHTENABLED,
 		U_NUMLIGHTS,
 		U_COLOR_TEXTURE_ENABLED,

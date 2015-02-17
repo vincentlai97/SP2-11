@@ -20,7 +20,7 @@ public:
 	static Mesh* GenerateCube(const std::string &meshName, Color color, float size = 1.f);
 	static Mesh* GenerateCircle(const std::string &meshName, Color color, float size = 1.f, unsigned numSlice = 36);
 	static Mesh* GenerateRing(const std::string &meshName, Color color, float inner, float outer);
-	static Mesh* GenerateSphere(const std::string &meshName, Color color, float radius = 1.f, unsigned numStack = 18, unsigned numSlice = 36);
+	static Mesh* GenerateSphere(const std::string &meshName, Color color, unsigned numStack, unsigned numslice, float radius);
 	static Mesh* MeshBuilder::GenerateOBJ(const std::string &meshName, const std::string &file_path);
 	static Mesh* GenerateText(const std::string &meshName, unsigned numRow, unsigned numCol);
 };
