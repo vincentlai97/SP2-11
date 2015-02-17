@@ -20,6 +20,7 @@ class SceneText : public Scene
 		GEO_QUAD,
 		WALL,
 		TILE,
+		WHITE_GLASS,
 		ESCALATOR,
 		EXTFRONT,
 		EXTSIDE,

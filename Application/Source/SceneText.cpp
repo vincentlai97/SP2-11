@@ -136,19 +136,26 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	
 	//skybox
-	meshList[WALL] = MeshBuilder::GenerateQuad("wall", Color(1, 1, 1), 1.f, 1.f);
+	meshList[WALL] = MeshBuilder::GenerateOBJ("wall", "OBJ//Interior Walls.obj");
 	meshList[WALL]->textureID = LoadTGA("Image//Wall.tga");
 	meshList[WALL]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[WALL]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[WALL]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[WALL]->material.kShininess = 3.f;
 
-	meshList[TILE] = MeshBuilder::GenerateQuad("tile", Color(1, 1, 1), 1.f, 1.f);
+	meshList[TILE] = MeshBuilder::GenerateOBJ("tile", "OBJ//Interior Tiles.obj");
 	meshList[TILE]->textureID = LoadTGA("Image//Tile.tga");
 	meshList[TILE]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[TILE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[TILE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[TILE]->material.kShininess = 3.f;
+
+	meshList[WHITE_GLASS] = MeshBuilder::GenerateOBJ("tile", "OBJ//White Glass.obj");
+	meshList[WHITE_GLASS]->textureID = LoadTGA("Image//White Glass.tga");
+	meshList[WHITE_GLASS]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[WHITE_GLASS]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[WHITE_GLASS]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[WHITE_GLASS]->material.kShininess = 3.f;
 
 	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
 
@@ -409,14 +416,14 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	v.push_back(Vector3(-400, 70, -300));
 
 	//Escalator Hitbox
-	v.push_back(Vector3(360, 90, -220));
-	v.push_back(Vector3(220, 0, -300));
-	escalatorUp.push_back(Vector3(360, 90, -260));
-	escalatorUp.push_back(Vector3(210, 0, -300));
-	escalatorDown.push_back(Vector3(360, 95, -220));
-	escalatorDown.push_back(Vector3(220, 21, -260));
+	v.push_back(Vector3(-220, 90, 300));
+	v.push_back(Vector3(-360, 0, 220));
+	escalatorUp.push_back(Vector3(-210, 90, 300));
+	escalatorUp.push_back(Vector3(-360, 0, 260));
+	escalatorDown.push_back(Vector3(-220, 95, 260));
+	escalatorDown.push_back(Vector3(-360, 21, 220));
 
-	camera.Init(Vector3(0, 20, -50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
@@ -467,17 +474,17 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	fps = 1.f / dt;
 	if (camera.checkCollision(escalatorUp, Vector3(0, 0, 0)))
 	{
-		camera.position.x += 45 * dt;
+		camera.position.x -= 45 * dt;
 		camera.position.y += 30 * dt;
-		camera.target.x += 45 * dt;
+		camera.target.x -= 45 * dt;
 		camera.target.y += 30 * dt;
 		
 	}
 	else if (camera.checkCollision(escalatorDown, Vector3(0, 0, 0)))
 	{
-		camera.position.x -= 50 * dt;
+		camera.position.x += 50 * dt;
 		camera.position.y -= 30 * dt;
-		camera.target.x -= 50 * dt;
+		camera.target.x += 50 * dt;
 		camera.target.y -= 30 * dt;
 		
 	}
@@ -571,13 +578,20 @@ void SceneText::Render()
 	}
 
 	modelStack.PushMatrix();
-
-	RenderInterior();
-
+	
+	//RenderInterior();
 	
 	modelStack.PushMatrix(); {
-		modelStack.Translate(220, 0, -260);
-		modelStack.Rotate(90, 0, -1, 0);
+		modelStack.Scale(20, 20, 20);
+
+		RenderMesh(meshList[WALL], false);
+		RenderMesh(meshList[TILE], false);
+		RenderMesh(meshList[WHITE_GLASS], false);
+	} modelStack.PopMatrix();
+
+	modelStack.PushMatrix(); {
+		modelStack.Translate(-220, 0, 260);
+		modelStack.Rotate(90, 0, 1, 0);
 		modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 		modelStack.Scale(80, 166.43, 0);
 		modelStack.Translate(0, 0.5, 0);
