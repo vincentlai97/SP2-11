@@ -177,66 +177,7 @@ void SceneText::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	for (int count = 0; count < 2; count++)
-	for (int countx = -20; countx < 20; countx++)
-	{
-		for (int countz = -15; countz < 15; countz++)
-		{
-			modelStack.PushMatrix(); {
-				modelStack.Translate(countx * 20 + 10, 90 * count, countz * 20 + 10);
-				modelStack.Rotate(90 + count * 180, -1, 0, 0);
-				modelStack.Scale(20, 20, 20);
-
-				RenderMesh(meshList[TILE], false);
-			} modelStack.PopMatrix();
-		}
-	}
-
-	for (int count = 0; count < 2; count++)
-	for (int countx = -20; countx < 20; countx++)
-	{
-		for (int countz = -15; countz < 15; countz++)
-		{
-			modelStack.PushMatrix(); {
-				modelStack.Translate(countx * 20 + 10, 90 * count+ 110, countz * 20 + 10);
-				modelStack.Rotate(90 + count * 180, -1, 0, 0);
-				modelStack.Scale(20, 20, 20);
-
-				RenderMesh(meshList[TILE], false);
-			} modelStack.PopMatrix();
-		}
-	}
-
-	for (int count = -1; count < 2; count += 2)
-	{
-		for (int hor = -20; hor < 20; hor++)
-		{
-			for (int ver = 0; ver < 10; ver ++)
-			{
-				modelStack.PushMatrix(); {
-					modelStack.Translate(hor * 20 + 10, ver * 20 + 10, 300 * count);
-					modelStack.Rotate(90 + 90 * count, 0, 1, 0);
-					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
-				} modelStack.PopMatrix();
-			}
-		}
-	}
-	for (int count = -1; count < 2; count += 2)
-	{
-		for (int hor = -15; hor < 15; hor++)
-		{
-			for (int ver = 0; ver < 10; ver ++)
-			{
-				modelStack.PushMatrix(); {
-					modelStack.Translate(-400 * count, ver * 20 + 10, hor * 20 + 10);
-					modelStack.Rotate(90 * count, 0, 1, 0);
-					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
-				} modelStack.PopMatrix();
-			}
-		}
-	}
+	RenderInterior();
 
 	//Environment Front
 	modelStack.PushMatrix();
@@ -397,6 +338,70 @@ void SceneText::RenderMesh(Mesh *mesh, bool enableLight)
 	if(mesh->textureID > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}
+
+void SceneText::RenderInterior()
+{
+	for (int count = 0; count < 2; count++)
+	for (int countx = -20; countx < 20; countx++)
+	{
+		for (int countz = -15; countz < 15; countz++)
+		{
+			modelStack.PushMatrix(); {
+				modelStack.Translate(countx * 20 + 10, 90 * count, countz * 20 + 10);
+				modelStack.Rotate(90 + count * 180, -1, 0, 0);
+				modelStack.Scale(20, 20, 20);
+
+				RenderMesh(meshList[TILE], false);
+			} modelStack.PopMatrix();
+		}
+	}
+
+	for (int count = 0; count < 2; count++)
+	for (int countx = -20; countx < 20; countx++)
+	{
+		for (int countz = -15; countz < 15; countz++)
+		{
+			modelStack.PushMatrix(); {
+				modelStack.Translate(countx * 20 + 10, 90 * count+ 110, countz * 20 + 10);
+				modelStack.Rotate(90 + count * 180, -1, 0, 0);
+				modelStack.Scale(20, 20, 20);
+
+				RenderMesh(meshList[TILE], false);
+			} modelStack.PopMatrix();
+		}
+	}
+
+	for (int count = -1; count < 2; count += 2)
+	{
+		for (int hor = -20; hor < 20; hor++)
+		{
+			for (int ver = 0; ver < 10; ver ++)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(hor * 20 + 10, ver * 20 + 10, 300 * count);
+					modelStack.Rotate(90 + 90 * count, 0, 1, 0);
+					modelStack.Scale(20, 20, 20);
+					RenderMesh(meshList[WALL], false);
+				} modelStack.PopMatrix();
+			}
+		}
+	}
+	for (int count = -1; count < 2; count += 2)
+	{
+		for (int hor = -15; hor < 15; hor++)
+		{
+			for (int ver = 0; ver < 10; ver ++)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(-400 * count, ver * 20 + 10, hor * 20 + 10);
+					modelStack.Rotate(90 * count, 0, 1, 0);
+					modelStack.Scale(20, 20, 20);
+					RenderMesh(meshList[WALL], false);
+				} modelStack.PopMatrix();
+			}
+		}
 	}
 }
 
