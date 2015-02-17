@@ -5,6 +5,7 @@
 #include "Vertex.h"
 #include "Utility.h"
 #include "LoadTGA.h"
+#include "Object.h"
 #include <string.h>
 
 #include "shader.hpp"
@@ -106,6 +107,34 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
+
+	//Trolley Obj
+	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
+	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
+	Object Trolley;
+	Trolley.Position = Vector3(0, 0, 0);
+	Trolley.Size = Vector3(3, 3, 3);
+	Trolley.ENUM = trolley;
+	obj.push_back(Trolley);
+	meshList[trolley]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[trolley]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[trolley]->material.kShininess = 5.f;
+
+	//Shelf Obj
+	meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
+	meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
+	Object Shelf;
+	Shelf.Position = Vector3(30, 0, 0);
+	Shelf.Size = Vector3(3.5f,3.5f,3.5f);
+	Shelf.ENUM = shelf;
+	obj.push_back(Shelf);
+	meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[shelf]->material.kShininess = 5.f;
+
+
 	v.push_back(Vector3(400, 200, -300));
 	v.push_back(Vector3(-400, 0, -320));
 	v.push_back(Vector3(400, 200, 320));
@@ -177,14 +206,28 @@ void SceneText::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	RenderInterior();
+	//Objects
+	for (int i = 0; i < obj.size(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(obj[i].Position.x, obj[i].Position.y, obj[i].Position.z);
+		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
+		RenderMesh(meshList[obj[i].ENUM], false);
+		modelStack.PopMatrix();
+	}
 
+
+	RenderInterior();
+	
 	RenderExterior();
 
 	RenderSkyBox();
 
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
+
+	//Crosshair
+	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
 }
 
 void SceneText::Exit()

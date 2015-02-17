@@ -10,6 +10,7 @@
 #include "MyMath.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Object.h"
 
 class SceneText : public Scene
 {
@@ -30,6 +31,8 @@ class SceneText : public Scene
 		GEO_LEFT,
 		GEO_RIGHT,
 		GEO_FLOOR,
+		trolley,
+		shelf,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -91,6 +94,7 @@ public:
 	double yPos;
 
 	std::vector<Vector3> v;
+	std::vector<Object> obj;
 };
 
 #endif
