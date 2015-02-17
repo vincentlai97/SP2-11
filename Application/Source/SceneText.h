@@ -64,6 +64,7 @@ private:
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[1];
 	void RenderSkyBox();
+	void RenderMarket();
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderModel();
 	void RenderText(Mesh* mesh, std::string text, Color color);

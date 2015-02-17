@@ -77,7 +77,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
-	
+
 	//skybox
 	meshList[WALL] = MeshBuilder::GenerateQuad("wall", Color(1, 1, 1), 1.f, 1.f);
 	meshList[WALL]->textureID = LoadTGA("Image//Wall.tga");
@@ -130,7 +130,7 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
-	
+
 	const float LSPEED = 5.f;
 
 	if (Application::IsKeyPressed('1'))
@@ -159,70 +159,8 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
 }
 
-void SceneText::Render()
+void SceneText::RenderSkyBox()
 {
-	//Clear color buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// Render VBO here
-
-	viewStack.LoadIdentity();
-	viewStack.LookAt(
-		camera.position.x, camera.position.y, camera.position.z,
-		camera.target.x, camera.target.y, camera.target.z,
-		camera.up.x, camera.up.y, camera.up.z
-		);
-
-	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
-
-	RenderMesh(meshList[GEO_AXES], false);
-
-	for (int count = 0; count < 2; count++)
-	for (int countx = -20; countx <= 20; countx++)
-	{
-		for (int countz = -15; countz <= 15; countz++)
-		{
-			modelStack.PushMatrix(); {
-				modelStack.Translate(countx * 20, 90 * count, countz * 20);
-				modelStack.Rotate(90 + count * 180, -1, 0, 0);
-				modelStack.Scale(20, 20, 20);
-
-				RenderMesh(meshList[TILE], false);
-			} modelStack.PopMatrix();
-		}
-	}
-
-	for (int count = -1; count < 2; count += 2)
-	{
-		for (int hor = -20; hor <= 20; hor++)
-		{
-			for (int ver = 0; ver <= 10; ver ++)
-			{
-				modelStack.PushMatrix(); {
-					modelStack.Translate(hor * 20, ver * 20, 300 * count);
-					modelStack.Rotate(90 + 90 * count, 0, 1, 0);
-					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
-				} modelStack.PopMatrix();
-			}
-		}
-	}
-	for (int count = -1; count < 2; count += 2)
-	{
-		for (int hor = -15; hor <= 15; hor++)
-		{
-			for (int ver = 0; ver <= 10; ver ++)
-			{
-				modelStack.PushMatrix(); {
-					modelStack.Translate(-400 * count, ver * 20, hor * 20);
-					modelStack.Rotate(90 * count, 0, 1, 0);
-					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
-				} modelStack.PopMatrix();
-			}
-		}
-	}
-
 	//Environment Front
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -2000);
@@ -272,37 +210,6 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_RIGHT], false);
 	modelStack.PopMatrix();
 
-	//Exterior Front
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTFRONT], false);
-	modelStack.PopMatrix();
-
-	//Exterior Left
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
-	//Exterior Right
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
-	//Exterior Back
-	modelStack.PushMatrix();
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
-	modelStack.PopMatrix();
-
 	//Environment Floor
 	for(int i = 0; i <= 20; i++)
 	{
@@ -310,13 +217,120 @@ void SceneText::Render()
 		{
 			modelStack.PushMatrix();
 			modelStack.Rotate(90, 0, -1, 0);
-			modelStack.Translate(i * 100 - 800, -20, a * 100 - 800);
+			modelStack.Translate(i * 100 - 800, -0.1, a * 100 - 800);
 			modelStack.Rotate(90, -1, 0, 0);
 			modelStack.Scale(100, 100, 100);
 			RenderMesh(meshList[GEO_FLOOR], false);
 			modelStack.PopMatrix();
 		}
 	}
+}
+
+void SceneText::RenderMarket()
+{
+	for (int count = 0; count < 2; count++)
+		for (int countx = -20; countx <= 20; countx++)
+		{
+			for (int countz = -15; countz <= 15; countz++)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(countx * 20, 90 * count, countz * 20);
+					modelStack.Rotate(90 + count * 180, -1, 0, 0);
+					modelStack.Scale(20, 20, 20);
+
+					RenderMesh(meshList[TILE], false);
+				} modelStack.PopMatrix();
+			}
+		}
+
+		for (int count = -1; count < 2; count += 2)
+		{
+			for (int hor = -20; hor <= 20; hor++)
+			{
+				for (int ver = 0; ver <= 10; ver ++)
+				{
+					modelStack.PushMatrix(); {
+						modelStack.Translate(hor * 20, ver * 20, 300 * count);
+						modelStack.Rotate(90 + 90 * count, 0, 1, 0);
+						modelStack.Scale(20, 20, 20);
+						RenderMesh(meshList[WALL], false);
+					} modelStack.PopMatrix();
+				}
+			}
+		}
+		for (int count = -1; count < 2; count += 2)
+		{
+			for (int hor = -15; hor <= 15; hor++)
+			{
+				for (int ver = 0; ver <= 10; ver ++)
+				{
+					modelStack.PushMatrix(); {
+						modelStack.Translate(-400 * count, ver * 20, hor * 20);
+						modelStack.Rotate(90 * count, 0, 1, 0);
+						modelStack.Scale(20, 20, 20);
+						RenderMesh(meshList[WALL], false);
+					} modelStack.PopMatrix();
+				}
+			}
+		}
+
+		//Exterior Front
+		modelStack.PushMatrix();
+		modelStack.Translate(0, 100, 300);
+		modelStack.Scale(800, 200, 500);
+		RenderMesh(meshList[EXTFRONT], false);
+		modelStack.PopMatrix();
+
+		//Exterior Left
+		modelStack.PushMatrix();
+		modelStack.Rotate(-90, 0, 1, 0);
+		modelStack.Translate(0, 100, 400);
+		modelStack.Scale(600, 200, 500);
+		RenderMesh(meshList[EXTSIDE], false);
+		modelStack.PopMatrix();
+
+		//Exterior Right
+		modelStack.PushMatrix();
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Translate(0, 100, 400);
+		modelStack.Scale(600, 200, 500);
+		RenderMesh(meshList[EXTSIDE], false);
+		modelStack.PopMatrix();
+
+		//Exterior Back
+		modelStack.PushMatrix();
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Translate(0, 100, 300);
+		modelStack.Scale(800, 200, 500);
+		RenderMesh(meshList[EXTSIDE], false);
+		modelStack.PopMatrix();
+}
+
+void SceneText::Render()
+{
+	//Clear color buffer
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	// Render VBO here
+
+	viewStack.LoadIdentity();
+	viewStack.LookAt(
+		camera.position.x, camera.position.y, camera.position.z,
+		camera.target.x, camera.target.y, camera.target.z,
+		camera.up.x, camera.up.y, camera.up.z
+		);
+
+	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
+	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+
+	RenderMesh(meshList[GEO_AXES], false);
+
+	modelStack.PushMatrix();
+	RenderSkyBox();
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	RenderMarket();
+	modelStack.PopMatrix();
 
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
@@ -345,7 +359,7 @@ void SceneText::reset()
 void SceneText::RenderMesh(Mesh *mesh, bool enableLight)
 {
 	Mtx44 modelView, modelView_inverse_transpose;
-	
+
 	load();
 	if(enableLight)
 	{
@@ -365,6 +379,7 @@ void SceneText::RenderMesh(Mesh *mesh, bool enableLight)
 	{	
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
+
 	if(mesh->textureID > 0)
 	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
@@ -389,7 +404,7 @@ void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
-	
+
 	glDisable(GL_DEPTH_TEST);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 1);
 	glUniform3fv(m_parameters[U_TEXT_COLOR], 1, &color.r);
@@ -404,7 +419,7 @@ void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
 		characterSpacing.SetToTranslation(i * 0.8f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -416,7 +431,7 @@ void SceneText::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
-	
+
 	glDisable(GL_DEPTH_TEST);
 	Mtx44 ortho;
 	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
@@ -441,7 +456,7 @@ void SceneText::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
-	
+
 		mesh->Render((unsigned)text[i] * 6, 6);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
