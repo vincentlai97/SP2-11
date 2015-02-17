@@ -235,37 +235,46 @@ float sphereX(float phi, float theta) { return cos(Math::DegreeToRadian(phi)) * 
 float sphereY(float phi, float theta) { return sin(Math::DegreeToRadian(phi));}
 float sphereZ(float phi, float theta) { return cos(Math::DegreeToRadian(phi)) * sin(Math::DegreeToRadian(theta));}
 
-Mesh* MeshBuilder::GenerateSphere(const std::string &meshName, Color color, float radius, unsigned numStack, unsigned numSlice)
+Mesh* MeshBuilder::GenerateSphere(const std::string &meshName, Color color, unsigned numStack, unsigned numSlice, float radius)
 {
 	Vertex v;
 	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
 
-	v.color = color;
 	float degreePerStack = 180.f / numStack;
 	float degreePerSlice = 360.f / numSlice;
-	for (unsigned stackCount = 0; stackCount <= numStack; stackCount++)
-		for (unsigned sliceCount = 0; sliceCount <= numSlice; sliceCount++)
+
+	for(unsigned stack = 0; stack < numStack + 1; ++stack)
+	{
+		float phi = -90 + stack * degreePerStack;
+
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 		{
-			float phi = -90 + stackCount * degreePerStack;
-			float theta = sliceCount * degreePerSlice;
-			v.pos.Set(radius*sphereX(phi, theta), radius*sphereY(phi, theta), radius*sphereZ(phi, theta));
-			v.normal.Set(sphereX(phi, theta), sphereY(phi, theta), sphereZ(phi, theta));
+			float theta = slice * degreePerSlice;
+			v.pos.Set(radius * sphereX(phi, theta), radius * sphereY(phi, theta), radius * sphereZ(phi, theta));
+			v.color = color;
+			v.normal.Set(sphereX(phi, theta), sphereY(phi, theta),sphereZ(phi, theta));
 			vertex_buffer_data.push_back(v);
 		}
+	}
 
-	std::vector<GLuint> index_buffer_data;
-	for (unsigned stackCount = 0; stackCount < numStack; stackCount++)
-		for (unsigned sliceCount = 0; sliceCount <= numSlice; sliceCount++)
+	for(unsigned stack = 0; stack < numStack +1; ++stack)
+	{
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 		{
-			index_buffer_data.push_back(stackCount * (numSlice+1) + sliceCount);
-			index_buffer_data.push_back((stackCount+1) * (numSlice+1) + sliceCount);
+			index_buffer_data.push_back(stack * (numSlice + 1) + slice);
+			index_buffer_data.push_back((stack+1) * (numSlice + 1) + slice);
 		}
+	}
 
 	Mesh *mesh = new Mesh(meshName);
-	
+
+	// Set the current active buffer
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+
+	// Transfer vertices to OpenGL
 	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer); //bind index buffer
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
 
 	mesh->indexSize = index_buffer_data.size();

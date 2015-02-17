@@ -47,26 +47,39 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	m_parameters[U_MATERIAL_DIFFUSE] = glGetUniformLocation(m_programID, "material.kDiffuse");
 	m_parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(m_programID, "material.kSpecular");
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
+
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
 	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
 	m_parameters[U_LIGHT0_KC] = glGetUniformLocation(m_programID, "lights[0].kC");
 	m_parameters[U_LIGHT0_KL] = glGetUniformLocation(m_programID, "lights[0].kL");
 	m_parameters[U_LIGHT0_KQ] = glGetUniformLocation(m_programID, "lights[0].kQ");
+	m_parameters[U_LIGHT0_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[0].spotDirection");
+	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
+	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
+	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
 	m_parameters[U_COLOR_TEXTURE] = glGetUniformLocation(m_programID, "colorTexture");
 	m_parameters[U_TEXT_ENABLED] = glGetUniformLocation(m_programID, "textEnabled");
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 	glUseProgram(m_programID);
 
-	light[0].position.Set(0, 20, 0);
-	light[0].color.Set(1, 1, 1);
-	light[0].power = 2;
+	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+
+	light[0].type = Light::LIGHT_SPOT;
+	light[0].position.Set(300, 30, 0);
+	light[0].color.Set(1, 0 ,1);
+	light[0].power = 1;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
+	light[0].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[0].cosInner = cos(Math::DegreeToRadian(30));
+	light[0].exponent = 3.f;
+	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
 	// Make sure you pass uniform parameters after glUseProgram()
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
@@ -74,34 +87,91 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT0_KC], light[0].kC);
 	glUniform1f(m_parameters[U_LIGHT0_KL], light[0].kL);
 	glUniform1f(m_parameters[U_LIGHT0_KQ], light[0].kQ);
-	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
+	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	
 	//skybox
 	meshList[WALL] = MeshBuilder::GenerateQuad("wall", Color(1, 1, 1), 1.f, 1.f);
 	meshList[WALL]->textureID = LoadTGA("Image//Wall.tga");
+	meshList[WALL]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[WALL]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[WALL]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[WALL]->material.kShininess = 3.f;
+
 	meshList[TILE] = MeshBuilder::GenerateQuad("tile", Color(1, 1, 1), 1.f, 1.f);
 	meshList[TILE]->textureID = LoadTGA("Image//Tile.tga");
+	meshList[TILE]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[TILE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[TILE]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[TILE]->material.kShininess = 3.f;
+
 	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
 	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
+	meshList[EXTFRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[EXTFRONT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[EXTFRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[EXTFRONT]->material.kShininess = 3.f;
+
 	meshList[EXTSIDE] = MeshBuilder::GenerateQuad("Exterior Side", Color(1, 1, 1), 1.f, 1.f);
 	meshList[EXTSIDE]->textureID = LoadTGA("Image//ExtSide.tga");
+	meshList[EXTSIDE]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[EXTSIDE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[EXTSIDE]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[EXTSIDE]->material.kShininess = 3.f;
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//skyfront.tga");
+	meshList[GEO_FRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_FRONT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FRONT]->material.kShininess = 3.f;
+
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//skyback.tga");
+	meshList[GEO_BACK]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_BACK]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BACK]->material.kShininess = 3.f;
+
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_TOP]->textureID = LoadTGA("Image//skytop.tga");
+	meshList[GEO_TOP]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_TOP]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_TOP]->material.kShininess = 3.f;
+
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//skybottom.tga");
+	meshList[GEO_BOTTOM]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_BOTTOM]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_BOTTOM]->material.kShininess = 3.f;
+
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_LEFT]->textureID = LoadTGA("Image//skyright.tga");
+	meshList[GEO_LEFT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_LEFT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_LEFT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_LEFT]->material.kShininess = 3.f;
+
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//skyleft.tga");
+	meshList[GEO_RIGHT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_RIGHT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_RIGHT]->material.kShininess = 3.f;
+
 	meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FLOOR]->textureID = LoadTGA("Image//grass.tga");
+	meshList[GEO_FLOOR]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[GEO_FLOOR]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[GEO_FLOOR]->material.kShininess = 3.f;
+
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,0,1), 36, 36, 1);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
@@ -155,6 +225,18 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if(Application::IsKeyPressed('P'))
 		light[0].position.y += (float)(LSPEED * dt);
 
+	if(Application::IsKeyPressed('Z')) //Turns eye light on
+	{
+		light[0].power = 2; 
+		glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
+	}
+
+	if(Application::IsKeyPressed('X'))
+	{
+		light[0].power = 0; 
+		glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
+	}
+
 	fps = 1.f / dt;
 	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
 }
@@ -172,16 +254,47 @@ void SceneText::Render()
 		camera.up.x, camera.up.y, camera.up.z
 		);
 
-	Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-	glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+	//Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
+	//glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 
+	if(light[0].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
+		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
+	}
+
+	else if(light[0].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+		Vector3 spotDirection_cameraspace = viewStack.Top() * light[0].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT0_SPOTDIRECTION], 1, &spotDirection_cameraspace.x);
+	}
+
+	else
+	{
+		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
+		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
+	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
+	modelStack.Scale(3, 3, 3);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
+	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
 	RenderInterior();
 
 	RenderExterior();
 
 	RenderSkyBox();
+		modelStack.PopMatrix();
 
 	std::string str = to_string(fps);
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
@@ -331,7 +444,7 @@ void SceneText::RenderInterior()
 				modelStack.Scale(20, 20, 20);
 
 				if (!(countx > 10 && countx < 18 && countz < -13 && count == 1))
-				RenderMesh(meshList[TILE], false);
+				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
 	}
@@ -348,7 +461,7 @@ void SceneText::RenderInterior()
 				modelStack.Scale(20, 20, 20);
 				
 				if (!(countx > 10 && countx < 18 && countz < -13 && count == 0))
-				RenderMesh(meshList[TILE], false);
+				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
 	}
@@ -364,7 +477,7 @@ void SceneText::RenderInterior()
 					modelStack.Translate(hor * 20 + 10, ver * 20 + 10, 300 * count);
 					modelStack.Rotate(90 + 90 * count, 0, 1, 0);
 					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
+					RenderMesh(meshList[WALL], true);
 				} modelStack.PopMatrix();
 			}
 		}
