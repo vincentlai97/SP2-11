@@ -49,6 +49,8 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	m_parameters[U_MATERIAL_SPECULAR] = glGetUniformLocation(m_programID, "material.kSpecular");
 	m_parameters[U_MATERIAL_SHININESS] = glGetUniformLocation(m_programID, "material.kShininess");
 
+	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+	m_parameters[U_LIGHT0_TYPE] = glGetUniformLocation(m_programID, "lights[0].type");
 	m_parameters[U_LIGHT0_POSITION] = glGetUniformLocation(m_programID, "lights[0].position_cameraspace");
 	m_parameters[U_LIGHT0_COLOR] = glGetUniformLocation(m_programID, "lights[0].color");
 	m_parameters[U_LIGHT0_POWER] = glGetUniformLocation(m_programID, "lights[0].power");
@@ -59,7 +61,22 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	m_parameters[U_LIGHT0_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[0].cosCutoff");
 	m_parameters[U_LIGHT0_COSINNER] = glGetUniformLocation(m_programID, "lights[0].cosInner");
 	m_parameters[U_LIGHT0_EXPONENT] = glGetUniformLocation(m_programID, "lights[0].exponent");
+	
+	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
+	m_parameters[U_LIGHT1_TYPE] = glGetUniformLocation(m_programID, "lights[1].type");
+	m_parameters[U_LIGHT1_POSITION] = glGetUniformLocation(m_programID, "lights[1].position_cameraspace");
+	m_parameters[U_LIGHT1_COLOR] = glGetUniformLocation(m_programID, "lights[1].color");
+	m_parameters[U_LIGHT1_POWER] = glGetUniformLocation(m_programID, "lights[1].power");
+	m_parameters[U_LIGHT1_KC] = glGetUniformLocation(m_programID, "lights[1].kC");
+	m_parameters[U_LIGHT1_KL] = glGetUniformLocation(m_programID, "lights[1].kL");
+	m_parameters[U_LIGHT1_KQ] = glGetUniformLocation(m_programID, "lights[1].kQ");
+	m_parameters[U_LIGHT1_SPOTDIRECTION] = glGetUniformLocation(m_programID, "lights[1].spotDirection");
+	m_parameters[U_LIGHT1_COSCUTOFF] = glGetUniformLocation(m_programID, "lights[1].cosCutoff");
+	m_parameters[U_LIGHT1_COSINNER] = glGetUniformLocation(m_programID, "lights[1].cosInner");
+	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
+
 	m_parameters[U_LIGHTENABLED] = glGetUniformLocation(m_programID, "lightEnabled");
+
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 
 	m_parameters[U_COLOR_TEXTURE_ENABLED] = glGetUniformLocation(m_programID, "colorTextureEnabled");
@@ -68,12 +85,12 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	m_parameters[U_TEXT_COLOR] = glGetUniformLocation(m_programID, "textColor");
 	glUseProgram(m_programID);
 
-	glUniform1i(m_parameters[U_NUMLIGHTS], 1);
+	glUniform1i(m_parameters[U_NUMLIGHTS], 2);
 
-	light[0].type = Light::LIGHT_SPOT;
-	light[0].position.Set(300, 30, 0);
-	light[0].color.Set(1, 0 ,1);
-	light[0].power = 1;
+	light[0].type = Light::LIGHT_DIRECTIONAL;
+	light[0].position.Set(0, 60, 0);
+	light[0].color.Set(1, 1, 1);
+	light[0].power = 0.4;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -82,7 +99,20 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	light[0].exponent = 3.f;
 	light[0].spotDirection.Set(0.f, 1.f, 0.f);
 
+	light[1].type = Light::LIGHT_DIRECTIONAL;
+	light[1].position.Set(-600, 500, 1900);
+	light[1].color.Set(1, 1, 1);
+	light[1].power = 0.2;
+	light[1].kC = 1.f;
+	light[1].kL = 0.01f;
+	light[1].kQ = 0.001f;
+	light[1].cosCutoff = cos(Math::DegreeToRadian(45));
+	light[1].cosInner = cos(Math::DegreeToRadian(30));
+	light[1].exponent = 3.f;
+	light[1].spotDirection.Set(0.f, 1.f, 0.f);
+
 	// Make sure you pass uniform parameters after glUseProgram()
+	glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 	glUniform3fv(m_parameters[U_LIGHT0_COLOR], 1, &light[0].color.r);
 	glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
 	glUniform1f(m_parameters[U_LIGHT0_KC], light[0].kC);
@@ -91,6 +121,17 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT0_COSCUTOFF], light[0].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT0_COSINNER], light[0].cosInner);
 	glUniform1f(m_parameters[U_LIGHT0_EXPONENT], light[0].exponent);
+
+	glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
+	glUniform3fv(m_parameters[U_LIGHT1_COLOR], 1, &light[1].color.r);
+	glUniform1f(m_parameters[U_LIGHT1_POWER], light[1].power);
+	glUniform1f(m_parameters[U_LIGHT1_KC], light[1].kC);
+	glUniform1f(m_parameters[U_LIGHT1_KL], light[1].kL);
+	glUniform1f(m_parameters[U_LIGHT1_KQ], light[1].kQ);
+	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
+	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
+	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+
 
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	
@@ -108,6 +149,8 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[TILE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[TILE]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[TILE]->material.kShininess = 3.f;
+
+	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
 
 	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
 	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
@@ -172,24 +215,24 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[GEO_FLOOR]->material.kShininess = 3.f;
 
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,0,1), 36, 36, 1);
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,1,1), 36, 36, 1);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
-
 
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
 	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
 	Object Trolley;
-	Trolley.Position = Vector3(0, 0, 0);
+	Trolley.Position = Vector3(-100, 0, 0);
 	Trolley.Size = Vector3(3, 3, 3);
 	Trolley.ENUM = trolley;
 	obj.push_back(Trolley);
-	meshList[trolley]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[trolley]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[trolley]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[trolley]->material.kShininess = 5.f;
+	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[trolley]->material.kShininess = 3.f;
+
 
 	//Shelf Obj 1st Row
 	for (int pos = 250; pos > 100; pos -= 50)
@@ -348,18 +391,30 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-	v.push_back(Vector3(400, 200, -300));
+	
+	//Interior Hitbox
+	v.push_back(Vector3(400, 160, -300)); // front
 	v.push_back(Vector3(-400, 0, -320));
-	v.push_back(Vector3(400, 200, 320));
+	v.push_back(Vector3(400, 160, 320)); // back
 	v.push_back(Vector3(-400, 0, 300));
-	v.push_back(Vector3(400, 0, 300));
+	v.push_back(Vector3(400, 0, 300)); // bottom
 	v.push_back(Vector3(-400, -20, -300));
-	v.push_back(Vector3(400, 220, 300));
-	v.push_back(Vector3(-400, 200, -300));
-	v.push_back(Vector3(-400, 200, 300));
+	v.push_back(Vector3(400, 180, 300)); // top
+	v.push_back(Vector3(-400, 160, -300));
+	v.push_back(Vector3(-400, 160, 300)); // left
 	v.push_back(Vector3(-420, 0, -300));
-	v.push_back(Vector3(420, 200, 300));
+	v.push_back(Vector3(420, 160, 300)); // right
 	v.push_back(Vector3(400, 0, -300));
+	v.push_back(Vector3(400, 90, 300)); // middle
+	v.push_back(Vector3(-400, 70, -300));
+
+	//Escalator Hitbox
+	v.push_back(Vector3(360, 90, -220));
+	v.push_back(Vector3(220, 0, -300));
+	escalatorUp.push_back(Vector3(360, 90, -260));
+	escalatorUp.push_back(Vector3(210, 0, -300));
+	escalatorDown.push_back(Vector3(360, 95, -220));
+	escalatorDown.push_back(Vector3(220, 21, -260));
 
 	camera.Init(Vector3(0, 20, -50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
@@ -399,7 +454,7 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	if(Application::IsKeyPressed('Z')) //Turns eye light on
 	{
-		light[0].power = 2; 
+		light[0].power = 0.4; 
 		glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
 	}
 
@@ -410,6 +465,22 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 
 	fps = 1.f / dt;
+	if (camera.checkCollision(escalatorUp, Vector3(0, 0, 0)))
+	{
+		camera.position.x += 45 * dt;
+		camera.position.y += 30 * dt;
+		camera.target.x += 45 * dt;
+		camera.target.y += 30 * dt;
+		
+	}
+	else if (camera.checkCollision(escalatorDown, Vector3(0, 0, 0)))
+	{
+		camera.position.x -= 50 * dt;
+		camera.position.y -= 30 * dt;
+		camera.target.x -= 50 * dt;
+		camera.target.y -= 30 * dt;
+		
+	}
 	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
 }
 
@@ -425,9 +496,6 @@ void SceneText::Render()
 		camera.target.x, camera.target.y, camera.target.z,
 		camera.up.x, camera.up.y, camera.up.z
 		);
-
-	//Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
-	//glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 
 	if(light[0].type == Light::LIGHT_DIRECTIONAL)
 	{
@@ -450,11 +518,40 @@ void SceneText::Render()
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
 	}
 
+
+	if(light[1].type == Light::LIGHT_DIRECTIONAL)
+	{
+		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
+		Vector3 lightDirection_cameraspace1 = viewStack.Top() * lightDir;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace1.x);
+	}
+
+	else if(light[1].type == Light::LIGHT_SPOT)
+	{
+		Position lightPosition_cameraspace1 = viewStack.Top() * light[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace1.x);
+		Vector3 spotDirection_cameraspace1 = viewStack.Top() * light[1].spotDirection;
+		glUniform3fv(m_parameters[U_LIGHT1_SPOTDIRECTION], 1, &spotDirection_cameraspace1.x);
+	}
+
+	else
+	{
+		Position lightPosition_cameraspace1 = viewStack.Top() * light[1].position;
+		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace1.x);
+	}
+
 	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
-	modelStack.Scale(3, 3, 3);
+	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(light[1].position.x, light[1].position.y, light[1].position.z);
+	modelStack.Scale(1, 1, 1);
+	RenderMesh(meshList[GEO_LIGHTBALL], false);
+	modelStack.PopMatrix();
+
 
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
@@ -468,19 +565,36 @@ void SceneText::Render()
 		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
 		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
 		RenderMesh(meshList[obj[i].ENUM], false);
+		RenderMesh(meshList[obj[i].ENUM], true);
+
 		modelStack.PopMatrix();
 	}
+
 	modelStack.PushMatrix();
 
-	//RenderInterior();
+	RenderInterior();
+
 	
+	modelStack.PushMatrix(); {
+		modelStack.Translate(220, 0, -260);
+		modelStack.Rotate(90, 0, -1, 0);
+		modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+		modelStack.Scale(80, 166.43, 0);
+		modelStack.Translate(0, 0.5, 0);
+
+		RenderMesh(meshList[ESCALATOR], false);
+	} modelStack.PopMatrix();
+
 	RenderExterior();
 
 	RenderSkyBox();
-		modelStack.PopMatrix();
+	
+	modelStack.PopMatrix();
 
-	std::string str = to_string(fps);
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + str, Color(0, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
@@ -610,7 +724,7 @@ void SceneText::RenderSkyBox()
 			modelStack.Translate(i * 100 - 800, -1, a * 100 - 800);
 			modelStack.Rotate(90, -1, 0, 0);
 			modelStack.Scale(100, 100, 100);
-			RenderMesh(meshList[GEO_FLOOR], false);
+			RenderMesh(meshList[GEO_FLOOR], true);
 			modelStack.PopMatrix();
 		}
 	}
@@ -629,7 +743,7 @@ void SceneText::RenderInterior()
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 
-				if (!(countx > 10 && countx < 18 && countz < -13 && count == 1))
+				if (!(countx > 10 && countx < 18 && countz < -11 && count == 1))
 				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
@@ -646,7 +760,7 @@ void SceneText::RenderInterior()
 				modelStack.Rotate(90 + count * 180, -1, 0, 0);
 				modelStack.Scale(20, 20, 20);
 				
-				if (!(countx > 10 && countx < 18 && countz < -13 && count == 0))
+				if (!(countx > 10 && countx < 18 && countz < -11 && count == 0))
 				RenderMesh(meshList[TILE], true);
 			} modelStack.PopMatrix();
 		}
@@ -680,7 +794,7 @@ void SceneText::RenderInterior()
 					modelStack.Translate(-400 * count, ver * 20 + 10, hor * 20 + 10);
 					modelStack.Rotate(90 * count, 0, 1, 0);
 					modelStack.Scale(20, 20, 20);
-					RenderMesh(meshList[WALL], false);
+					RenderMesh(meshList[WALL], true);
 				} modelStack.PopMatrix();
 			}
 		}
@@ -693,7 +807,7 @@ void SceneText::RenderExterior()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 100, 300);
 	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTFRONT], false);
+	RenderMesh(meshList[EXTFRONT], true);
 	modelStack.PopMatrix();
 
 	//Exterior Left
@@ -701,7 +815,7 @@ void SceneText::RenderExterior()
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Translate(0, 100, 400);
 	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
+	RenderMesh(meshList[EXTSIDE], true);
 	modelStack.PopMatrix();
 
 	//Exterior Right
@@ -709,7 +823,7 @@ void SceneText::RenderExterior()
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Translate(0, 100, 400);
 	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
+	RenderMesh(meshList[EXTSIDE], true);
 	modelStack.PopMatrix();
 
 	//Exterior Back
@@ -717,7 +831,7 @@ void SceneText::RenderExterior()
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Translate(0, 100, 300);
 	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTSIDE], false);
+	RenderMesh(meshList[EXTSIDE], true);
 	modelStack.PopMatrix();
 }
 
