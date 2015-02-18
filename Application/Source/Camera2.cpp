@@ -96,7 +96,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 		Reset();
 	}
 	
-	if (Application::IsKeyPressed(VK_SPACE) && position.y < 16)
+	if (Application::IsKeyPressed(VK_SPACE) && position.y < 17)
 	{
 		state = JUMPING;
 	}
