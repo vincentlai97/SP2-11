@@ -152,26 +152,22 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 
 	meshList[WHITE_GLASS] = MeshBuilder::GenerateOBJ("tile", "OBJ//White Glass.obj");
 	meshList[WHITE_GLASS]->textureID = LoadTGA("Image//White Glass.tga");
-	meshList[WHITE_GLASS]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[WHITE_GLASS]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[WHITE_GLASS]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[WHITE_GLASS]->material.kShininess = 3.f;
+	meshList[WHITE_GLASS]->material.kAmbient.Set(.8, .8, .8);
+	meshList[WHITE_GLASS]->material.kDiffuse.Set(.6, .6, .6);
+	meshList[WHITE_GLASS]->material.kSpecular.Set(.3, .3, .3);
+	meshList[WHITE_GLASS]->material.kShininess = 5;
 
 	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
 
-	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
-	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
-	meshList[EXTFRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[EXTFRONT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[EXTFRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[EXTFRONT]->material.kShininess = 3.f;
+	// Exterior
+	meshList[EXT_WALL_BOT] = MeshBuilder::GenerateOBJ("extwallbot", "OBJ//Exterior Walls Bottom.obj");
+	meshList[EXT_WALL_BOT]->textureID = LoadTGA("Image//White Wall.tga");
 
-	meshList[EXTSIDE] = MeshBuilder::GenerateQuad("Exterior Side", Color(1, 1, 1), 1.f, 1.f);
-	meshList[EXTSIDE]->textureID = LoadTGA("Image//ExtSide.tga");
-	meshList[EXTSIDE]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[EXTSIDE]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[EXTSIDE]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[EXTSIDE]->material.kShininess = 3.f;
+	meshList[EXT_WALL_MID] = MeshBuilder::GenerateOBJ("extwallbot", "OBJ//Exterior Walls Middle.obj");
+	meshList[EXT_WALL_MID]->textureID = LoadTGA("Image//Black Wall.tga");
+
+	meshList[EXT_WALL_TOP] = MeshBuilder::GenerateOBJ("extwallbot", "OBJ//Exterior Walls Top.obj");
+	meshList[EXT_WALL_TOP]->textureID = LoadTGA("Image//Red Wall.tga");
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
 	meshList[GEO_FRONT]->textureID = LoadTGA("Image//skyfront.tga");
@@ -580,7 +576,9 @@ void SceneText::Render()
 	modelStack.PushMatrix();
 	
 	//RenderInterior();
-	
+
+	RenderSkyBox();
+
 	modelStack.PushMatrix(); {
 		modelStack.Scale(20, 20, 20);
 
@@ -588,6 +586,8 @@ void SceneText::Render()
 		RenderMesh(meshList[TILE], false);
 		RenderMesh(meshList[WHITE_GLASS], false);
 	} modelStack.PopMatrix();
+
+	RenderExterior();
 
 	modelStack.PushMatrix(); {
 		modelStack.Translate(-220, 0, 260);
@@ -599,9 +599,6 @@ void SceneText::Render()
 		RenderMesh(meshList[ESCALATOR], false);
 	} modelStack.PopMatrix();
 
-	RenderExterior();
-
-	RenderSkyBox();
 	
 	modelStack.PopMatrix();
 
@@ -817,36 +814,12 @@ void SceneText::RenderInterior()
 
 void SceneText::RenderExterior()
 {
-	//Exterior Front
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTFRONT], true);
-	modelStack.PopMatrix();
-
-	//Exterior Left
-	modelStack.PushMatrix();
-	modelStack.Rotate(-90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], true);
-	modelStack.PopMatrix();
-
-	//Exterior Right
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 100, 400);
-	modelStack.Scale(600, 200, 500);
-	RenderMesh(meshList[EXTSIDE], true);
-	modelStack.PopMatrix();
-
-	//Exterior Back
-	modelStack.PushMatrix();
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Translate(0, 100, 300);
-	modelStack.Scale(800, 200, 500);
-	RenderMesh(meshList[EXTSIDE], true);
-	modelStack.PopMatrix();
+	modelStack.PushMatrix(); {
+		modelStack.Scale(20, 20, 20);
+		
+		for (int count = 0; count < 3; count++)
+			RenderMesh(meshList[EXT_WALL + count], false);
+	} modelStack.PopMatrix();
 }
 
 void SceneText::RenderText(Mesh* mesh, std::string text, Color color)
