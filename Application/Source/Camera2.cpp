@@ -25,7 +25,7 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float height, double* xPos, double* yPos)
 {
 	static const float CAMERA_SPEED = 70.f;
-	static const float MOUSE_SPEED = 20.f;
+	static const float MOUSE_SPEED = 10.f;
 
 	double mouseX = width;
 	double mouseY = height;
@@ -96,7 +96,7 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 		Reset();
 	}
 	
-	if (Application::IsKeyPressed(VK_SPACE) && position.y < 16)
+	if (Application::IsKeyPressed(VK_SPACE) && position.y < 17)
 	{
 		state = JUMPING;
 	}
@@ -135,16 +135,16 @@ void Camera2::Update(double dt, const std::vector<Vector3> v, float width, float
 		incr += right * CAMERA_SPEED * dt;
 	}
 
-	//if (checkCollision(v, incr))
-	//{
-	//	bool overlap[3];
-	//	overlap[0] = checkCollision(v, Vector3(incr.x, 0, 0));
-	//	overlap[1] = checkCollision(v, Vector3(0, incr.y, 0));
-	//	overlap[2] = checkCollision(v, Vector3(0, 0, incr.z));
-	//	if (overlap[0]) incr.x = 0;
-	//	if (overlap[1]) incr.y = 0;
-	//	if (overlap[2]) incr.z = 0;
-	//}
+	if (checkCollision(v, incr))
+	{
+		bool overlap[3];
+		overlap[0] = checkCollision(v, Vector3(incr.x, 0, 0));
+		overlap[1] = checkCollision(v, Vector3(0, incr.y, 0));
+		overlap[2] = checkCollision(v, Vector3(0, 0, incr.z));
+		if (overlap[0]) incr.x = 0;
+		if (overlap[1]) incr.y = 0;
+		if (overlap[2]) incr.z = 0;
+	}
 	position += incr;
 	target += incr;
 }
