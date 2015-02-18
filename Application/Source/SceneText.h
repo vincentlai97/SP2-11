@@ -21,12 +21,19 @@ class SceneText : public Scene
 		WALL,
 		TILE,
 		WHITE_GLASS,
+		EXT_WALL,
+		EXT_WALL_BOT = EXT_WALL,
+		EXT_WALL_MID,
+		EXT_WALL_TOP,
 		ESCALATOR,
+
 		T_HANDLE,
 		ELEVATOR,
 		EXTFRONT,
 		EXTSIDE,
 		EXTTOP,
+
+
 		GEO_TEXT,
 		GEO_TOP,
 		GEO_BOTTOM,
