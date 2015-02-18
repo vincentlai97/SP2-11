@@ -19,6 +19,8 @@ public:
 	Vector3 Position;
 	float rotation;
 	Vector3 Rotation;
+	Vector3 PosMax;
+	Vector3 PosMin;
 	Object();
 	~Object();
 };
