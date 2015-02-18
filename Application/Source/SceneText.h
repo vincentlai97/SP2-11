@@ -21,6 +21,8 @@ class SceneText : public Scene
 		WALL,
 		TILE,
 		ESCALATOR,
+		T_HANDLE,
+		ELEVATOR,
 		EXTFRONT,
 		EXTSIDE,
 		EXTTOP,
@@ -108,7 +110,7 @@ public:
 
 	MS modelStack, viewStack, projectionStack;
 
-	CameraFly camera;
+	Camera2 camera;
 
 	void load();
 	void reset();
@@ -122,6 +124,8 @@ public:
 	std::vector<Object> obj;
 	std::vector<Vector3> escalatorUp;
 	std::vector<Vector3> escalatorDown;
+	std::vector<Vector3> elevatorUp;
+	std::vector<Vector3> elevatorDown;
 };
 
 #endif

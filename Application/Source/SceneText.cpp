@@ -152,6 +152,20 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 
 	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
 
+	meshList[T_HANDLE] = MeshBuilder::GenerateOBJ("Handle", "OBJ//T_Handle.obj");
+	meshList[T_HANDLE]->textureID = LoadTGA("Image//T_Handle.tga");
+	meshList[T_HANDLE]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	meshList[T_HANDLE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[T_HANDLE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[T_HANDLE]->material.kShininess = 5.f;
+
+	meshList[ELEVATOR] = MeshBuilder::GenerateOBJ("Elevator", "OBJ//Elevator.obj");
+	meshList[ELEVATOR]->textureID = LoadTGA("Image//metal.tga");
+	meshList[ELEVATOR]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[ELEVATOR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[ELEVATOR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[ELEVATOR]->material.kShininess = 1.f;
+
 	meshList[EXTFRONT] = MeshBuilder::GenerateQuad("Exterior Front Side", Color(1, 1, 1), 1.f, 1.f);
 	meshList[EXTFRONT]->textureID = LoadTGA("Image//ExtFront.tga");
 	meshList[EXTFRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
@@ -416,6 +430,16 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	escalatorDown.push_back(Vector3(360, 95, -220));
 	escalatorDown.push_back(Vector3(220, 21, -260));
 
+	//Elevator Hitbox
+	v.push_back(Vector3(395, 15, -180));
+	v.push_back(Vector3(360, 15, -165));
+	//v.push_back(Vector3(395, 15, -120));
+	//v.push_back(Vector3(365, 15, -120));
+	//elevatorUp.push_back(Vector3(360, 90, 15));
+	//elevatorUp.push_back(Vector3(360, 90, -15));
+	//elevatorDown.push_back(Vector3(360, 90, 15));
+	//elevatorDown.push_back(Vector3(360, 90, -15));
+
 	camera.Init(Vector3(0, 20, -50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
@@ -480,6 +504,17 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.x -= 50 * dt;
 		camera.target.y -= 30 * dt;
 		
+	}
+
+	if(camera.checkCollision(elevatorUp, Vector3(0, 0, 0)))
+	{
+		camera.position.y += 30 * dt;
+		camera.target.y += 30 * dt;
+	}
+	else if(camera.checkCollision(elevatorDown, Vector3(0, 0, 0)))
+	{
+		camera.position.y -= 30 * dt;
+		camera.target.y -= 30 * dt;
 	}
 	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
 }
@@ -575,15 +610,28 @@ void SceneText::Render()
 	RenderInterior();
 
 	
-	modelStack.PushMatrix(); {
-		modelStack.Translate(220, 0, -260);
-		modelStack.Rotate(90, 0, -1, 0);
-		modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
-		modelStack.Scale(80, 166.43, 0);
-		modelStack.Translate(0, 0.5, 0);
+	modelStack.PushMatrix(); 		
+	modelStack.Translate(220, 0, -260);
+	modelStack.Rotate(90, 0, -1, 0);
+	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+	modelStack.Scale(80, 166.43, 0);
+	modelStack.Translate(0, 0.5, 0);
+	RenderMesh(meshList[ESCALATOR], false);
+	modelStack.PopMatrix();
 
-		RenderMesh(meshList[ESCALATOR], false);
-	} modelStack.PopMatrix();
+	modelStack.PushMatrix();
+	modelStack.Translate(282, 40, -260);
+	modelStack.Rotate(20, 0, 0, 1);
+	modelStack.Scale(9, 3, 2);
+	RenderMesh(meshList[T_HANDLE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(395, 0, -150);
+	modelStack.Rotate(180, 0, 1, 0);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[ELEVATOR], true);
+	modelStack.PopMatrix();
 
 	RenderExterior();
 
@@ -591,10 +639,10 @@ void SceneText::Render()
 	
 	modelStack.PopMatrix();
 
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(1, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(1, 0, 0), 2, 1, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(1, 0, 0), 2, 1, 2.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(1, 0, 0), 2, 1, 3.5);
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
