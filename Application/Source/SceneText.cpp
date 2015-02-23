@@ -575,11 +575,11 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	//v.push_back(Vector3(-345, 50, 135)); //Down Right Front
 	//v.push_back(Vector3(-395, 15, 125));
 
-	v.push_back(CollisionBox(Vector3(-370, 132.5, 170), 50, 35, 10));
+	v.push_back(CollisionBox(Vector3(-370, 112.5, 170), 50, 35, 10));
 	//v.push_back(Vector3(-345, 150, 175)); //Up Left Front
 	//v.push_back(Vector3(-395, 105, 165));
 	
-	v.push_back(CollisionBox(Vector3(-370, 132.5, 130), 50, 35, 10));
+	v.push_back(CollisionBox(Vector3(-370, 112.5, 130), 50, 35, 10));
 	//v.push_back(Vector3(-345, 150, 135)); //Up Right Front
 	//v.push_back(Vector3(-395, 105, 125));
 
@@ -606,8 +606,6 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 
 float OpenDoorR = 0;
 float OpenDoorL = 0;
-float OpenDoorUE = 0;
-float OpenDoorDE = 0;
 
 void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
@@ -668,13 +666,13 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.y -= 25 * dt;
 	}
 
-	if(cameraCollisionBox.checkCollision(elevatorUp, Vector3(0, 0, 0)) && Application::IsKeyPressed(VK_UP))
+	if(cameraCollisionBox.checkCollision(elevatorUp) && Application::IsKeyPressed(VK_UP))
 	{
 		camera.position.y = 120;
 		camera.target.y = 120;
 	}
 
-	else if(cameraCollisionBox.checkCollision(elevatorDown, Vector3(0, 0, 0)) && Application::IsKeyPressed(VK_DOWN))
+	else if(cameraCollisionBox.checkCollision(elevatorDown) && Application::IsKeyPressed(VK_DOWN))
 	{
 		camera.position.y = 20;
 		camera.target.y = 20;
@@ -686,11 +684,11 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 		OpenDoorR += 120 * dt;
 		OpenDoorL -= 120 * dt;
 
-		if(OpenDoorR >= 75)
+		if(OpenDoorR >= 70)
 		{
 			OpenDoorR -= 120 * dt;
 		}
-		if(OpenDoorL <= -75)
+		if(OpenDoorL <= -70)
 		{
 			OpenDoorL += 120 * dt;
 		}
@@ -700,12 +698,12 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	{ 
 		OpenDoorR += 120 * dt;
 		OpenDoorL -= 120 * dt;
-		if(OpenDoorR >= 75)
+		if(OpenDoorR >= 70)
 		{
 			OpenDoorR -= 120 * dt;
 		}
 
-		if(OpenDoorL <= -75)
+		if(OpenDoorL <= -70)
 		{
 			OpenDoorL += 120 * dt;
 		}
@@ -834,7 +832,6 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorDE, 0, 0);
 	modelStack.Translate(-354, -2, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
@@ -842,7 +839,6 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorUE, 0, 0);
 	modelStack.Translate(-354, 88, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
