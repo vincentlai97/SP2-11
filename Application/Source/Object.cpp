@@ -12,6 +12,7 @@ Object::Object()
 	posMin = (0, 0, 0);
 	name = "";
 	position = 0;
+	Price = 0;
 }
 
 Object::~Object()

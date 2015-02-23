@@ -20,6 +20,7 @@ public:
 	Vector3 posMin;
 	string name;
 	int position;
+	float price;
 
 	Object();
 	~Object();

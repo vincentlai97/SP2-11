@@ -295,6 +295,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	NewObj.mesh = meshList[Can4];
 	NewObj.name = "Sausages";
 	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
+	NewObj.Price = 2.00;
 
 	for (int posX = 75; posX <= 120; posX += 5)
 	{
@@ -316,7 +317,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Box1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Box1]->material.kShininess = 5.f;
 	NewObj.mesh = meshList[Box1];
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 75; row < 125; row += 5)
@@ -326,12 +327,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 0.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Zuku";
+			NewObj.Price = 3.00;
 			obj.push_back(NewObj);
 
 		}
 	}
 	//Box 1 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 75; row < 125; row += 5)
@@ -341,6 +343,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Zuku";
+			NewObj.Price = 3.00;
 			obj.push_back(NewObj);
 
 		}
@@ -365,6 +368,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 0.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Doritos";
+			NewObj.Price = 2.50;
 			obj.push_back(NewObj);
 
 		}
@@ -380,6 +384,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Doritos";
+			NewObj.Price = 2.50;
 			obj.push_back(NewObj);
 
 		}
@@ -393,7 +398,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Box3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Box3]->material.kShininess = 5.f;
 	NewObj.mesh = meshList[Box3];
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -404,12 +409,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 0.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Granola";
+			NewObj.Price = 2.50;
 			obj.push_back(NewObj);
 
 		}
 	}
 	//Box 3 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -420,6 +426,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Granola";
+			NewObj.Price = 2.50;
 			obj.push_back(NewObj);
 
 		}
@@ -433,7 +440,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Can3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Can3]->material.kShininess = 5.f;
 	NewObj.mesh = meshList[Can3];
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -444,12 +451,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 0.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Fishy Tuna";
+			NewObj.Price = 3.50;
 			obj.push_back(NewObj);
 
 		}
 	}
 	//Can3 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -460,6 +468,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Fishy Tuna";
+			NewObj.Price = 3.50;
 			obj.push_back(NewObj);
 
 		}
@@ -473,7 +482,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Can2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Can2]->material.kShininess = 5.f;
 	NewObj.mesh = meshList[Can2];
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -484,12 +493,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = 90.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Dog Ham";
+			NewObj.Price = 4.00;
 			obj.push_back(NewObj);
 
 		}
 	}
 	//Can2 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 225, count = 0; count <= 10; row += 5)
@@ -500,11 +510,28 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			NewObj.rotation = -90.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
 			NewObj.Name = "Dog Ham";
+			NewObj.Price = 4.00;
 			obj.push_back(NewObj);
 
 		}
 	}*/
 
+	//Display Circular cabinet
+	meshList[DisplayCircular] = MeshBuilder::GenerateOBJ("DisplayCircular", "OBJ//DisplayCircular.obj");
+	meshList[DisplayCircular]->textureID = LoadTGA("Image//DisplayCircular.tga");
+	meshList[DisplayCircular]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[DisplayCircular]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[DisplayCircular]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[DisplayCircular]->material.kShininess = 5.f;
+	NewObj.mesh = meshList[DisplayCircular];
+	NewObj.Position = Vector3(0, 11, 0);
+	NewObj.Size = Vector3(5, 5, 5);
+	NewObj.rotation = 0.0f;
+	NewObj.Rotation = Vector3(0, 1, 0);
+	NewObj.Name = "Circular Cabinet";
+	NewObj.Price = 0.00;
+	obj.push_back(NewObj);
+	
 	//Interior Hitbox
 	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
 	v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
@@ -523,11 +550,11 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	//v.push_back(Vector3(-345, 50, 135)); //Down Right Front
 	//v.push_back(Vector3(-395, 15, 125));
 
-	v.push_back(CollisionBox(Vector3(-370, 132.5, 170), 50, 35, 10));
+	v.push_back(CollisionBox(Vector3(-370, 112.5, 170), 50, 35, 10));
 	//v.push_back(Vector3(-345, 150, 175)); //Up Left Front
 	//v.push_back(Vector3(-395, 105, 165));
 	
-	v.push_back(CollisionBox(Vector3(-370, 132.5, 130), 50, 35, 10));
+	v.push_back(CollisionBox(Vector3(-370, 112.5, 130), 50, 35, 10));
 	//v.push_back(Vector3(-345, 150, 135)); //Up Right Front
 	//v.push_back(Vector3(-395, 105, 125));
 
@@ -554,8 +581,6 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 
 float OpenDoorR = 0;
 float OpenDoorL = 0;
-float OpenDoorUE = 0;
-float OpenDoorDE = 0;
 
 void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
@@ -616,13 +641,13 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.y -= 25 * dt;
 	}
 
-	if(cameraCollisionBox.checkCollision(elevatorUp, Vector3(0, 0, 0)) && Application::IsKeyPressed(VK_UP))
+	if(cameraCollisionBox.checkCollision(elevatorUp) && Application::IsKeyPressed(VK_UP))
 	{
 		camera.position.y = 120;
 		camera.target.y = 120;
 	}
 
-	else if(cameraCollisionBox.checkCollision(elevatorDown, Vector3(0, 0, 0)) && Application::IsKeyPressed(VK_DOWN))
+	else if(cameraCollisionBox.checkCollision(elevatorDown) && Application::IsKeyPressed(VK_DOWN))
 	{
 		camera.position.y = 20;
 		camera.target.y = 20;
@@ -634,11 +659,11 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 		OpenDoorR += 120 * dt;
 		OpenDoorL -= 120 * dt;
 
-		if(OpenDoorR >= 75)
+		if(OpenDoorR >= 70)
 		{
 			OpenDoorR -= 120 * dt;
 		}
-		if(OpenDoorL <= -75)
+		if(OpenDoorL <= -70)
 		{
 			OpenDoorL += 120 * dt;
 		}
@@ -648,12 +673,12 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	{ 
 		OpenDoorR += 120 * dt;
 		OpenDoorL -= 120 * dt;
-		if(OpenDoorR >= 75)
+		if(OpenDoorR >= 70)
 		{
 			OpenDoorR -= 120 * dt;
 		}
 
-		if(OpenDoorL <= -75)
+		if(OpenDoorL <= -70)
 		{
 			OpenDoorL += 120 * dt;
 		}
@@ -751,6 +776,18 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
+	
+	//Objects
+	for (int i = 0; i < obj.size(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(obj[i].Position.x, obj[i].Position.y, obj[i].Position.z);
+		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
+		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
+		RenderMesh(obj[i].mesh, true);
+		modelStack.PopMatrix();
+	}
+
 	modelStack.PushMatrix();
 
 	RenderSkyBox();
@@ -769,8 +806,7 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_DOOR], false);
 	modelStack.PopMatrix();
 
-	/*modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorDE, 0, 0);
+	modelStack.PushMatrix();
 	modelStack.Translate(-354, -2, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
@@ -778,12 +814,11 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorUE, 0, 0);
 	modelStack.Translate(-354, 88, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
 	RenderMesh(meshList[eDoor], false);
-	modelStack.PopMatrix();*/
+	modelStack.PopMatrix();
 
 	RenderInterior();
 	RenderExterior();
@@ -798,24 +833,21 @@ void SceneText::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 4.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 5.5);
 
-	//Trolley
-	/*RenderTextOnScreen(meshList[GEO_TEXT], "PosX:" + to_string(obj[7].Position.x), Color(0, 0, 0), 2, 1, 7.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "PoxY:" + to_string(obj[7].Position.y), Color(0, 0, 0), 2, 1, 8.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "PosZ:" + to_string(obj[7].Position.z), Color(0, 0, 0), 2, 1, 9.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[7].Name, Color(0, 0, 0), 2, 1, 10.5);
-
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
+
+	//Object information when camera position is close to object
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 2) && (camera.target.y > obj[i].Position.y - 2) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
+		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 5) && (camera.target.y > obj[i].Position.y - 5) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], obj[i].Name, Color(0, 0, 0), 3, 1, 15);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].Position.x), Color(0, 0, 0), 3, 1, 16);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(0, 0, 0), 3, 1, 17);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(0, 0, 0), 3, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].Name, Color(1, 1, 0), 3, 1, 15);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].Price), Color(1, 1, 0), 3, 1, 14);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].Position.x), Color(1, 0, 0), 3, 1, 16);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(1, 0, 0), 3, 1, 17);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(1, 0, 0), 3, 1, 18);
 		}
-	}*/
+	}
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
@@ -837,18 +869,6 @@ void SceneText::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
-	/*for (int i = 0; i < obj.size(); i++)
-	{
-		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 2) && (camera.target.y > obj[i].Position.y - 2) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], obj[i].Name, Color(0, 0, 0), 3, 1, 15);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].Position.x), Color(0, 0, 0), 3, 1, 16);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(0, 0, 0), 3, 1, 17);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(0, 0, 0), 3, 1, 18);
-		}
-	}*/
 }
 
 void SceneText::Exit()
