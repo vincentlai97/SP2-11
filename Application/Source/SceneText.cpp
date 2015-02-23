@@ -7,6 +7,7 @@
 #include "LoadTGA.h"
 #include "Object.h"
 #include <string.h>
+#include "CollisionBox.h"
 
 #include "shader.hpp"
 
@@ -224,8 +225,6 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
 	//Trolley Obj
-	v.push_back(Vector3(-90, 20, 0));
-	v.push_back(Vector3(-110, 20, 0));
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
 	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
 	Object Trolley;
@@ -254,10 +253,9 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		Object Shelf;
 		Shelf.Position = Vector3(250, 0, pos);
 		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
-		Shelf.PosMax = Vector3(140,40,pos + 10);
-		Shelf.PosMin = Vector3(60,0,pos - 10);
-		v.push_back(Vector3(Shelf.PosMax.x, Shelf.PosMax.y, Shelf.PosMax.z));
-		v.push_back(Vector3(Shelf.PosMin.x, Shelf.PosMin.y, Shelf.PosMin.z));
+		Shelf.PosMax = Vector3(290, 40, pos + 10);
+		Shelf.PosMin = Vector3(210, 0, pos - 10);
+		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
 		Shelf.ENUM = shelf;
 		obj.push_back(Shelf);
 		
@@ -268,10 +266,9 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		Object Shelf;
 		Shelf.Position = Vector3(100, 0, pos);
 		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
-		Shelf.PosMax = Vector3(290, 40, pos + 10);
-		Shelf.PosMin = Vector3(210, 0, pos - 10);
-		v.push_back(Vector3(Shelf.PosMax.x, Shelf.PosMax.y, Shelf.PosMax.z));
-		v.push_back(Vector3(Shelf.PosMin.x, Shelf.PosMin.y, Shelf.PosMin.z));
+		Shelf.PosMax = Vector3(140,40,pos + 10);
+		Shelf.PosMin = Vector3(60,0,pos - 10);
+		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
 		Shelf.ENUM = shelf;
 		obj.push_back(Shelf);
 		
@@ -509,33 +506,24 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			
 		}
 	}
-
 	
 	//Interior Hitbox
-	v.push_back(Vector3(400, 160, -300)); // front
-	v.push_back(Vector3(-400, 0, -320));
-	v.push_back(Vector3(400, 160, 320)); // back
-	v.push_back(Vector3(-400, 0, 300));
-	v.push_back(Vector3(400, 0, 300)); // bottom
-	v.push_back(Vector3(-400, -20, -300));
-	v.push_back(Vector3(400, 180, 300)); // top
-	v.push_back(Vector3(-400, 160, -300));
-	v.push_back(Vector3(-400, 160, 300)); // left
-	v.push_back(Vector3(-420, 0, -300));
-	v.push_back(Vector3(420, 160, 300)); // right
-	v.push_back(Vector3(400, 0, -300));
-	v.push_back(Vector3(400, 90, 300)); // middle
-	v.push_back(Vector3(-400, 70, -300));
+	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
+	v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
+	v.push_back(CollisionBox(Vector3(0, -0.5, 0), 800, 1, 600)); // Bottom
+	v.push_back(CollisionBox(Vector3(0, 160.5, 0), 800, 1, 600)); // Top
+	v.push_back(CollisionBox(Vector3(0, 80, 0), 800, 20, 600)); // Middle
+	v.push_back(CollisionBox(Vector3(-400.5, 80, 0), 1, 160, 600)); // Left
+	v.push_back(CollisionBox(Vector3(400.5, 80, 0), 1, 160, 600)); // Right
 
 	//Escalator Hitbox
-	v.push_back(Vector3(-220, 90, 300));
-	v.push_back(Vector3(-360, 0, 220));
-	escalatorUp.push_back(Vector3(-210, 90, 300));
-	escalatorUp.push_back(Vector3(-360, 0, 260));
-	escalatorDown.push_back(Vector3(-220, 95, 260));
-	escalatorDown.push_back(Vector3(-360, 21, 220));
-
+	v.push_back(CollisionBox(Vector3(-290, 45, 260), 140, 90, 80)); // Travelator
+	v.push_back(CollisionBox(Vector3(-290, 45, 260), 160, 150, 20)); // Travelator Handle
+	travelatorUp.push_back(CollisionBox(Vector3(-290, 45, 280), 150, 90, 20));
+	travelatorDown.push_back(CollisionBox(Vector3(-295, 50, 240), 150, 90, 20));
+	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
@@ -571,7 +559,7 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if(Application::IsKeyPressed('P'))
 		light[0].position.y += (float)(LSPEED * dt);
 
-	if(Application::IsKeyPressed('Z')) //Turns eye light on
+	if(Application::IsKeyPressed('Z'))
 	{
 		light[0].power = 0.4; 
 		glUniform1f(m_parameters[U_LIGHT0_POWER], light[0].power);
@@ -584,23 +572,23 @@ void SceneText::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 
 	fps = 1.f / dt;
-	if (camera.checkCollision(escalatorUp, Vector3(0, 0, 0)))
+
+	if (cameraCollisionBox.checkCollision(travelatorUp))
 	{
-		camera.position.x -= 45 * dt;
-		camera.position.y += 30 * dt;
-		camera.target.x -= 45 * dt;
-		camera.target.y += 30 * dt;
-		
+		camera.position.x -= 50 * dt;
+		camera.target.x -= 50 * dt;
+		camera.position.y += 31 * dt;
+		camera.target.y += 31 * dt;
 	}
-	else if (camera.checkCollision(escalatorDown, Vector3(0, 0, 0)))
+	else if (cameraCollisionBox.checkCollision(travelatorDown))
 	{
 		camera.position.x += 50 * dt;
-		camera.position.y -= 30 * dt;
 		camera.target.x += 50 * dt;
-		camera.target.y -= 30 * dt;
-		
+		camera.position.y -= 25 * dt;
+		camera.target.y -= 25 * dt;
 	}
-	camera.Update(dt, v, w / 2, h / 2, &xPos, &yPos);
+	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+	cameraCollisionBox.Centre = camera.position;
 }
 
 void SceneText::Render()
