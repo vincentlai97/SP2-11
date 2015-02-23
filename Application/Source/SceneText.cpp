@@ -36,6 +36,8 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glAlphaFunc(GL_GREATER, 0.1) ;
+    glEnable(GL_ALPHA_TEST) ;
 
 	//Generate default VAO
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -151,12 +153,12 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[INT_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[INT_FLOOR]->material.kShininess = 3.f;
 
-	meshList[WHITE_GLASS] = MeshBuilder::GenerateOBJ("tile", "OBJ//White Glass.obj");
+	meshList[WHITE_GLASS] = MeshBuilder::GenerateOBJ("white glass", "OBJ//White Glass.obj");
 	meshList[WHITE_GLASS]->textureID = LoadTGA("Image//White Glass.tga");
 	meshList[WHITE_GLASS]->material.kAmbient.Set(.8, .8, .8);
 	meshList[WHITE_GLASS]->material.kDiffuse.Set(.6, .6, .6);
 	meshList[WHITE_GLASS]->material.kSpecular.Set(.3, .3, .3);
-	meshList[WHITE_GLASS]->material.kShininess = 5;
+	meshList[WHITE_GLASS]->material.kShininess = 10;
 
 	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
 	meshList[ESCALATOR]->textureID = LoadTGA("Image//Travelator.tga");
@@ -295,7 +297,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	NewObj.mesh = meshList[Can4];
 	NewObj.name = "Sausages";
 	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
-	NewObj.Price = 2.00;
+	NewObj.price = 2.00;
 
 	for (int posX = 75; posX <= 120; posX += 5)
 	{
@@ -517,7 +519,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	}*/
 
 	//Display Circular cabinet
-	meshList[DisplayCircular] = MeshBuilder::GenerateOBJ("DisplayCircular", "OBJ//DisplayCircular.obj");
+	/*meshList[DisplayCircular] = MeshBuilder::GenerateOBJ("DisplayCircular", "OBJ//DisplayCircular.obj");
 	meshList[DisplayCircular]->textureID = LoadTGA("Image//DisplayCircular.tga");
 	meshList[DisplayCircular]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[DisplayCircular]->material.kDiffuse.Set(1.f, 1.f, 1.f);
@@ -530,7 +532,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	NewObj.Rotation = Vector3(0, 1, 0);
 	NewObj.Name = "Circular Cabinet";
 	NewObj.Price = 0.00;
-	obj.push_back(NewObj);
+	obj.push_back(NewObj);*/
 	
 	//Interior Hitbox
 	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
@@ -770,27 +772,14 @@ void SceneText::Render()
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
-
-
+	
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
-	
-	//Objects
-	for (int i = 0; i < obj.size(); i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(obj[i].Position.x, obj[i].Position.y, obj[i].Position.z);
-		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
-		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
-		RenderMesh(obj[i].mesh, true);
-		modelStack.PopMatrix();
-	}
-
-	modelStack.PushMatrix();
-
 	RenderSkyBox();
+	RenderInterior();
+	RenderExterior();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(OpenDoorL, 0, 0);
@@ -820,8 +809,6 @@ void SceneText::Render()
 	RenderMesh(meshList[eDoor], false);
 	modelStack.PopMatrix();
 
-	RenderInterior();
-	RenderExterior();
 	RenderObjects();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
@@ -839,13 +826,13 @@ void SceneText::Render()
 	//Object information when camera position is close to object
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 5) && (camera.target.y > obj[i].Position.y - 5) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
+		if ((camera.target.x < obj[i].centre.x + 1.5f) && (camera.target.x > obj[i].centre.x - 1.5f) && (camera.target.y < obj[i].centre.y + 5) && (camera.target.y > obj[i].centre.y - 5) && (camera.target.z < obj[i].centre.z + 10) && (camera.target.z > obj[i].centre.z - 10))
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].Name, Color(1, 1, 0), 3, 1, 15);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].Price), Color(1, 1, 0), 3, 1, 14);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].Position.x), Color(1, 0, 0), 3, 1, 16);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(1, 0, 0), 3, 1, 17);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(1, 0, 0), 3, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].name, Color(1, 1, 0), 3, 1, 15);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].price), Color(1, 1, 0), 3, 1, 14);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].centre.x), Color(1, 0, 0), 3, 1, 16);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].centre.y), Color(1, 0, 0), 3, 1, 17);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].centre.z), Color(1, 0, 0), 3, 1, 18);
 		}
 	}
 
@@ -1073,7 +1060,7 @@ void SceneText::RenderSkyBox()
 			modelStack.Translate(i * 100 - 800, -1, a * 100 - 800);
 			modelStack.Rotate(90, -1, 0, 0);
 			modelStack.Scale(100, 100, 100);
-			RenderMesh(meshList[SKYBOX_FLOOR], true);
+			RenderMesh(meshList[SKYBOX_FLOOR], false);
 			modelStack.PopMatrix();
 		}
 	}

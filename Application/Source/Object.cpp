@@ -12,7 +12,7 @@ Object::Object()
 	posMin = (0, 0, 0);
 	name = "";
 	position = 0;
-	Price = 0;
+	price = 0;
 }
 
 Object::~Object()
@@ -30,4 +30,5 @@ void Object::Reset()
 	posMin = (0, 0, 0);
 	name = "";
 	position = 0;
+	price = 0;
 }
