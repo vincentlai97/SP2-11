@@ -182,54 +182,47 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[EXT_WALL_TOP] = MeshBuilder::GenerateOBJ("extwallbot", "OBJ//Exterior Walls Top.obj");
 	meshList[EXT_WALL_TOP]->textureID = LoadTGA("Image//Red Wall.tga");
 
-	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//skyfront.tga");
-	meshList[GEO_FRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_FRONT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FRONT]->material.kShininess = 3.f;
+	meshList[SKYBOX_FRONT] = MeshBuilder::GenerateQuad("front", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_FRONT]->textureID = LoadTGA("Image//skyfront.tga");
+	meshList[SKYBOX_FRONT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_FRONT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_FRONT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_FRONT]->material.kShininess = 3.f;
 
-	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//skyback.tga");
-	meshList[GEO_BACK]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_BACK]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_BACK]->material.kShininess = 3.f;
+	meshList[SKYBOX_BACK] = MeshBuilder::GenerateQuad("back", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_BACK]->textureID = LoadTGA("Image//skyback.tga");
+	meshList[SKYBOX_BACK]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_BACK]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_BACK]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_BACK]->material.kShininess = 3.f;
 
-	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//skytop.tga");
-	meshList[GEO_TOP]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_TOP]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_TOP]->material.kShininess = 3.f;
+	meshList[SKYBOX_TOP] = MeshBuilder::GenerateQuad("top", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_TOP]->textureID = LoadTGA("Image//skytop.tga");
+	meshList[SKYBOX_TOP]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_TOP]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_TOP]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_TOP]->material.kShininess = 3.f;
 
-	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//skybottom.tga");
-	meshList[GEO_BOTTOM]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_BOTTOM]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_BOTTOM]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_BOTTOM]->material.kShininess = 3.f;
+	meshList[SKYBOX_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_LEFT]->textureID = LoadTGA("Image//skyright.tga");
+	meshList[SKYBOX_LEFT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_LEFT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_LEFT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_LEFT]->material.kShininess = 3.f;
 
-	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//skyright.tga");
-	meshList[GEO_LEFT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_LEFT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_LEFT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_LEFT]->material.kShininess = 3.f;
+	meshList[SKYBOX_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_RIGHT]->textureID = LoadTGA("Image//skyleft.tga");
+	meshList[SKYBOX_RIGHT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_RIGHT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_RIGHT]->material.kShininess = 3.f;
 
-	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//skyleft.tga");
-	meshList[GEO_RIGHT]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_RIGHT]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RIGHT]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_RIGHT]->material.kShininess = 3.f;
-
-	meshList[GEO_FLOOR] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f, 1.f);
-	meshList[GEO_FLOOR]->textureID = LoadTGA("Image//grass.tga");
-	meshList[GEO_FLOOR]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-	meshList[GEO_FLOOR]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[GEO_FLOOR]->material.kShininess = 3.f;
+	meshList[SKYBOX_FLOOR] = MeshBuilder::GenerateQuad("floor", Color(1, 1, 1), 1.f, 1.f);
+	meshList[SKYBOX_FLOOR]->textureID = LoadTGA("Image//grass.tga");
+	meshList[SKYBOX_FLOOR]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[SKYBOX_FLOOR]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[SKYBOX_FLOOR]->material.kShininess = 3.f;
 
 	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJ("Door", "OBJ//Door.obj");
 	meshList[GEO_DOOR]->textureID = LoadTGA("Image//blueglass.tga");
@@ -255,48 +248,42 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
 	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
-	NewObj.mesh = meshList[trolley];
-	NewObj.Position = Vector3(-100, 0, 0);
-	NewObj.Size = Vector3(3, 3, 3);
-	NewObj.Name = "Trolley";
-	obj.push_back(NewObj);
 	meshList[trolley]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kShininess = 3.f;
+	NewObj.mesh = meshList[trolley];
+	NewObj.centre = Vector3(-100, 0, 0);
+	NewObj.size = Vector3(3, 3, 3);
+	NewObj.name = "Trolley";
+	obj.push_back(NewObj);
 
-
-	//Shelf Obj 1st Row
 	meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
 	meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
 	meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[shelf]->material.kShininess = 5.f;
+	
 	NewObj.mesh = meshList[shelf];
+	NewObj.name = "Shelf";
+	NewObj.posMax = Vector3(40, 40, 10);
+	NewObj.posMin = Vector3(-40, 0, -10);
+	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
 
-	for (int pos = 250; pos > 100; pos -= 50)
+	for (int posX = 250; posX >= 100; posX -= 150)
 	{
+		for (int posZ = 250; posZ >= 150; posZ -= 50)
+		{
+			NewObj.centre = Vector3(posX, 0, posZ);
+			NewObj.position = 0;
+			v.push_back(CollisionBox(NewObj.centre, NewObj.posMax, NewObj.posMin));
+			obj.push_back(NewObj);
+		}
+	}
 
-		NewObj.Position = Vector3(250, 0, pos);
-		NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-		NewObj.PosMax = Vector3(290, 40, pos + 10);
-		NewObj.PosMin = Vector3(210, 0, pos - 10);
-		NewObj.Name = "Shelf";
-		v.push_back(CollisionBox(NewObj.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
-		obj.push_back(NewObj);
-	}
-	//Shelf Obj 2st Row
-	for (int pos = 250; pos > 100; pos -= 50)
-	{
-		NewObj.Position = Vector3(100, 0, pos);
-		NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-		NewObj.PosMax = Vector3(140, 40, pos + 10);
-		NewObj.PosMin = Vector3(60, 0, pos - 10);
-		NewObj.Name = "Shelf";
-		v.push_back(CollisionBox(NewObj.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
-		obj.push_back(NewObj);
-	}
+	NewObj.Reset();
+
 	//Can4 face side
 	meshList[Can4] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can4.obj");
 	meshList[Can4]->textureID = LoadTGA("Image//Can4.tga");
@@ -304,36 +291,25 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Can4]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[Can4]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Can4]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Can4];
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{	
-			NewObj.Name = "Sausages";
-			NewObj.Position = Vector3(row, column, 255);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			obj.push_back(NewObj);		
-		}
-	}
-	//Can4 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{
-			NewObj.Name = "Sausages";
-			NewObj.Position = Vector3(row, column, 241);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			NewObj.rotation = 180.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			obj.push_back(NewObj);
 
+	NewObj.mesh = meshList[Can4];
+	NewObj.name = "Sausages";
+	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
+
+	for (int posX = 75; posX <= 120; posX += 5)
+	{
+		for (int posY = 28; posY >= 0; posY -= 6.4f)
+		{
+			for (int posZ = 255; posZ >= 241; posZ -= 14)
+			{	
+				NewObj.centre = Vector3(posX, posY, posZ);
+				obj.push_back(NewObj);		
+			}
 		}
 	}
 
 	//Box 1 face side
-	meshList[Box1] = MeshBuilder::GenerateOBJ("Box1", "OBJ//Box1.obj");
+	/*meshList[Box1] = MeshBuilder::GenerateOBJ("Box1", "OBJ//Box1.obj");
 	meshList[Box1]->textureID = LoadTGA("Image//Box1.tga");
 	meshList[Box1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[Box1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
@@ -527,7 +503,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 			obj.push_back(NewObj);
 
 		}
-	}
+	}*/
 
 	//Interior Hitbox
 	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
@@ -823,7 +799,7 @@ void SceneText::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 5.5);
 
 	//Trolley
-	RenderTextOnScreen(meshList[GEO_TEXT], "PosX:" + to_string(obj[7].Position.x), Color(0, 0, 0), 2, 1, 7.5);
+	/*RenderTextOnScreen(meshList[GEO_TEXT], "PosX:" + to_string(obj[7].Position.x), Color(0, 0, 0), 2, 1, 7.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "PoxY:" + to_string(obj[7].Position.y), Color(0, 0, 0), 2, 1, 8.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "PosZ:" + to_string(obj[7].Position.z), Color(0, 0, 0), 2, 1, 9.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[7].Name, Color(0, 0, 0), 2, 1, 10.5);
@@ -839,7 +815,7 @@ void SceneText::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(0, 0, 0), 3, 1, 17);
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(0, 0, 0), 3, 1, 18);
 		}
-	}
+	}*/
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
@@ -863,7 +839,7 @@ void SceneText::Render()
 	modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
-	for (int i = 0; i < obj.size(); i++)
+	/*for (int i = 0; i < obj.size(); i++)
 	{
 		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 2) && (camera.target.y > obj[i].Position.y - 2) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
 		{
@@ -872,8 +848,7 @@ void SceneText::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(0, 0, 0), 3, 1, 17);
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(0, 0, 0), 3, 1, 18);
 		}
-	}
-
+	}*/
 }
 
 void SceneText::Exit()
@@ -1032,7 +1007,7 @@ void SceneText::RenderSkyBox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -2000);
 	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_FRONT], false);
+	RenderMesh(meshList[SKYBOX_FRONT], false);
 	modelStack.PopMatrix();
 
 	//Environment Back
@@ -1040,7 +1015,7 @@ void SceneText::RenderSkyBox()
 	modelStack.Translate(0, 13.5, 2000);
 	modelStack.Rotate(180, 0, 1, 0);
 	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BACK], false);
+	RenderMesh(meshList[SKYBOX_BACK], false);
 	modelStack.PopMatrix();
 
 	//Environment Top
@@ -1049,16 +1024,7 @@ void SceneText::RenderSkyBox()
 	modelStack.Translate(0, 2000.05, 0);
 	modelStack.Rotate(90, 1, 0, 0);
 	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_TOP], false);
-	modelStack.PopMatrix();
-
-	//Environment Bottom
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, -1, 0);
-	modelStack.Translate(0, -1980, 0);
-	modelStack.Rotate(90, -1, 0, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BOTTOM], false);
+	RenderMesh(meshList[SKYBOX_TOP], false);
 	modelStack.PopMatrix();
 
 	//Environment Left
@@ -1066,7 +1032,7 @@ void SceneText::RenderSkyBox()
 	modelStack.Translate(-2000, 30, 0);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_LEFT], false);
+	RenderMesh(meshList[SKYBOX_LEFT], false);
 	modelStack.PopMatrix();
 
 	//Environment Right
@@ -1074,7 +1040,7 @@ void SceneText::RenderSkyBox()
 	modelStack.Translate(2000, 13, 0);
 	modelStack.Rotate(90, 0, -1, 0);
 	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_RIGHT], false);
+	RenderMesh(meshList[SKYBOX_RIGHT], false);
 	modelStack.PopMatrix();
 
 	//Environment Floor
@@ -1087,7 +1053,7 @@ void SceneText::RenderSkyBox()
 			modelStack.Translate(i * 100 - 800, -1, a * 100 - 800);
 			modelStack.Rotate(90, -1, 0, 0);
 			modelStack.Scale(100, 100, 100);
-			RenderMesh(meshList[GEO_FLOOR], true);
+			RenderMesh(meshList[SKYBOX_FLOOR], true);
 			modelStack.PopMatrix();
 		}
 	}
@@ -1098,9 +1064,9 @@ void SceneText::RenderObjects()
 	for (int i = 0; i < obj.size(); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(obj[i].Position.x, obj[i].Position.y, obj[i].Position.z);
-		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
-		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
+		modelStack.Translate(obj[i].centre.x, obj[i].centre.y, obj[i].centre.z);
+		modelStack.Scale(obj[i].size.x, obj[i].size.y, obj[i].size.z);
+		modelStack.Rotate(obj[i].angle, obj[i].rotation.x, obj[i].rotation.y, obj[i].rotation.z);
 		RenderMesh(obj[i].mesh, false);
 		modelStack.PopMatrix();
 	}
