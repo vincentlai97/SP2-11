@@ -378,7 +378,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
-		for (int row = 75; row < 12	5; row += 5)
+		for (int row = 75; row < 125; row += 5)
 		{
 			NewObj.Position = Vector3(row, column, 141);
 			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
