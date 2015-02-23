@@ -21,6 +21,7 @@ public:
 	Vector3 Rotation;
 	Vector3 PosMax;
 	Vector3 PosMin;
+	string Name;
 	Object();
 	~Object();
 };

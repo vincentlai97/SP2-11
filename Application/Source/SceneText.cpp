@@ -224,14 +224,16 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
+	Object NewObj;
+
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
 	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
-	Object Trolley;
-	Trolley.Position = Vector3(-100, 0, 0);
-	Trolley.Size = Vector3(3, 3, 3);
-	Trolley.ENUM = trolley;
-	obj.push_back(Trolley);
+	NewObj.Position = Vector3(-100, 0, 0);
+	NewObj.Size = Vector3(3, 3, 3);
+	NewObj.Name = "Trolley";
+	NewObj.ENUM = trolley;
+	obj.push_back(NewObj);
 	meshList[trolley]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
@@ -246,31 +248,31 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[shelf]->material.kShininess = 5.f;
 
-
 	for (int pos = 250; pos > 100; pos -= 50)
 	{
 		
-		Object Shelf;
-		Shelf.Position = Vector3(250, 0, pos);
-		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
-		Shelf.PosMax = Vector3(290, 40, pos + 10);
-		Shelf.PosMin = Vector3(210, 0, pos - 10);
+		NewObj.Position = Vector3(250, 0, pos);
+		NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+		NewObj.PosMax = Vector3(290, 40, pos + 10);
+		NewObj.PosMin = Vector3(210, 0, pos - 10);
+		NewObj.Name = "Shelf";
 		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
-		Shelf.ENUM = shelf;
-		obj.push_back(Shelf);
+		NewObj.ENUM = shelf;
+		obj.push_back(NewObj);
+		
 		
 	}
 	//Shelf Obj 2st Row
 	for (int pos = 250; pos > 100; pos -= 50)
 	{
-		Object Shelf;
-		Shelf.Position = Vector3(100, 0, pos);
-		Shelf.Size = Vector3(3.5f, 3.5f, 3.5f);
-		Shelf.PosMax = Vector3(140,40,pos + 10);
-		Shelf.PosMin = Vector3(60,0,pos - 10);
+		NewObj.Position = Vector3(100, 0, pos);
+		NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+		NewObj.PosMax = Vector3(140, 40, pos + 10);
+		NewObj.PosMin = Vector3(60, 0, pos - 10);
+		NewObj.Name = "Shelf";
 		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
-		Shelf.ENUM = shelf;
-		obj.push_back(Shelf);
+		NewObj.ENUM = shelf;
+		obj.push_back(NewObj);
 		
 	}
 	//Can4 face side
@@ -284,13 +286,12 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	{
 		count++;
 		for (int row = 75; row < 125; row += 5)
-		{			
-			Object CAN4;
-			CAN4.Position = Vector3(row, column, 250);
-			CAN4.Size = Vector3(3.5f, 3.5f, 3.5f);
-			CAN4.ENUM = Can4;
-			obj.push_back(CAN4);
-			
+		{	
+			NewObj.Name = "Sausages";
+			NewObj.Position = Vector3(row, column, 255);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.ENUM = Can4;
+			obj.push_back(NewObj);		
 		}
 	}
 
@@ -300,13 +301,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		count++;
 		for (int row = 75; row < 125; row += 5)
 		{
-			Object CAN4;
-			CAN4.Position = Vector3(row, column, 245);
-			CAN4.Size = Vector3(3.5f, 3.5f, 3.5f);
-			CAN4.rotation = 180.0f;
-			CAN4.Rotation = Vector3(0, 1, 0);
-			CAN4.ENUM = Can4;
-			obj.push_back(CAN4);
+			NewObj.Name = "Sausages";
+			NewObj.Position = Vector3(row, column, 240);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.rotation = 180.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.ENUM = Can4;
+			obj.push_back(NewObj);
 		
 		}
 	}
@@ -323,13 +324,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		count++;
 		for (int row = 75; row < 125; row += 5)
 		{
-			Object BOX1;
-			BOX1.Position = Vector3(row, column, 200);
-			BOX1.Size = Vector3(3.5f, 3.5f, 3.5f);
-			//BOX1.rotation = 180.0f;
-			//BOX1.Rotation = Vector3(0, 1, 0);
-			BOX1.ENUM = Box1;
-			obj.push_back(BOX1);
+			NewObj.Position = Vector3(row, column, 205);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.rotation = 0.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Zuku";
+			NewObj.ENUM = Box1;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -339,13 +340,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		count++;
 		for (int row = 75; row < 125; row += 5)
 		{
-			Object BOX1;
-			BOX1.Position = Vector3(row, column, 195);
-			BOX1.Size = Vector3(3.5f, 3.5f, 3.5f);
-			BOX1.rotation = 180.0f;
-			BOX1.Rotation = Vector3(0, 1, 0);
-			BOX1.ENUM = Box1;
-			obj.push_back(BOX1);
+			NewObj.Position = Vector3(row, column, 192);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.rotation = 180.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Zuku";
+			NewObj.ENUM = Box1;
+			obj.push_back(NewObj);
 		
 		}
 	}
@@ -363,11 +364,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		count++;
 		for (int row = 75; row < 125; row += 5)
 		{
-			Object BOX2;
-			BOX2.Position = Vector3(row, column, 150);
-			BOX2.Size = Vector3(3.5f, 3.5f, 3.5f);
-			BOX2.ENUM = Box2;
-			obj.push_back(BOX2);
+			NewObj.Position = Vector3(row, column, 155);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.rotation = 0.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Doritos";
+			NewObj.ENUM = Box2;
+			obj.push_back(NewObj);
 		
 		}
 	}
@@ -377,13 +380,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		count++;
 		for (int row = 75; row < 135; row += 5)
 		{
-			Object BOX2;
-			BOX2.Position = Vector3(row, column, 145);
-			BOX2.Size = Vector3(3.5f, 3.5f, 3.5f);
-			BOX2.rotation = 180.0f;
-			BOX2.Rotation = Vector3(0, 1, 0);
-			BOX2.ENUM = Box2;
-			obj.push_back(BOX2);
+			NewObj.Position = Vector3(row, column, 140);
+			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
+			NewObj.rotation = 180.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Doritos";
+			NewObj.ENUM = Box2;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -401,11 +404,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object BOX3;
-			BOX3.Position = Vector3(row, column, 150);
-			BOX3.Size = Vector3(0.5f, 0.5f, 0.5f);
-			BOX3.ENUM = Box3;
-			obj.push_back(BOX3);
+			NewObj.Position = Vector3(row, column, 155);
+			NewObj.Size = Vector3(0.5f, 0.5f, 0.5f);
+			NewObj.rotation = 0.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Granola";
+			NewObj.ENUM = Box3;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -416,13 +421,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object BOX3;
-			BOX3.Position = Vector3(row, column, 145);
-			BOX3.Size = Vector3(0.5f, 0.5f, 0.5f);
-			BOX3.rotation = 180.0f;
-			BOX3.Rotation = Vector3(0, 1, 0);
-			BOX3.ENUM = Box3;
-			obj.push_back(BOX3);
+			NewObj.Position = Vector3(row, column, 140);
+			NewObj.Size = Vector3(0.5f, 0.5f, 0.5f);
+			NewObj.rotation = 180.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Granola";
+			NewObj.ENUM = Box3;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -440,11 +445,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object CAN3;
-			CAN3.Position = Vector3(row, column, 200);
-			CAN3.Size = Vector3(3,3,3);
-			CAN3.ENUM = Can3;
-			obj.push_back(CAN3);
+			NewObj.Position = Vector3(row, column, 205);
+			NewObj.Size = Vector3(3, 3, 3);
+			NewObj.rotation = 0.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Fishy Tuna";
+			NewObj.ENUM = Can3;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -455,13 +462,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object CAN3;
-			CAN3.Position = Vector3(row, column, 195);
-			CAN3.Size = Vector3(3,3,3);
-			CAN3.rotation = 180.0f;
-			CAN3.Rotation = Vector3(0, 1, 0);
-			CAN3.ENUM = Can3;
-			obj.push_back(CAN3);
+			NewObj.Position = Vector3(row, column, 190);
+			NewObj.Size = Vector3(3, 3, 3);
+			NewObj.rotation = 180.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Fishy Tuna";
+			NewObj.ENUM = Can3;
+			obj.push_back(NewObj);
 		
 		}
 	}
@@ -479,13 +486,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object CAN2;
-			CAN2.Position = Vector3(row, column, 250);
-			CAN2.Size = Vector3(3, 3, 3);
-			CAN2.rotation = 90.0f;
-			CAN2.Rotation = Vector3(0, 1, 0);
-			CAN2.ENUM = Can2;
-			obj.push_back(CAN2);
+			NewObj.Position = Vector3(row, column, 255);
+			NewObj.Size = Vector3(3, 3, 3);
+			NewObj.rotation = 90.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Dog Ham";
+			NewObj.ENUM = Can2;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -496,13 +503,13 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			Object CAN2;
-			CAN2.Position = Vector3(row, column, 245);
-			CAN2.Size = Vector3(3, 3, 3);
-			CAN2.rotation = -90.0f;
-			CAN2.Rotation = Vector3(0, 1, 0);
-			CAN2.ENUM = Can2;
-			obj.push_back(CAN2);
+			NewObj.Position = Vector3(row, column, 240);
+			NewObj.Size = Vector3(3, 3, 3);
+			NewObj.rotation = -90.0f;
+			NewObj.Rotation = Vector3(0, 1, 0);
+			NewObj.Name = "Dog Ham";
+			NewObj.ENUM = Can2;
+			obj.push_back(NewObj);
 			
 		}
 	}
@@ -664,6 +671,7 @@ void SceneText::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
+	
 	//Objects
 	for (int i = 0; i < obj.size(); i++)
 	{
@@ -672,8 +680,6 @@ void SceneText::Render()
 		modelStack.Scale(obj[i].Size.x, obj[i].Size.y, obj[i].Size.z);
 		modelStack.Rotate(obj[i].rotation, obj[i].Rotation.x, obj[i].Rotation.y, obj[i].Rotation.z);
 		RenderMesh(meshList[obj[i].ENUM], false);
-		RenderMesh(meshList[obj[i].ENUM], true);
-
 		modelStack.PopMatrix();
 	}
 
@@ -714,9 +720,30 @@ void SceneText::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
+	
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 3.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 4.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 5.5);
+
+	//Trolley
+	RenderTextOnScreen(meshList[GEO_TEXT], "PosX:" + to_string(obj[7].Position.x), Color(0, 0, 0), 2, 1, 7.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "PoxY:" + to_string(obj[7].Position.y), Color(0, 0, 0), 2, 1, 8.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "PosZ:" + to_string(obj[7].Position.z), Color(0, 0, 0), 2, 1, 9.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[7].Name, Color(0, 0, 0), 2, 1, 10.5);
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
+	for (int i = 0; i < obj.size(); i++)
+	{
+		if ((camera.target.x < obj[i].Position.x + 1.5f) && (camera.target.x > obj[i].Position.x - 1.5f) && (camera.target.y < obj[i].Position.y + 2) && (camera.target.y > obj[i].Position.y - 2) && (camera.target.z < obj[i].Position.z + 10) && (camera.target.z > obj[i].Position.z - 10))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], obj[i].Name, Color(0, 0, 0), 3, 1, 15);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].Position.x), Color(0, 0, 0), 3, 1, 16);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].Position.y), Color(0, 0, 0), 3, 1, 17);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].Position.z), Color(0, 0, 0), 3, 1, 18);
+		}
+	}
+	
 }
 
 void SceneText::Exit()
