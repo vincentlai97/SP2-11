@@ -18,8 +18,8 @@ class SceneText : public Scene
 	{
 		GEO_AXES,
 		GEO_QUAD,
-		WALL,
-		TILE,
+		INT_WALL,
+		INT_FLOOR,
 		WHITE_GLASS,
 		EXT_WALL,
 		EXT_WALL_BOT = EXT_WALL,
@@ -98,27 +98,15 @@ private:
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[2];
 	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderSkyBox();
-	void RenderInterior();
-	void RenderExterior();
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
-public:
-	SceneText();
-	~SceneText();
-
-	virtual void Init(GLFWwindow* m_window, float w, float h);
-	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
-	virtual void Render();
-	virtual void Exit();
-
+	void load();
+	void reset();
+	
 	MS modelStack, viewStack, projectionStack;
 
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
-
-	void load();
-	void reset();
 
 	float fps;
 
@@ -128,7 +116,22 @@ public:
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
+	std::vector<CollisionBox> elevatorUp;
+	std::vector<CollisionBox> elevatorDown;
 	std::vector<Object> obj;
+
+	void RenderInterior();
+	void RenderExterior();
+	void RenderSkyBox();
+	void RenderObjects();
+public:
+	SceneText();
+	~SceneText();
+
+	virtual void Init(GLFWwindow* m_window, float w, float h);
+	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
+	virtual void Render();
+	virtual void Exit();
 };
 
 #endif
