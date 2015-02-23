@@ -26,6 +26,7 @@ class SceneText : public Scene
 		EXT_WALL_MID,
 		EXT_WALL_TOP,
 		ESCALATOR,
+		ESCALATOR_HANDLE,
 		GEO_TEXT,
 		GEO_TOP,
 		GEO_BOTTOM,
@@ -111,6 +112,7 @@ public:
 	MS modelStack, viewStack, projectionStack;
 
 	Camera2 camera;
+	CollisionBox cameraCollisionBox;
 
 	void load();
 	void reset();
@@ -120,10 +122,10 @@ public:
 	double xPos;
 	double yPos;
 
-	std::vector<Vector3> v;
+	std::vector<CollisionBox> v;
+	std::vector<CollisionBox> travelatorUp;
+	std::vector<CollisionBox> travelatorDown;
 	std::vector<Object> obj;
-	std::vector<Vector3> escalatorUp;
-	std::vector<Vector3> escalatorDown;
 };
 
 #endif
