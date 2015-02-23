@@ -256,7 +256,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		NewObj.PosMax = Vector3(290, 40, pos + 10);
 		NewObj.PosMin = Vector3(210, 0, pos - 10);
 		NewObj.Name = "Shelf";
-		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
+		v.push_back(CollisionBox(NewObj.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
 		NewObj.ENUM = shelf;
 		obj.push_back(NewObj);
 		
@@ -270,7 +270,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		NewObj.PosMax = Vector3(140, 40, pos + 10);
 		NewObj.PosMin = Vector3(60, 0, pos - 10);
 		NewObj.Name = "Shelf";
-		v.push_back(CollisionBox(Shelf.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
+		v.push_back(CollisionBox(NewObj.Position, Vector3(40, 40, 10), Vector3(-40, 0, -10)));
 		NewObj.ENUM = shelf;
 		obj.push_back(NewObj);
 		
@@ -302,7 +302,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 75; row < 125; row += 5)
 		{
 			NewObj.Name = "Sausages";
-			NewObj.Position = Vector3(row, column, 240);
+			NewObj.Position = Vector3(row, column, 241);
 			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
@@ -359,12 +359,12 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[Box2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[Box2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Box2]->material.kShininess = 5.f;
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
 		for (int row = 75; row < 125; row += 5)
 		{
-			NewObj.Position = Vector3(row, column, 155);
+			NewObj.Position = Vector3(row, column, 156);
 			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
 			NewObj.rotation = 0.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
@@ -375,12 +375,12 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		}
 	}
 	//Box 2 back side
-	for (float column = 33, count = 0; count <= 5; column -= 6.4f)
+	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
 	{
 		count++;
-		for (int row = 75; row < 135; row += 5)
+		for (int row = 75; row < 12	5; row += 5)
 		{
-			NewObj.Position = Vector3(row, column, 140);
+			NewObj.Position = Vector3(row, column, 141);
 			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
@@ -421,7 +421,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			NewObj.Position = Vector3(row, column, 140);
+			NewObj.Position = Vector3(row, column, 141);
 			NewObj.Size = Vector3(0.5f, 0.5f, 0.5f);
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
@@ -462,7 +462,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			NewObj.Position = Vector3(row, column, 190);
+			NewObj.Position = Vector3(row, column, 191);
 			NewObj.Size = Vector3(3, 3, 3);
 			NewObj.rotation = 180.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
@@ -503,7 +503,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 		for (int row = 225, count = 0; count <= 10; row += 5)
 		{
 			count++;
-			NewObj.Position = Vector3(row, column, 240);
+			NewObj.Position = Vector3(row, column, 241);
 			NewObj.Size = Vector3(3, 3, 3);
 			NewObj.rotation = -90.0f;
 			NewObj.Rotation = Vector3(0, 1, 0);
