@@ -21,6 +21,7 @@ public:
 	Vector3 PosMax;
 	Vector3 PosMin;
 	string Name;
+	float Price;
 	Object();
 	~Object();
 };

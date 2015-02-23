@@ -46,6 +46,7 @@ class SceneText : public Scene
 		Box1,
 		Box2,
 		Box3,
+		DisplayCircular,
 		GEO_LIGHTBALL,
 		NUM_GEOMETRY,
 	};

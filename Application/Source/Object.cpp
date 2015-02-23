@@ -7,6 +7,9 @@ Object::Object()
 	Size = Vector3(1, 1, 1);
 	rotation = 0.0f;
 	Rotation= Vector3(1, 1, 1);
+	Name: "";
+	Price = 0;
+
 
 }
 
