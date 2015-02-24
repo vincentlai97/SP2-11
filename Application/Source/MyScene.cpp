@@ -262,9 +262,11 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			OpenDoorL -= 120 * dt;
 		}
 	}
+
+	//Level 1 Elevator door open
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 25) && (camera.target.x > obj[i].collisionBox.Centre.x - 15) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
 		{
 			if (Application::IsKeyPressed('E'))
 			{
@@ -276,6 +278,17 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
+
+	//Level 1 Elevator door close
+	if (camera.position.x < -380 && camera.position.y < 40 && camera.position.z < 160 && camera.position.z > 140)
+	{
+		eDoorClosed = false;
+		if (eDoorClosed == false && OpeneDoor > 0)
+		{
+			OpeneDoor -= float(12 * dt);
+		}
+	}
+
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
 	cameraCollisionBox.Centre = camera.position;
 }

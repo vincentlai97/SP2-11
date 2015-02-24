@@ -158,13 +158,14 @@ void MyScene::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
 			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
 		}
-		else if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 25) && (camera.target.x > obj[i].collisionBox.Centre.x - 25) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		else if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
 		}
 	}
 	
-	if (camera.position.x < -380)
+	//Elevator Interaction
+	if (camera.position.x < -380 && camera.position.y < 40 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press UP Arrow Key to go Upstairs", Color(1, 1, 0), 2, 1, 19);
 	}
