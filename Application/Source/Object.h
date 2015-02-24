@@ -7,21 +7,22 @@
 
 using namespace std;
 
-
 class Object
 {
-	
 private:
 public:
 	Mesh* mesh;
-	Vector3 Position;
-	Vector3 Size;
-	float rotation;
-	Vector3 Rotation;
-	Vector3 PosMax;
-	Vector3 PosMin;
-	string Name;
-	float Price;
+	Vector3 centre;
+	Vector3 size;
+	float angle;
+	Vector3 rotation;
+	Vector3 posMax;
+	Vector3 posMin;
+	string name;
+	int position;
+	float price;
+
 	Object();
 	~Object();
+	void Reset();
 };

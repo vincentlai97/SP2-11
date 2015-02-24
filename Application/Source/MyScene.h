@@ -1,5 +1,5 @@
-#ifndef SCENE_TEXT_H
-#define SCENE_TEXT_H
+#ifndef MYSCENE_H
+#define MYSCENE_H
 
 #include <math.h>
 #include "Mtx44.h"
@@ -14,7 +14,7 @@
 #include "Object.h"
 #include "CollisionBox.h"
 
-class SceneText : public Scene
+class MyScene : public Scene
 {
 	enum GEOMETRY_TYPE
 	{
@@ -99,9 +99,6 @@ private:
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[2];
-	void RenderMesh(Mesh *mesh, bool enableLight);
-	void RenderText(Mesh* mesh, std::string text, Color color);
-	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void load();
 	void reset();
 	
@@ -125,13 +122,20 @@ private:
 	std::vector<CollisionBox> elevatorDown;
 	std::vector<Object> obj;
 
+	void LoadMesh();
+
+	void InitCollisionBox();
+	
+	void RenderMesh(Mesh *mesh, bool enableLight);
+	void RenderText(Mesh* mesh, std::string text, Color color);
+	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderInterior();
 	void RenderExterior();
 	void RenderSkyBox();
 	void RenderObjects();
 public:
-	SceneText();
-	~SceneText();
+	MyScene();
+	~MyScene();
 
 	virtual void Init(GLFWwindow* m_window, float w, float h);
 	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
