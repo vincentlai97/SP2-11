@@ -93,6 +93,7 @@
     <ClCompile Include="Source\MyScene.cpp" />
     <ClCompile Include="Source\MySceneInitCollisionBox.cpp" />
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
+    <ClCompile Include="Source\MySceneObjectInteraction.cpp" />
     <ClCompile Include="Source\MySceneRender.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\shader.cpp" />

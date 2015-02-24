@@ -46,6 +46,8 @@ class MyScene : public Scene
 		eDoorButton2,
 		trolley,
 		shelf,
+		Shelf_Items,
+		Can1 = Shelf_Items,
 		Can2,
 		Can3,
 		Can4,
@@ -54,6 +56,7 @@ class MyScene : public Scene
 		Box3,
 		DisplayCircular,
 		GEO_LIGHTBALL,
+		TEST,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -137,8 +140,11 @@ private:
 	std::vector<Object> obj;
 
 	void LoadMesh();
+	void LoadCansMesh();
 
 	void InitCollisionBox();
+
+	Object targetObject();
 	
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -147,6 +153,7 @@ private:
 	void RenderExterior();
 	void RenderSkyBox();
 	void RenderObjects();
+	void RenderTargetDetails();
 public:
 	MyScene();
 	~MyScene();

@@ -26,7 +26,8 @@ public:
 	float xMin();
 	float yMin();
 	float zMin();
-
+	
+	bool checkCollision(CollisionBox v, Vector3 incr = Vector3(0, 0, 0));
 	bool checkCollision(std::vector<CollisionBox> v, Vector3 incr = Vector3(0, 0, 0));
 };
 

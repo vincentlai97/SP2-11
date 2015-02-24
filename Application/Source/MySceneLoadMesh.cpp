@@ -136,255 +136,25 @@ void MyScene::LoadMesh()
 	meshList[shelf]->material.kShininess = 5.f;
 	
 	NewObj.mesh = meshList[shelf];
-	NewObj.name = "Shelf";
-	NewObj.collisionBox.Max = Vector3(40, 40, 10);
-	NewObj.collisionBox.Min = Vector3(-40, 0, -10);
-	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
+	NewObj.name = "shelf";
+	NewObj.collisionBox.Max = Vector3(50, 40, 10);
+	NewObj.collisionBox.Min = Vector3(-50, 0, -10);
+	NewObj.size = Vector3(4, 4, 4);
 
-	for (int posX = 250; posX >= 100; posX -= 150)
+	for (int posX = -300, count = 0; posX <= -150; posX += 150)
 	{
-		for (int posZ = 250; posZ >= 150; posZ -= 50)
+		for (int posZ = -250; posZ <= 75; posZ += 75)
 		{
 			NewObj.collisionBox.Centre = Vector3(posX, 0, posZ);
-			NewObj.position = 0;
+			NewObj.position = count++;
 			v.push_back(NewObj.collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
 
-	NewObj.Reset();
+	LoadCansMesh();
 
-	//Can4 face side
-	meshList[Can4] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can4.obj");
-	meshList[Can4]->textureID = LoadTGA("Image//Can4.tga");
-	meshList[Can4]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Can4]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Can4]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Can4]->material.kShininess = 5.f;
-
-	NewObj.mesh = meshList[Can4];
-	NewObj.name = "Sausages";
-	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
-	NewObj.price = 2.00;
-
-	for (float posX = 75; posX <= 120; posX += 5)
-	{
-		for (float posY = 35; posY >= 0; posY -= 6.4f)
-		{
-			for (float posZ = 255; posZ >= 241; posZ -= 14)
-			{	
-				NewObj.collisionBox.Centre = Vector3(posX, posY, posZ);
-				obj.push_back(NewObj);		
-			}
-		}
-	}
-
-	//Box 1 face side
-	/*meshList[Box1] = MeshBuilder::GenerateOBJ("Box1", "OBJ//Box1.obj");
-	meshList[Box1]->textureID = LoadTGA("Image//Box1.tga");
-	meshList[Box1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Box1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Box1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Box1]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Box1];
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{
-			NewObj.Position = Vector3(row, column, 205);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			NewObj.rotation = 0.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Zuku";
-			NewObj.Price = 3.00;
-			obj.push_back(NewObj);
-
-		}
-	}
-	//Box 1 back side
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{
-			NewObj.Position = Vector3(row, column, 192);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			NewObj.rotation = 180.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Zuku";
-			NewObj.Price = 3.00;
-			obj.push_back(NewObj);
-
-		}
-	}
-
-
-	//Box 2 face side
-	meshList[Box2] = MeshBuilder::GenerateOBJ("Box2", "OBJ//Box2.obj");
-	meshList[Box2]->textureID = LoadTGA("Image//Box2.tga");
-	meshList[Box2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Box2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Box2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Box2]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Box2];
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{
-			NewObj.Position = Vector3(row, column, 156);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			NewObj.rotation = 0.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Doritos";
-			NewObj.Price = 2.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-	//Box 2 back side
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 75; row < 125; row += 5)
-		{
-			NewObj.Position = Vector3(row, column, 141);
-			NewObj.Size = Vector3(3.5f, 3.5f, 3.5f);
-			NewObj.rotation = 180.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Doritos";
-			NewObj.Price = 2.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-
-	//Box 3 face side
-	meshList[Box3] = MeshBuilder::GenerateOBJ("Box3", "OBJ//Box3.obj");
-	meshList[Box3]->textureID = LoadTGA("Image//Box3.tga");
-	meshList[Box3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Box3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Box3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Box3]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Box3];
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 155);
-			NewObj.Size = Vector3(0.5f, 0.5f, 0.5f);
-			NewObj.rotation = 0.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Granola";
-			NewObj.Price = 2.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-	//Box 3 back side
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 141);
-			NewObj.Size = Vector3(0.5f, 0.5f, 0.5f);
-			NewObj.rotation = 180.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Granola";
-			NewObj.Price = 2.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-
-	//Can3 face side
-	meshList[Can3] = MeshBuilder::GenerateOBJ("Can3", "OBJ//Can.obj");
-	meshList[Can3]->textureID = LoadTGA("Image//Can3.tga");
-	meshList[Can3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Can3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Can3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Can3]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Can3];
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 205);
-			NewObj.Size = Vector3(3, 3, 3);
-			NewObj.rotation = 0.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Fishy Tuna";
-			NewObj.Price = 3.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-	//Can3 back side
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 191);
-			NewObj.Size = Vector3(3, 3, 3);
-			NewObj.rotation = 180.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Fishy Tuna";
-			NewObj.Price = 3.50;
-			obj.push_back(NewObj);
-
-		}
-	}
-
-	//Can2 face side
-	meshList[Can2] = MeshBuilder::GenerateOBJ("Can2", "OBJ//Can.obj");
-	meshList[Can2]->textureID = LoadTGA("Image//Can2.tga");
-	meshList[Can2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Can2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Can2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Can2]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[Can2];
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 255);
-			NewObj.Size = Vector3(3, 3, 3);
-			NewObj.rotation = 90.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Dog Ham";
-			NewObj.Price = 4.00;
-			obj.push_back(NewObj);
-
-		}
-	}
-	//Can2 back side
-	for (float column = 35, count = 0; count <= 5; column -= 6.4f)
-	{
-		count++;
-		for (int row = 225, count = 0; count <= 10; row += 5)
-		{
-			count++;
-			NewObj.Position = Vector3(row, column, 241);
-			NewObj.Size = Vector3(3, 3, 3);
-			NewObj.rotation = -90.0f;
-			NewObj.Rotation = Vector3(0, 1, 0);
-			NewObj.Name = "Dog Ham";
-			NewObj.Price = 4.00;
-			obj.push_back(NewObj);
-
-		}
-	}*/
+	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));
 
 	//Display Circular cabinet
 	/*meshList[DisplayCircular] = MeshBuilder::GenerateOBJ("DisplayCircular", "OBJ//DisplayCircular.obj");
@@ -465,5 +235,49 @@ void MyScene::LoadMesh()
 	NewObj.name = "eDoorButton2";
 	NewObj.price = 0.00;
 	obj.push_back(NewObj);
+}
 
+void MyScene::LoadCansMesh()
+{
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		Object newObj;
+		std::string texturepath = "Image//Can Texture ";
+		texturepath += '1' + typecount;
+		texturepath += ".tga";
+
+		meshList[Shelf_Items + typecount] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can.obj");
+		meshList[Shelf_Items + typecount]->textureID = LoadTGA(texturepath.c_str());
+		meshList[Shelf_Items + typecount]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		meshList[Shelf_Items + typecount]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[Shelf_Items + typecount]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		meshList[Shelf_Items + typecount]->material.kShininess = 5.f;
+
+		newObj.mesh = meshList[Shelf_Items + typecount];
+		newObj.name = "Can" + ('1' + typecount);
+		newObj.collisionBox = CollisionBox(Vector3(0, 0, 0), .8f, 1, .8f);
+		newObj.size = Vector3(4, 4, 4);
+		newObj.price = 2.00;
+
+		Vector3 shelf;
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count].name == "shelf" && obj[count].position == typecount)
+				shelf= obj[count].collisionBox.Centre;
+		}
+
+		for (float countx = -4, count = 0; countx < 5; countx++)
+		{
+			for (float county = 0; county < 4; county++)
+			{
+				for (float countz = -1; countz < 2; countz += 2)
+				{	
+					newObj.collisionBox.Centre = Vector3(countx * 8, 2 + county * 8, countz * 7);
+					newObj.collisionBox.Centre += shelf;
+					newObj.position = count++;
+					obj.push_back(newObj);
+				}
+			}
+		}
+	}
 }

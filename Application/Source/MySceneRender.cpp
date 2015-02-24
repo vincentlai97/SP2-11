@@ -1,9 +1,5 @@
 #include "MyScene.h"
 #include "GL\glew.h"
-#include "Application.h"
-#include "MeshBuilder.h"
-#include "LoadTGA.h"
-#include "Vertex.h"
 #include "Utility.h"
 
 
@@ -185,6 +181,8 @@ void MyScene::Render()
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
+
+	RenderTargetDetails();
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -386,5 +384,31 @@ void MyScene::RenderObjects()
 		modelStack.Rotate(obj[i].angle, obj[i].rotation.x, obj[i].rotation.y, obj[i].rotation.z);
 		RenderMesh(obj[i].mesh, false);
 		modelStack.PopMatrix();
+	}
+}
+
+void MyScene::RenderTargetDetails()
+{
+	Vector3 view = camera.target - camera.position;
+	view.Normalize();
+	view *= 10;
+	Vector3 target = camera.target + view;
+
+	modelStack.PushMatrix(); {
+		modelStack.Translate(target.x, target.y, target.z);
+		modelStack.Scale(0.2, 0.2, 0.2);
+
+		RenderMesh(meshList[TEST], false);
+	} modelStack.PopMatrix();
+
+	Object obj = targetObject();
+
+	if (obj.name.size())
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj.name, Color(1, 1, 0), 3, 1, 15);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj.price), Color(1, 1, 0), 3, 1, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj.collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj.collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj.collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
 	}
 }

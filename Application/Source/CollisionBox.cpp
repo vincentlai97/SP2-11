@@ -64,17 +64,23 @@ float CollisionBox::zMin()
 	return Centre.z + Min.z;
 }
 
+bool CollisionBox::checkCollision(CollisionBox v, Vector3 incr)
+{
+	if (xMax() + incr.x > v.xMin() && xMin() + incr.x < v.xMax())
+	if (yMax() + incr.y > v.yMin() && yMin() + incr.y < v.yMax())
+	if (zMax() + incr.z > v.zMin() && zMin() + incr.z < v.zMax())
+	{
+		return true;
+	}
+	return false;
+}
+
 bool CollisionBox::checkCollision(std::vector<CollisionBox> v, Vector3 incr)
 {
 	for (int count = 0; count < v.size(); count++)
 	{
-		if (xMax() + incr.x > v[count].xMin() && xMin() + incr.x < v[count].xMax())
-		if (yMax() + incr.y > v[count].yMin() && yMin() + incr.y < v[count].yMax())
-		if (zMax() + incr.z > v[count].zMin() && zMin() + incr.z < v[count].zMax())
-		{
-			CollisionBox temp(v[count]);
+		if (CollisionBox::checkCollision(v[count], incr))
 			return true;
-		}
 	}
 	return false;
 }
