@@ -13,6 +13,7 @@
 #include "CameraFly.h"
 #include "Object.h"
 #include "CollisionBox.h"
+#include "timer.h"
 
 class MyScene : public Scene
 {
@@ -39,6 +40,8 @@ class MyScene : public Scene
 		GEO_TEXT,
 		GEO_DOOR,
 		eDoor,
+		eDoorStand,
+		eDoorButton,
 		trolley,
 		shelf,
 		Can2,
@@ -114,6 +117,10 @@ private:
 
 	float OpenDoorR;
 	float OpenDoorL;
+	float OpeneDoor;
+	float CloseeDoor;
+
+	bool eDoorClosed;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;

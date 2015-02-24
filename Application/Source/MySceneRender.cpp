@@ -6,6 +6,7 @@
 #include "Vertex.h"
 #include "Utility.h"
 
+
 #include "shader.hpp"
 
 void MyScene::Render()
@@ -102,6 +103,7 @@ void MyScene::Render()
 	modelStack.Translate(-354, -2, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
+	modelStack.Translate(0, OpeneDoor, 0);
 	RenderMesh(meshList[eDoor], false);
 	modelStack.PopMatrix();
 
@@ -112,32 +114,6 @@ void MyScene::Render()
 	RenderMesh(meshList[eDoor], false);
 	modelStack.PopMatrix();
 
-	RenderObjects();
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 3.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 4.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 5.5);
-
-	//Crosshair
-	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
-
-	//Object information when camera position is close to object
-	for (int i = 0; i < obj.size(); i++)
-	{
-		if ((camera.target.x < obj[i].collisionBox.Centre.x + 1.5f) && (camera.target.x > obj[i].collisionBox.Centre.x - 1.5f) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].name, Color(1, 1, 0), 3, 1, 15);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].price), Color(1, 1, 0), 3, 1, 14);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
-		}
-	}
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
@@ -159,6 +135,42 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
+
+	RenderObjects();
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 2.5);
+
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 3.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 4.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 5.5);
+
+	//Object information when camera position is close to object
+	for (int i = 0; i < obj.size(); i++)
+	{
+		if ((obj[i].name != "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 1.5f) && (camera.target.x > obj[i].collisionBox.Centre.x - 1.5f) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].name, Color(1, 1, 0), 3, 1, 15);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].price), Color(1, 1, 0), 3, 1, 14);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
+			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
+		}
+		else if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 25) && (camera.target.x > obj[i].collisionBox.Centre.x - 25) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
+		}
+	}
+	
+	if (camera.position.x < -380)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press UP Arrow Key to go Upstairs", Color(1, 1, 0), 2, 1, 19);
+	}
+
+	//Crosshair
+	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)

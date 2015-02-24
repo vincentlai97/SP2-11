@@ -133,6 +133,10 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	OpenDoorR = 0;
 	OpenDoorL = 0;
+	OpeneDoor = 0;
+	CloseeDoor = 0;
+
+	eDoorClosed = false;
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -256,6 +260,20 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		if(OpenDoorL >= 1)
 		{
 			OpenDoorL -= 120 * dt;
+		}
+	}
+	for (int i = 0; i < obj.size(); i++)
+	{
+		if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 25) && (camera.target.x > obj[i].collisionBox.Centre.x - 15) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		{
+			if (Application::IsKeyPressed('E'))
+			{
+				eDoorClosed = true;
+			}
+			if (eDoorClosed == true && OpeneDoor < 10)
+			{
+				OpeneDoor += float(12 * dt);
+			}
 		}
 	}
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
