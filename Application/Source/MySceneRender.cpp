@@ -99,6 +99,7 @@ void MyScene::Render()
 	RenderMesh(meshList[GEO_DOOR], false);
 	modelStack.PopMatrix();
 
+	//Level 1 Elevator Door
 	modelStack.PushMatrix();
 	modelStack.Translate(-354, -2, 115);
 	modelStack.Rotate(90, 0, 1, 0);
@@ -107,10 +108,12 @@ void MyScene::Render()
 	RenderMesh(meshList[eDoor], false);
 	modelStack.PopMatrix();
 
+	//Level 2 Elevator Door
 	modelStack.PushMatrix();
 	modelStack.Translate(-354, 88, 115);
 	modelStack.Rotate(90, 0, 1, 0);
 	modelStack.Scale(5.5, 4, 2);
+	modelStack.Translate(0, OpeneDoor2, 0);
 	RenderMesh(meshList[eDoor], false);
 	modelStack.PopMatrix();
 
@@ -150,7 +153,7 @@ void MyScene::Render()
 	//Object information when camera position is close to object
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((obj[i].name != "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 1.5f) && (camera.target.x > obj[i].collisionBox.Centre.x - 1.5f) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
+		if ((obj[i].name != "eDoorButton","eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 1.5f) && (camera.target.x > obj[i].collisionBox.Centre.x - 1.5f) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].name, Color(1, 1, 0), 3, 1, 15);
 			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].price), Color(1, 1, 0), 3, 1, 14);
@@ -162,12 +165,22 @@ void MyScene::Render()
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
 		}
+		else if ((obj[i].name == "eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
+		}
+		
+		
 	}
 	
 	//Elevator Interaction
-	if (camera.position.x < -380 && camera.position.y < 40 && camera.position.z < 160 && camera.position.z > 140)
+	if (camera.position.x < -380 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press UP Arrow Key to go Upstairs", Color(1, 1, 0), 2, 1, 19);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press UP Arrow Key to go Level 2", Color(1, 1, 0), 2, 1, 19);
+	}
+	else if (camera.position.x < -380 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 
 	//Crosshair

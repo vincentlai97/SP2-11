@@ -41,7 +41,9 @@ class MyScene : public Scene
 		GEO_DOOR,
 		eDoor,
 		eDoorStand,
+		eDoorStand2,
 		eDoorButton,
+		eDoorButton2,
 		trolley,
 		shelf,
 		Can2,
@@ -115,12 +117,17 @@ private:
 	double xPos;
 	double yPos;
 
+	
 	float OpenDoorR;
 	float OpenDoorL;
+	//Level 1 eDoor
 	float OpeneDoor;
 	float CloseeDoor;
-
 	bool eDoorClosed;
+	//Level 2 eDoor
+	float OpeneDoor2;
+	float CloseeDoor2;
+	bool eDoorClosed2;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
