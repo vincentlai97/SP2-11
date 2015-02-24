@@ -238,6 +238,9 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	meshList[GEO_DOOR]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_DOOR]->material.kShininess = 10.f;
 
+	meshList[GEO_SKYBOX] = MeshBuilder::GenerateOBJ("skybox", "OBJ//skyBox.obj");
+	meshList[GEO_SKYBOX]->textureID = LoadTGA("Image//skyBox.tga");
+
 	meshList[eDoor] = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
 	meshList[eDoor]->textureID = LoadTGA("Image//metal.tga");
 	meshList[eDoor]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
@@ -559,7 +562,7 @@ void SceneText::Init(GLFWwindow* m_window, float w, float h)
 	
 	//Interior Hitbox
 	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
-	v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
+	//v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
 	v.push_back(CollisionBox(Vector3(0, -0.5, 0), 800, 1, 600)); // Bottom
 	v.push_back(CollisionBox(Vector3(0, 160.5, 0), 800, 1, 600)); // Top
 	v.push_back(CollisionBox(Vector3(0, 80, 0), 800, 20, 600)); // Middle
@@ -1050,53 +1053,58 @@ void SceneText::RenderExterior()
 
 void SceneText::RenderSkyBox()
 {
-	//Environment Front
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, -2000);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_FRONT], false);
-	modelStack.PopMatrix();
+	////Environment Front
+	//modelStack.PushMatrix();
+	//modelStack.Translate(0, 0, -2000);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_FRONT], false);
+	//modelStack.PopMatrix();
 
-	//Environment Back
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 13.5, 2000);
-	modelStack.Rotate(180, 0, 1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BACK], false);
-	modelStack.PopMatrix();
+	////Environment Back
+	//modelStack.PushMatrix();
+	//modelStack.Translate(0, 13.5, 2000);
+	//modelStack.Rotate(180, 0, 1, 0);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_BACK], false);
+	//modelStack.PopMatrix();
 
-	//Environment Top
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Translate(0, 2000.05, 0);
-	modelStack.Rotate(90, 1, 0, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_TOP], false);
-	modelStack.PopMatrix();
+	////Environment Top
+	//modelStack.PushMatrix();
+	//modelStack.Rotate(90, 0, 1, 0);
+	//modelStack.Translate(0, 2000.05, 0);
+	//modelStack.Rotate(90, 1, 0, 0);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_TOP], false);
+	//modelStack.PopMatrix();
 
-	//Environment Bottom
-	modelStack.PushMatrix();
-	modelStack.Rotate(90, 0, -1, 0);
-	modelStack.Translate(0, -1980, 0);
-	modelStack.Rotate(90, -1, 0, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_BOTTOM], false);
-	modelStack.PopMatrix();
+	////Environment Bottom
+	//modelStack.PushMatrix();
+	//modelStack.Rotate(90, 0, -1, 0);
+	//modelStack.Translate(0, -1980, 0);
+	//modelStack.Rotate(90, -1, 0, 0);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_BOTTOM], false);
+	//modelStack.PopMatrix();
 
-	//Environment Left
-	modelStack.PushMatrix();
-	modelStack.Translate(-2000, 30, 0);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_LEFT], false);
-	modelStack.PopMatrix();
+	////Environment Left
+	//modelStack.PushMatrix();
+	//modelStack.Translate(-2000, 30, 0);
+	//modelStack.Rotate(90, 0, 1, 0);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_LEFT], false);
+	//modelStack.PopMatrix();
 
-	//Environment Right
+	////Environment Right
+	//modelStack.PushMatrix();
+	//modelStack.Translate(2000, 13, 0);
+	//modelStack.Rotate(90, 0, -1, 0);
+	//modelStack.Scale(4000, 4000, 4000);
+	//RenderMesh(meshList[GEO_RIGHT], false);
+	//modelStack.PopMatrix();
+	
 	modelStack.PushMatrix();
-	modelStack.Translate(2000, 13, 0);
-	modelStack.Rotate(90, 0, -1, 0);
-	modelStack.Scale(4000, 4000, 4000);
-	RenderMesh(meshList[GEO_RIGHT], false);
+	modelStack.Scale(500, 500, 500);
+	RenderMesh(meshList[GEO_SKYBOX], false);
 	modelStack.PopMatrix();
 
 	//Environment Floor

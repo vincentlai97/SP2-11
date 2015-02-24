@@ -37,6 +37,7 @@ class SceneText : public Scene
 		GEO_RIGHT,
 		GEO_FLOOR,
 		GEO_DOOR,
+		GEO_SKYBOX,
 		eDoor,
 		trolley,
 		shelf,
