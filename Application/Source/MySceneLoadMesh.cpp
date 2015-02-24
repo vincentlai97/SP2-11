@@ -123,7 +123,7 @@ void MyScene::LoadMesh()
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kShininess = 3.f;
 	NewObj.mesh = meshList[trolley];
-	NewObj.centre = Vector3(-100, 0, 0);
+	NewObj.collisionBox.Centre = Vector3(-100, 0, 0);
 	NewObj.size = Vector3(3, 3, 3);
 	NewObj.name = "Trolley";
 	obj.push_back(NewObj);
@@ -137,17 +137,17 @@ void MyScene::LoadMesh()
 	
 	NewObj.mesh = meshList[shelf];
 	NewObj.name = "Shelf";
-	NewObj.posMax = Vector3(40, 40, 10);
-	NewObj.posMin = Vector3(-40, 0, -10);
+	NewObj.collisionBox.Max = Vector3(40, 40, 10);
+	NewObj.collisionBox.Min = Vector3(-40, 0, -10);
 	NewObj.size = Vector3(3.5f, 3.5f, 3.5f);
 
 	for (int posX = 250; posX >= 100; posX -= 150)
 	{
 		for (int posZ = 250; posZ >= 150; posZ -= 50)
 		{
-			NewObj.centre = Vector3(posX, 0, posZ);
+			NewObj.collisionBox.Centre = Vector3(posX, 0, posZ);
 			NewObj.position = 0;
-			v.push_back(CollisionBox(NewObj.centre, NewObj.posMax, NewObj.posMin));
+			v.push_back(NewObj.collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -173,7 +173,7 @@ void MyScene::LoadMesh()
 		{
 			for (float posZ = 255; posZ >= 241; posZ -= 14)
 			{	
-				NewObj.centre = Vector3(posX, posY, posZ);
+				NewObj.collisionBox.Centre = Vector3(posX, posY, posZ);
 				obj.push_back(NewObj);		
 			}
 		}
