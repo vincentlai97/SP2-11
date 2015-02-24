@@ -1,16 +1,18 @@
 #ifndef SCENE_TEXT_H
 #define SCENE_TEXT_H
-#include "Scene.h"
+
 #include <math.h>
-#include "Camera2.h"
-#include "CameraFly.h"
-#include "Camera2.h"
 #include "Mtx44.h"
 #include "MatrixStack.h"
 #include "MyMath.h"
+
+#include "Scene.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Camera2.h"
+#include "CameraFly.h"
 #include "Object.h"
+#include "CollisionBox.h"
 
 class SceneText : public Scene
 {
@@ -25,17 +27,16 @@ class SceneText : public Scene
 		EXT_WALL_BOT = EXT_WALL,
 		EXT_WALL_MID,
 		EXT_WALL_TOP,
+		SKYBOX_TOP,
+		SKYBOX_FRONT,
+		SKYBOX_BACK,
+		SKYBOX_LEFT,
+		SKYBOX_RIGHT,
+		SKYBOX_FLOOR,
 		ELEVATOR,
 		ESCALATOR,
 		ESCALATOR_HANDLE,
 		GEO_TEXT,
-		GEO_TOP,
-		GEO_BOTTOM,
-		GEO_FRONT,
-		GEO_BACK,
-		GEO_LEFT,
-		GEO_RIGHT,
-		GEO_FLOOR,
 		GEO_DOOR,
 		GEO_SKYBOX,
 		eDoor,
@@ -114,6 +115,9 @@ private:
 
 	double xPos;
 	double yPos;
+
+	float OpenDoorR;
+	float OpenDoorL;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
