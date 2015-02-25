@@ -7,13 +7,14 @@
 #include "MyMath.h"
 
 #include "Scene.h"
+#include "timer.h"
 #include "Mesh.h"
 #include "Light.h"
 #include "Camera2.h"
 #include "CameraFly.h"
 #include "Object.h"
+#include "Gettable.h"
 #include "CollisionBox.h"
-#include "timer.h"
 
 class MyScene : public Scene
 {
@@ -117,10 +118,10 @@ private:
 	CollisionBox cameraCollisionBox;
 
 	float fps;
+	float buttonBuffer;
 
 	double xPos;
 	double yPos;
-
 	
 	float OpenDoorR;
 	float OpenDoorL;
@@ -138,14 +139,14 @@ private:
 	std::vector<CollisionBox> travelatorDown;
 	std::vector<CollisionBox> elevatorUp;
 	std::vector<CollisionBox> elevatorDown;
-	std::vector<Object> obj;
+	std::vector<Object*> obj;
 
 	void LoadMesh();
 	void LoadCansMesh();
 
 	void InitCollisionBox();
 
-	Object targetObject();
+	Object* targetObject();
 	
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);

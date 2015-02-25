@@ -10,7 +10,6 @@ Object::Object()
 	rotation= Vector3(1, 1, 1);
 	name = "";
 	position = -1;
-	price = 0;
 }
 
 Object::~Object()
@@ -26,5 +25,4 @@ void Object::Reset()
 	rotation= Vector3(1, 1, 1);
 	name = "";
 	position = -1;
-	price = 0;
 }

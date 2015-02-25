@@ -18,9 +18,13 @@ public:
 	Vector3 rotation;
 	string name;
 	int position;
-	float price;
 
 	Object();
 	~Object();
 	void Reset();
+
+	virtual bool isGettable() {return false;};
+	virtual float getPrice() {return 0;};
+	virtual bool getTaken() {return false;};
+	virtual void setTaken(bool taken) {};
 };

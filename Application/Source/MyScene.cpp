@@ -131,6 +131,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitCollisionBox();
 
+	buttonBuffer = 0;
+
 	OpenDoorR = 0;
 	OpenDoorL = 0;
 	//Level 1 eDoor
@@ -272,7 +274,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	for (int i = 0; i < obj.size(); i++)
 	{
 		//Level 1 Elevator door open
-		if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			if (Application::IsKeyPressed('E') && eDoorOpened == false)
 			{
@@ -285,7 +287,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 
-		if ((obj[i].name == "eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			if (Application::IsKeyPressed('E') && eDoorOpened2 == false)
 			{
@@ -346,8 +348,20 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
+	{
+		Object* targeted = targetObject();
+		if (!targeted->name.empty())
+			if (Application::IsKeyPressed('E') && buttonBuffer <= 0)
+			{
+				targeted->setTaken(!targeted->getTaken());
+				buttonBuffer = 0.5;
+			}
+	}
+
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
 	cameraCollisionBox.Centre = camera.position;
+
+	if (buttonBuffer > 0) buttonBuffer -= dt;
 }
 
 void MyScene::Exit()

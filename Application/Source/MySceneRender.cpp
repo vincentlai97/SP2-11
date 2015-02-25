@@ -149,24 +149,14 @@ void MyScene::Render()
 	//Object information when camera position is close to object
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((obj[i].name != "eDoorButton","eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 1.5f) && (camera.target.x > obj[i].collisionBox.Centre.x - 1.5f) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 10) && (camera.target.z > obj[i].collisionBox.Centre.z - 10))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj[i].name, Color(1, 1, 0), 3, 1, 15);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj[i].price), Color(1, 1, 0), 3, 1, 14);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj[i].collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj[i].collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
-			RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj[i].collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
-		}
-		else if ((obj[i].name == "eDoorButton") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
 		}
-		else if ((obj[i].name == "eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 5) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
+		else if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
 		}
-		
-		
 	}
 	
 	//Elevator Interaction
@@ -378,12 +368,15 @@ void MyScene::RenderObjects()
 {
 	for (int i = 0; i < obj.size(); i++)
 	{
-		modelStack.PushMatrix();
-		modelStack.Translate(obj[i].collisionBox.Centre.x, obj[i].collisionBox.Centre.y, obj[i].collisionBox.Centre.z);
-		modelStack.Scale(obj[i].size.x, obj[i].size.y, obj[i].size.z);
-		modelStack.Rotate(obj[i].angle, obj[i].rotation.x, obj[i].rotation.y, obj[i].rotation.z);
-		RenderMesh(obj[i].mesh, false);
-		modelStack.PopMatrix();
+		if (!obj[i]->getTaken())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(obj[i]->collisionBox.Centre.x, obj[i]->collisionBox.Centre.y, obj[i]->collisionBox.Centre.z);
+			modelStack.Scale(obj[i]->size.x, obj[i]->size.y, obj[i]->size.z);
+			modelStack.Rotate(obj[i]->angle, obj[i]->rotation.x, obj[i]->rotation.y, obj[i]->rotation.z);
+			RenderMesh(obj[i]->mesh, false);
+			modelStack.PopMatrix();
+		}
 	}
 }
 
@@ -401,14 +394,14 @@ void MyScene::RenderTargetDetails()
 		RenderMesh(meshList[TEST], false);
 	} modelStack.PopMatrix();
 
-	Object obj = targetObject();
+	Object* obj = targetObject();
 
-	if (obj.name.size() && obj.name != "eDoorButton" && obj.name != "eDoorButton2")
+	if (obj->name.size() && !obj->getTaken())
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj.name, Color(1, 1, 0), 3, 1, 15);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj.price), Color(1, 1, 0), 3, 1, 14);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj.collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj.collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj.collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 15);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj->collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj->collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
+		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj->collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
 	}
 }

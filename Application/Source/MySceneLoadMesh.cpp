@@ -113,7 +113,7 @@ void MyScene::LoadMesh()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
-	Object NewObj;
+	Object* NewObj = new Object;
 
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
@@ -122,10 +122,10 @@ void MyScene::LoadMesh()
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kShininess = 3.f;
-	NewObj.mesh = meshList[trolley];
-	NewObj.collisionBox.Centre = Vector3(-100, 0, 0);
-	NewObj.size = Vector3(3, 3, 3);
-	NewObj.name = "Trolley";
+	NewObj->mesh = meshList[trolley];
+	NewObj->collisionBox.Centre = Vector3(-100, 0, 0);
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "Trolley";
 	obj.push_back(NewObj);
 
 	meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
@@ -134,20 +134,20 @@ void MyScene::LoadMesh()
 	meshList[shelf]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[shelf]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[shelf]->material.kShininess = 5.f;
-	
-	NewObj.mesh = meshList[shelf];
-	NewObj.name = "shelf";
-	NewObj.collisionBox.Max = Vector3(50, 40, 10);
-	NewObj.collisionBox.Min = Vector3(-50, 0, -10);
-	NewObj.size = Vector3(4, 4, 4);
 
 	for (int posX = -300, count = 0; posX <= -150; posX += 150)
 	{
 		for (int posZ = -250; posZ <= 75; posZ += 75)
 		{
-			NewObj.collisionBox.Centre = Vector3(posX, 0, posZ);
-			NewObj.position = count++;
-			v.push_back(NewObj.collisionBox);
+			NewObj = new Object;
+			NewObj->mesh = meshList[shelf];
+			NewObj->name = "shelf";
+			NewObj->collisionBox.Max = Vector3(50, 40, 10);
+			NewObj->collisionBox.Min = Vector3(-50, 0, -10);
+			NewObj->size = Vector3(4, 4, 4);
+			NewObj->collisionBox.Centre = Vector3(posX, 0, posZ);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -159,19 +159,18 @@ void MyScene::LoadMesh()
 	meshList[CashierTable]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[CashierTable]->material.kShininess = 5.f;
 
-	NewObj.mesh = meshList[CashierTable];
-	NewObj.name = "Cashier Table";
-	NewObj.collisionBox.Max = Vector3(10,10,20);
-	NewObj.collisionBox.Min = Vector3(-10,0,-20);
-	NewObj.size = Vector3(4,4,4);
-	NewObj.angle = 180.0f;
-	NewObj.rotation = Vector3(0, 1, 0);
 
 	for (int posX = 120, count = 0; posX <= 270; posX += 50)
 	{
-		NewObj.collisionBox.Centre = Vector3(posX, 0, 200);
-		NewObj.position = count++;
-		v.push_back(NewObj.collisionBox);
+		NewObj = new Object;
+		NewObj->mesh = meshList[CashierTable];
+		NewObj->name = "Cashier Table";
+		NewObj->collisionBox = CollisionBox(Vector3(posX, 0, 200), Vector3(10,10,20), Vector3(-10,0,-20));
+		NewObj->size = Vector3(4,4,4);
+		NewObj->angle = 180.0f;
+		NewObj->rotation = Vector3(0, 1, 0);
+		NewObj->position = count++;
+		v.push_back(NewObj->collisionBox);
 		obj.push_back(NewObj);
 	}
 
@@ -186,13 +185,13 @@ void MyScene::LoadMesh()
 	meshList[DisplayCircular]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[DisplayCircular]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[DisplayCircular]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[DisplayCircular];
-	NewObj.Position = Vector3(0, 11, 0);
-	NewObj.Size = Vector3(5, 5, 5);
-	NewObj.rotation = 0.0f;
-	NewObj.Rotation = Vector3(0, 1, 0);
-	NewObj.Name = "Circular Cabinet";
-	NewObj.Price = 0.00;
+	NewObj->mesh = meshList[DisplayCircular];
+	NewObj->Position = Vector3(0, 11, 0);
+	NewObj->Size = Vector3(5, 5, 5);
+	NewObj->rotation = 0.0f;
+	NewObj->Rotation = Vector3(0, 1, 0);
+	NewObj->Name = "Circular Cabinet";
+	NewObj->Price = 0.00;
 	obj.push_back(NewObj);*/
 
 	//Door Stand
@@ -202,13 +201,14 @@ void MyScene::LoadMesh()
 	meshList[eDoorStand]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[eDoorStand]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[eDoorStand]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[eDoorStand];
-	NewObj.collisionBox.Centre = Vector3(-340, 0, 130);
-	NewObj.size = Vector3(2, 2, 2);
-	NewObj.angle = 90.0f;
-	NewObj.rotation = Vector3(0, 1, 0);
-	NewObj.name = "eDoorStand";
-	NewObj.price = 0.00;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[eDoorStand];
+	NewObj->collisionBox.Centre = Vector3(-340, 0, 130);
+	NewObj->size = Vector3(2, 2, 2);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoorStand";
 	obj.push_back(NewObj);
 
 	//Door Button
@@ -218,13 +218,14 @@ void MyScene::LoadMesh()
 	meshList[eDoorButton]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[eDoorButton]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[eDoorButton]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[eDoorButton];
-	NewObj.collisionBox.Centre = Vector3(-339, 14, 130);
-	NewObj.size = Vector3(2, 2, 2);
-	NewObj.angle = 90.0f;
-	NewObj.rotation = Vector3(0, 1, 0);
-	NewObj.name = "eDoorButton";
-	NewObj.price = 0.00;
+	
+	NewObj = new Object;
+	NewObj->mesh = meshList[eDoorButton];
+	NewObj->collisionBox.Centre = Vector3(-339, 14, 130);
+	NewObj->size = Vector3(2, 2, 2);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoorButton";
 	obj.push_back(NewObj);
 
 	//Door Stand
@@ -234,13 +235,14 @@ void MyScene::LoadMesh()
 	meshList[eDoorStand2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[eDoorStand2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[eDoorStand2]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[eDoorStand2];
-	NewObj.collisionBox.Centre = Vector3(-340, 91, 130);
-	NewObj.size = Vector3(2, 2, 2);
-	NewObj.angle = 90.0f;
-	NewObj.rotation = Vector3(0, 1, 0);
-	NewObj.name = "eDoorStand2";
-	NewObj.price = 0.00;
+	
+	NewObj = new Object;
+	NewObj->mesh = meshList[eDoorStand2];
+	NewObj->collisionBox.Centre = Vector3(-340, 91, 130);
+	NewObj->size = Vector3(2, 2, 2);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoorStand2";
 	obj.push_back(NewObj);
 
 	//Door Button
@@ -250,21 +252,22 @@ void MyScene::LoadMesh()
 	meshList[eDoorButton2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[eDoorButton2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[eDoorButton2]->material.kShininess = 5.f;
-	NewObj.mesh = meshList[eDoorButton2];
-	NewObj.collisionBox.Centre = Vector3(-339, 105, 130);
-	NewObj.size = Vector3(2, 2, 2);
-	NewObj.angle = 90.0f;
-	NewObj.rotation = Vector3(0, 1, 0);
-	NewObj.name = "eDoorButton2";
-	NewObj.price = 0.00;
+	
+	NewObj = new Object;
+	NewObj->mesh = meshList[eDoorButton2];
+	NewObj->collisionBox.Centre = Vector3(-339, 105, 130);
+	NewObj->size = Vector3(2, 2, 2);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoorButton2";
 	obj.push_back(NewObj);
 }
 
 void MyScene::LoadCansMesh()
 {
+	Gettable* newObj;
 	for (int typecount = 0; typecount < 5; typecount++)
 	{
-		Object newObj;
 		std::string texturepath = "Image//Can Texture ";
 		texturepath += '1' + typecount;
 		texturepath += ".tga";
@@ -276,28 +279,31 @@ void MyScene::LoadCansMesh()
 		meshList[Shelf_Items + typecount]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 		meshList[Shelf_Items + typecount]->material.kShininess = 5.f;
 
-		newObj.mesh = meshList[Shelf_Items + typecount];
-		newObj.name = "Can" + ('1' + typecount);
-		newObj.collisionBox = CollisionBox(Vector3(0, 0, 0), .8f, 1, .8f);
-		newObj.size = Vector3(4, 4, 4);
-		newObj.price = 2.00;
 
 		Vector3 shelf;
 		for (int count = 0; count < obj.size(); count++)
 		{
-			if (obj[count].name == "shelf" && obj[count].position == typecount)
-				shelf= obj[count].collisionBox.Centre;
+			if (obj[count]->name == "shelf" && obj[count]->position == typecount)
+				shelf= obj[count]->collisionBox.Centre;
 		}
 
 		for (float countx = -4, count = 0; countx < 5; countx++)
 		{
-			for (float county = 0; county < 4; county++)
+			for (float county = 0; county < 5; county++)
 			{
 				for (float countz = -1; countz < 2; countz += 2)
 				{	
-					newObj.collisionBox.Centre = Vector3(countx * 8, 2 + county * 8, countz * 7);
-					newObj.collisionBox.Centre += shelf;
-					newObj.position = count++;
+					newObj = new Gettable();
+					newObj->mesh = meshList[Shelf_Items + typecount];
+					std::string name = "Can";
+					name += '1' + typecount;
+					newObj->name = name;
+					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
+					newObj->size = Vector3(4, 4, 4);
+					newObj->price = 2.00;
+					newObj->collisionBox.Centre = Vector3(countx * 8, 2 + county * 8, countz * 7);
+					newObj->collisionBox.Centre += shelf;
+					newObj->position = count++;
 					obj.push_back(newObj);
 				}
 			}
