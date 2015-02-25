@@ -152,6 +152,29 @@ void MyScene::LoadMesh()
 		}
 	}
 
+	meshList[CashierTable] = MeshBuilder::GenerateOBJ("CashierTable", "OBJ//CashierTable.obj");
+	meshList[CashierTable]->textureID = LoadTGA("Image//CashierTable.tga");
+	meshList[CashierTable]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[CashierTable]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[CashierTable]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[CashierTable]->material.kShininess = 5.f;
+
+	NewObj.mesh = meshList[CashierTable];
+	NewObj.name = "Cashier Table";
+	NewObj.collisionBox.Max = Vector3(10,10,20);
+	NewObj.collisionBox.Min = Vector3(-10,0,-20);
+	NewObj.size = Vector3(4,4,4);
+	NewObj.angle = 180.0f;
+	NewObj.rotation = Vector3(0, 1, 0);
+
+	for (int posX = 120, count = 0; posX <= 270; posX += 50)
+	{
+		NewObj.collisionBox.Centre = Vector3(posX, 0, 200);
+		NewObj.position = count++;
+		v.push_back(NewObj.collisionBox);
+		obj.push_back(NewObj);
+	}
+
 	LoadCansMesh();
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));

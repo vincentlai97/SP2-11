@@ -55,6 +55,7 @@ class MyScene : public Scene
 		Box2,
 		Box3,
 		DisplayCircular,
+		CashierTable,
 		GEO_LIGHTBALL,
 		TEST,
 		NUM_GEOMETRY,
