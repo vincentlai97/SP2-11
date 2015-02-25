@@ -25,6 +25,6 @@ void MyScene::InitCollisionBox()
 	travelatorUp.push_back(CollisionBox(Vector3(-290, 45, 280), 150, 90, 20));
 	travelatorDown.push_back(CollisionBox(Vector3(-295, 50, 240), 150, 90, 20));
 
-	v.push_back(CollisionBox(Vector3(-350, 20, 150), 5, 15, 10)); //Elevator Door on Level One
-	//v.push_back(CollisionBox(Vector3(-350, 112.5, 150), 5, 15, 10)); //Elevator Door on Level Two
+	//v.push_back(CollisionBox(Vector3(-350, 20, 150), 5, 15, 10)); //Elevator Door on Level One
+	v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10)); //Elevator Door on Level Two
 }
