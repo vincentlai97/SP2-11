@@ -175,26 +175,26 @@ void MyScene::Render()
 	{
 		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
 		}
 		else if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'E' to open door", Color(1, 1, 0), 3, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
 		}
 	}
 	
 	//Elevator Interaction
-	if (camera.position.x < -380 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
+	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press UP Arrow Key to go Level 2", Color(1, 1, 0), 2, 1, 19);
 	}
-	else if (camera.position.x < -380 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
+	else if (camera.position.x < -360 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 
 	//Crosshair
-	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.5f, 6.5f);
+	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6); 
 
 	RenderTargetDetails();
 }

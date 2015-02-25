@@ -174,6 +174,53 @@ void MyScene::LoadMesh()
 		obj.push_back(NewObj);
 	}
 
+	//Toy Shelves - 2nd Floor
+	meshList[Toy_Shelves] = MeshBuilder::GenerateOBJ("Toy_Shelves", "OBJ//Toy_Shelf.obj");
+	meshList[Toy_Shelves]->textureID = LoadTGA("Image//Toy_Shelf.tga");
+	meshList[Toy_Shelves]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Toy_Shelves]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Toy_Shelves]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Toy_Shelves]->material.kShininess = 5.f;
+
+	for(int posX = 250, count = 0; posX > 0; posX -= 50)
+	{
+		for (int posZ = 250; posZ >= 50; posZ -= 50)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[Toy_Shelves];
+			NewObj->name = "Toy_Shelves";
+			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(10, 40, 10), Vector3(-10, 0, -10));
+			NewObj->size = Vector3(4, 4, 4);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
+	}
+
+
+	////Clothes Racks - 2nd Floor
+	meshList[ClothesRack] = MeshBuilder::GenerateOBJ("ClothesRack", "OBJ//ClothesRack.obj");
+	meshList[ClothesRack]->textureID = LoadTGA("Image//Wood_Texture.tga");
+	meshList[ClothesRack]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[ClothesRack]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[ClothesRack]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[ClothesRack]->material.kShininess = 5.f;
+
+	for(int posX = 250, count = 0; posX > 0; posX -= 50)
+	{
+		for (int posZ = -50; posZ > -300; posZ -= 50)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[ClothesRack];
+			NewObj->name = "ClothesRack";
+			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(10, 40, 10), Vector3(-10, 0, -10));
+			NewObj->size = Vector3(4, 4, 4);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
+	}
+
 	LoadCansMesh();
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));

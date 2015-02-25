@@ -48,6 +48,8 @@ class MyScene : public Scene
 		trolley,
 		shelf,
 		Shelf_Items,
+		Toy_Shelves,
+		ClothesRack,
 		Can1 = Shelf_Items,
 		Can2,
 		Can3,

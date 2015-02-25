@@ -153,9 +153,11 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
+	
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
+
 
 	const float LSPEED = 5.f;
 
@@ -276,7 +278,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		//Level 1 Elevator door open
 		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
-			if (Application::IsKeyPressed('E') && eDoorOpened == false)
+			
+			if (Application::Mouse_Click(0) && eDoorOpened == false)
 			{
 				eDoorOpened = true;
 				v.pop_back();
@@ -289,7 +292,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 		if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
-			if (Application::IsKeyPressed('E') && eDoorOpened2 == false)
+			if (Application::Mouse_Click(0) && eDoorOpened2 == false)
 			{
 				eDoorOpened2 = true;
 				v.pop_back();
@@ -302,7 +305,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 
 	//Level 1 Elevator door close
-	if (camera.position.x < -380 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
+	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		if (eDoorOpened)
 			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
@@ -314,7 +317,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 
 	//Level 2 Elevator door close
-	if (camera.position.x < -380 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
+	if (camera.position.x < -360 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		if (eDoorOpened2)
 			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
@@ -351,7 +354,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	{
 		Object* targeted = targetObject();
 		if (!targeted->name.empty())
-			if (Application::IsKeyPressed('E') && buttonBuffer <= 0)
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
 			{
 				if (targeted->getTaken())
 				{
