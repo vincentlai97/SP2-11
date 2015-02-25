@@ -126,11 +126,11 @@ private:
 	//Level 1 eDoor
 	float OpeneDoor;
 	float CloseeDoor;
-	bool eDoorClosed;
+	bool eDoorOpened;
 	//Level 2 eDoor
 	float OpeneDoor2;
 	float CloseeDoor2;
-	bool eDoorClosed2;
+	bool eDoorOpened2;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;

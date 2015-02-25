@@ -403,7 +403,7 @@ void MyScene::RenderTargetDetails()
 
 	Object obj = targetObject();
 
-	if (obj.name.size())
+	if (obj.name.size() && obj.name != "eDoorButton")
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj.name, Color(1, 1, 0), 3, 1, 15);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj.price), Color(1, 1, 0), 3, 1, 14);
