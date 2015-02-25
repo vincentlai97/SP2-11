@@ -287,9 +287,10 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 		if ((obj[i].name == "eDoorButton2") && (camera.target.x < obj[i].collisionBox.Centre.x + 30) && (camera.target.x > obj[i].collisionBox.Centre.x - 30) && (camera.target.y < obj[i].collisionBox.Centre.y + 25) && (camera.target.y > obj[i].collisionBox.Centre.y - 5) && (camera.target.z < obj[i].collisionBox.Centre.z + 20) && (camera.target.z > obj[i].collisionBox.Centre.z - 20))
 		{
-			if (Application::IsKeyPressed('E') && eDoorClosed2 == false)
+			if (Application::IsKeyPressed('E') && eDoorOpened2 == false)
 			{
 				eDoorOpened2 = true;
+				v.pop_back();
 			}
 			if (eDoorOpened2 == true && OpeneDoor2 < 10)
 			{
@@ -302,7 +303,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (camera.position.x < -380 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
 		if (eDoorOpened)
-			v.push_back(CollisionBox(Vector3(-350, 20, 150), 5, 15, 10));
+			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
 		eDoorOpened = false;
 		if (eDoorOpened == false && OpeneDoor > 0)
 		{
@@ -313,6 +314,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	//Level 2 Elevator door close
 	if (camera.position.x < -380 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
+		if (eDoorOpened2)
+			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
 		eDoorOpened2 = false;
 		if (eDoorOpened2 == false && OpeneDoor2 > 0)
 		{
@@ -324,7 +327,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y < 42)
 	{
 		if (eDoorOpened)
-			v.push_back(CollisionBox(Vector3(-350, 20, 150), 5, 15, 10));
+			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
 		eDoorOpened = false;
 		if (eDoorOpened == false && OpeneDoor > 0)
 		{
@@ -334,6 +337,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	//Level 2 eDoor Autoclose
 	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y > 42)
 	{
+		if (eDoorOpened2)
+			v.push_back(CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
 		eDoorOpened2 = false;
 		if (eDoorOpened2 == false && OpeneDoor2 > 0)
 		{
