@@ -122,6 +122,7 @@ void MyScene::LoadMesh()
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kShininess = 3.f;
+	NewObj = new Object;
 	NewObj->mesh = meshList[trolley];
 	NewObj->collisionBox.Centre = Vector3(-100, 0, 0);
 	NewObj->size = Vector3(3, 3, 3);
