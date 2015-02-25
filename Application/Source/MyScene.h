@@ -140,6 +140,7 @@ private:
 	std::vector<CollisionBox> elevatorUp;
 	std::vector<CollisionBox> elevatorDown;
 	std::vector<Object*> obj;
+	std::vector<Object*> inventory;
 
 	void LoadMesh();
 	void LoadCansMesh();

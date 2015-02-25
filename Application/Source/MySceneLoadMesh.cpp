@@ -113,11 +113,11 @@ void MyScene::LoadMesh()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
-	Object* NewObj = new Object;
+	Object* NewObj;
 
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");
-	meshList[trolley]->textureID = LoadTGA("Image//Steeltexture.tga");
+	meshList[trolley]->textureID = LoadTGA("Image//metal.tga");
 	meshList[trolley]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
 	meshList[trolley]->material.kDiffuse.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);

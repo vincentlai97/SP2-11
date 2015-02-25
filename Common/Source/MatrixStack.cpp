@@ -152,6 +152,12 @@ void MS::Scale(float scaleX, float scaleY, float scaleZ) {
 	ms.top() = ms.top() * mat;
 }
 
+void MS::Scale(Vector3 scaleMtx) {
+	Mtx44 mat;
+	mat.SetToScale(scaleMtx.x, scaleMtx.y, scaleMtx.z);
+	ms.top() = ms.top() * mat;
+}
+
 /******************************************************************************/
 /*!
 \brief

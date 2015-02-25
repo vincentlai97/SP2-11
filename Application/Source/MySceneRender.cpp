@@ -137,6 +137,30 @@ void MyScene::Render()
 
 	RenderObjects();
 
+	modelStack.PushMatrix(); {
+		modelStack.Translate(camera.position.x, 0, camera.position.z);
+		Vector3 view = (camera.target - camera.position);
+		view.y = 0;
+		view.Normalize();
+		float angle = view.Dot(Vector3(1, 0, 0));
+		angle = acos(angle);
+		angle = Math::RadianToDegree(angle);
+		modelStack.Rotate(angle, 0, (view.z >= 0 ? -1 : 1), 0);
+		for (int count = 0; count < inventory.size(); count++)
+		{
+			modelStack.PushMatrix(); {
+				modelStack.Translate((count/3 - 1) * 3 + 8.2, 5, (count%3 - 1) * -2.5);
+				modelStack.Scale(inventory[count]->size * .5);
+
+				RenderMesh(inventory[count]->mesh, false);
+			} modelStack.PopMatrix();
+		}
+		modelStack.Translate(10, 0, 0);
+		modelStack.Scale(4, 3, 4);
+
+		RenderMesh(meshList[trolley], false);
+	} modelStack.PopMatrix();
+
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);

@@ -353,7 +353,16 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		if (!targeted->name.empty())
 			if (Application::IsKeyPressed('E') && buttonBuffer <= 0)
 			{
-				targeted->setTaken(!targeted->getTaken());
+				if (targeted->getTaken())
+				{
+					targeted->setTaken(false);
+					inventory.pop_back();
+				}
+				else if (!targeted->getTaken() && inventory.size() < 9)
+				{
+					targeted->setTaken(true);
+					inventory.push_back(targeted);
+				}
 				buttonBuffer = 0.5;
 			}
 	}
