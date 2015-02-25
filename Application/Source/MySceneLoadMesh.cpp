@@ -197,7 +197,6 @@ void MyScene::LoadMesh()
 		}
 	}
 
-
 	////Clothes Racks - 2nd Floor
 	meshList[ClothesRack] = MeshBuilder::GenerateOBJ("ClothesRack", "OBJ//ClothesRack.obj");
 	meshList[ClothesRack]->textureID = LoadTGA("Image//Wood_Texture.tga");
@@ -220,6 +219,52 @@ void MyScene::LoadMesh()
 			obj.push_back(NewObj);
 		}
 	}
+
+	//Cafeteria Table
+	meshList[Cafeteria] = MeshBuilder::GenerateOBJ("Cafeteria", "OBJ//Cafeteria.obj");
+	meshList[Cafeteria]->textureID = LoadTGA("Image//Marble.tga");
+	meshList[Cafeteria]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Cafeteria]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Cafeteria]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Cafeteria]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[Cafeteria];
+	NewObj->collisionBox = CollisionBox(Vector3(-365, 90, -265), Vector3(10, 40, 10), Vector3(-10, 0, -10));
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "Cafeteria";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Cafeteria Cashier
+	meshList[CafeteriaCashier] = MeshBuilder::GenerateOBJ("CafeteriaCashier", "OBJ//CafeteriaCashier.obj");
+	meshList[CafeteriaCashier]->textureID = LoadTGA("Image//Shiny_Silver.tga");
+	meshList[CafeteriaCashier]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[CafeteriaCashier]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[CafeteriaCashier]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[CafeteriaCashier]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[CafeteriaCashier];
+	NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "CafeteriaCashier";
+	obj.push_back(NewObj);
+
+	//Doorman
+	meshList[Doorman] = MeshBuilder::GenerateOBJ("Doorman", "OBJ//Doorman.obj");
+	meshList[Doorman]->textureID = LoadTGA("Image//Red_Apron.tga");
+	meshList[Doorman]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Doorman]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Doorman]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Doorman]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[Doorman];
+	NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "Doorman";
+	obj.push_back(NewObj);
 
 	LoadCansMesh();
 
