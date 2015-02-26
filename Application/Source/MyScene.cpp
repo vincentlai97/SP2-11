@@ -356,10 +356,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		if (!targeted->name.empty())
 			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
 			{
-				if (targeted->getTaken())
+				if (targeted->getTaken() && inventory.size())
 				{
-					targeted->setTaken(false);
-					inventory.pop_back();
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targeted->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targeted->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
 				}
 				else if (!targeted->getTaken() && inventory.size() < 9)
 				{

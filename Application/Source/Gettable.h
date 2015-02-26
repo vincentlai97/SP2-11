@@ -14,8 +14,10 @@ public:
 
 	bool isGettable() {return true;};
 	float getPrice() {return price;};
+	void setPrice(float price) {this->price = price;};
 	virtual bool getTaken() {return taken;};
 	void setTaken(bool taken) {this->taken = taken;};
+	void set(Object other);
 };
 
 #endif

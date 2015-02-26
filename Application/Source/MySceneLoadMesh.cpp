@@ -113,7 +113,7 @@ void MyScene::LoadMesh()
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//cambria.tga");
 
-	Object* NewObj;
+	Object* NewObj = new Object;
 
 	//Trolley Obj
 	meshList[trolley] = MeshBuilder::GenerateOBJ("Trolley", "OBJ//Trolley.obj");

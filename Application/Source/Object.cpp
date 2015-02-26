@@ -26,3 +26,14 @@ void Object::Reset()
 	name = "";
 	position = -1;
 }
+
+void Object::set(Object other)
+{
+	this->mesh = other.mesh;
+	this->collisionBox = other.collisionBox;
+	this->size = other.size;
+	this->angle = other.angle;
+	this->rotation = other.rotation;
+	this->name = other.name;
+	this->position = other.position;
+}
