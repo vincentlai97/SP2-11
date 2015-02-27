@@ -127,6 +127,28 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
+	//Item init
+	itemList.push_back("Can10");
+	itemList.push_back("Can9");
+	itemList.push_back("Can8");
+	itemList.push_back("Can7");
+	itemList.push_back("Can6");
+	itemList.push_back("Can5");
+	itemList.push_back("Can4");
+	itemList.push_back("Can3");
+	itemList.push_back("Can2");
+	itemList.push_back("Can1");
+
+	//CheckList init
+	srand(time(NULL));
+	random_shuffle(itemList.begin(), itemList.end());
+	for (int i = 0; i < itemList.size(); i++)
+	{
+		checkList.push_back(itemList[i]);
+	}
+
+	//RenderCheckList();
+
 	LoadMesh();
 
 	InitCollisionBox();
@@ -365,7 +387,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					targeted->collisionBox.Centre = temp;
 					inventory.erase(inventory.begin());
 				}
-				else if (!targeted->getTaken() && inventory.size() < 9)
+				else if (!targeted->getTaken() && inventory.size() < 10)
 				{
 					targeted->setTaken(true);
 					inventory.push_back(targeted);
