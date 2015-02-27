@@ -16,6 +16,10 @@
 #include "Gettable.h"
 #include "CollisionBox.h"
 
+#include <irrKlang.h>
+#pragma comment(lib, "irrKlang.lib") 
+using namespace irrklang;
+
 #include <algorithm> //To random vectorlist content
 
 class MyScene : public Scene
@@ -112,12 +116,23 @@ class MyScene : public Scene
 		U_TOTAL,
 	};
 
+	enum SOUND_TYPES
+	{
+		BG_MUSIC = 0,
+		FOOTSTEPS,
+		JUMP,
+		OPENDOOR,
+		REACH,
+		SOUND_TOTAL,
+	};
+
 
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
+	unsigned sound_parameters[SOUND_TOTAL];
 	Light light[2];
 	void load();
 	void reset();
@@ -143,6 +158,7 @@ private:
 	float OpeneDoor2;
 	float CloseeDoor2;
 	bool eDoorOpened2;
+	bool testSound;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -158,6 +174,7 @@ private:
 	void LoadCansMesh();
 
 	void InitCollisionBox();
+	int InitSound();
 
 	Object* targetObject();
 	
@@ -170,14 +187,19 @@ private:
 	void RenderSkyBox();
 	void RenderObjects();
 	void RenderTargetDetails();
+
 	void RenderCheckList();
 	
+	ISoundEngine* engine;
+	ISound* sound[SOUND_TOTAL];
+
 public:
 	MyScene();
 	~MyScene();
 
 	virtual void Init(GLFWwindow* m_window, float w, float h);
 	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
+	virtual void UpdateSound(double dt);
 	virtual void Render();
 	virtual void Exit();
 };
