@@ -166,6 +166,7 @@ private:
 	void RenderExterior();
 	void RenderSkyBox();
 	void RenderObjects();
+	void RenderCharacters();
 	void RenderTargetDetails();
 public:
 	MyScene();

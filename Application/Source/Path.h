@@ -20,6 +20,7 @@ public:
 
 	Vector3 dir() const {return point[END] - point[START];};
 	float length() {return dir().Length();};
+	bool haveSide() {return (side == Vector3() ? false : true);};
 
 	Path operator- (void) {return Path(this->point[END], this->point[START]);};
 };

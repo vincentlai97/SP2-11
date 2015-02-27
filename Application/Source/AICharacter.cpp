@@ -2,23 +2,36 @@
 
 void AICharacter::update(double dt)
 {
-	if (waitime > 0) waitime -= dt;
+	if (turntime > 0) turntime -= dt;
 	else
 	{
 		if (endofpath)
 		{
 			path = Pathing::selectPath(pos, dir, paths);
+			lookdir = dir;
 			endofpath = false;
 		}
 		else
 		{
-			if (Pathing::moveAlong(pos, dir, paths, 20 * dt))
+			if (looktime > 0) looktime -= dt;
+			else
 			{
-				endofpath = true;
-				waitime = 3;
+				srand(time(NULL));
+				lookdir = dir;
+				if (rand()%20 == 0 && path->haveSide()) 
+				{
+					looktime = 100 * dt;
+					lookdir = path->side;
+				}
+				if (Pathing::moveAlong(pos, dir, path, 10 * dt))
+				{
+					endofpath = true;
+					turntime = 50 * dt;
+				}
 			}
 		}
 	}
+	std::cout << looktime << " " << path->haveSide() << std::endl;
 }
 
 bool AICharacter::isendofpath()
