@@ -27,11 +27,20 @@ bool Pathing::moveAlong(Vector3& current, Vector3 dir, const std::vector<Path*>&
 
 bool Pathing::moveAlong(Vector3& current, Vector3 dir, const Path* path, float dist)
 {
-	float maxDist = (path->point[Path::END] - current).Length();
+	Path* temp = new Path(*path);
+
+	if (dir.Normalize() == path->dir().Normalized());
+	else if (-dir == path->dir().Normalized())
+	{
+		temp = &(-*temp);
+	}
+	else throw 'e';
+
+	float maxDist = (temp->point[Path::END] - current).Length();
 
 	if (dist > maxDist)
 	{
-		current = path->point[Path::END];
+		current = temp->point[Path::END];
 		return true;
 	}
 	else

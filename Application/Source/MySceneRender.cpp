@@ -136,6 +136,7 @@ void MyScene::Render()
 	modelStack.PopMatrix();
 
 	RenderObjects();
+	RenderCharacters();
 
 	modelStack.PushMatrix(); {
 		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
@@ -384,6 +385,18 @@ void MyScene::RenderObjects()
 			modelStack.PopMatrix();
 		}
 	}
+}
+
+void MyScene::RenderCharacters()
+{
+	modelStack.PushMatrix(); {
+		modelStack.Translate(ai.pos.x, ai.pos.y, ai.pos.z);
+		float angle = ai.lookdir.Angle(Vector3(1, 0, 0));
+		modelStack.Rotate(angle, 0, ai.lookdir.z > 0 ? -1 : 1, 0);
+		modelStack.Scale(3, 3, 3);
+
+		RenderMesh(meshList[Doorman], false);
+	} modelStack.PopMatrix();
 }
 
 void MyScene::RenderTargetDetails()

@@ -10,12 +10,14 @@ private:
 public:
 	Vector3 pos;
 	Vector3 dir;
+	Vector3 lookdir;
 	std::vector<Path*> paths;
 	Path* path;
 	bool endofpath;
-	float waitime;
+	float turntime;
+	float looktime;
 	
-	AICharacter(void) {};
+	AICharacter(void) {turntime = 0; looktime = 0;};
 	~AICharacter(void) {};
 
 	void update(double dt);
