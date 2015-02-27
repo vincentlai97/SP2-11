@@ -169,10 +169,13 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 
-	//Crosshair
-	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6); 
+	
 
+
+	RenderOnScreen();
 	RenderTargetDetails();
+	RenderCheckList();
+
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -247,7 +250,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 
 void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	if(!mesh || mesh->textureID <= 0) //Proper error check
+	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -283,6 +286,42 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	viewStack.PopMatrix();
 	modelStack.PopMatrix();
 	glEnable(GL_DEPTH_TEST);
+}
+
+void MyScene::RenderOnScreen()
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+
+	glUniform1i(m_parameters[U_LIGHTENABLED], 0);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, meshList[CheckList]->textureID);
+	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
+
+	modelStack.PushMatrix(); 
+	modelStack.Translate(70,20,0);
+	modelStack.Scale(20,30,1);
+	RenderMesh(meshList[CheckList], false);
+	modelStack.PopMatrix();
+
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+
+	//Crosshair
+	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+
+
 }
 
 void MyScene::RenderInterior()
@@ -382,6 +421,8 @@ void MyScene::RenderObjects()
 
 void MyScene::RenderTargetDetails()
 {
+	
+
 	Vector3 view = camera.target - camera.position;
 	view.Normalize();
 	view *= 10;
@@ -394,14 +435,45 @@ void MyScene::RenderTargetDetails()
 		RenderMesh(meshList[TEST], false);
 	} modelStack.PopMatrix();
 
+
 	Object* obj = targetObject();
 
 	if (obj->name.size() && !obj->getTaken())
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 15);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 14);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosX:" + to_string(obj->collisionBox.Centre.x), Color(1, 0, 0), 3, 1, 16);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosY:" + to_string(obj->collisionBox.Centre.y), Color(1, 0, 0), 3, 1, 17);
-		RenderTextOnScreen(meshList[GEO_TEXT], "ObjPosz:" + to_string(obj->collisionBox.Centre.z), Color(1, 0, 0), 3, 1, 18);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 19);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 18);
 	}
+	
+	//Inventory
+	RenderTextOnScreen(meshList[GEO_TEXT], "-INVENTORY-", Color(1, 0, 0), 3, 1, 17);
+	if (inventory.size() == 0){
+		RenderTextOnScreen(meshList[GEO_TEXT], "!!EMPTY!!", Color(0,0,0), 3, 1, 16);
+	}
+	else{
+		for (int i = 0, zPos = 16; i < inventory.size(); i++, zPos--)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], inventory[i]->name, Color(0, 0, 0), 3, 1, zPos);
+		}
+	}	
+}
+
+void MyScene::RenderCheckList()
+{
+	//CheckList Init	
+	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 31, zPos);
+	}
+	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	{
+		for (int j = 0; j < inventory.size(); j++)
+		{
+			if (checkList[i] == inventory[j]->name)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], "------", Color(0, 0, 0), 2, 31, zPos);
+				//checkList.erase(checkList.begin() + i);
+			}
+		}
+	}
+	
 }
