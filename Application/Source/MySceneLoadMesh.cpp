@@ -192,6 +192,47 @@ void MyScene::LoadMesh()
 		}
 	}
 
+	//Cafeteria Tables and Chairs - 2nd Floor
+	meshList[TaC] = MeshBuilder::GenerateOBJ("TaC", "OBJ//Mahogany.obj");
+	meshList[TaC]->textureID = LoadTGA("Image//Mahogany.tga");
+	meshList[TaC]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[TaC]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[TaC]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[TaC]->material.kShininess = 5.f;
+
+	for(int posX = -300, count = 0; posX < -125; posX += 75)
+	{
+		for (int posZ = -150; posZ < 50; posZ += 75)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[TaC];
+			NewObj->name = "TaC";
+			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(15, 40, 10), Vector3(-20, 0, -12));
+			NewObj->size = Vector3(2, 2, 2);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
+	}
+
+	//Cafeteria Banner
+	meshList[Banner] = MeshBuilder::GenerateOBJ("Banner", "OBJ//Banner.obj");
+	meshList[Banner]->textureID = LoadTGA("Image//LimeGreen.tga");
+	meshList[Banner]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Banner]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Banner]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Banner]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[Banner];
+	NewObj->collisionBox = CollisionBox(Vector3(-370, 90, -294), Vector3(40, 40, 40), Vector3(-40, 0, -40));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(3, 4, 3);
+	NewObj->name = "Banner";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
 	////Clothes Racks - 2nd Floor
 	meshList[ClothesRack] = MeshBuilder::GenerateOBJ("ClothesRack", "OBJ//ClothesRack.obj");
 	meshList[ClothesRack]->textureID = LoadTGA("Image//Wood_Texture.tga");
@@ -225,8 +266,8 @@ void MyScene::LoadMesh()
 
 	NewObj = new Object;
 	NewObj->mesh = meshList[Cafeteria];
-	NewObj->collisionBox = CollisionBox(Vector3(-365, 90, -265), Vector3(10, 40, 10), Vector3(-10, 0, -10));
-	NewObj->size = Vector3(3, 3, 3);
+	NewObj->collisionBox = CollisionBox(Vector3(-365, 90, -265), Vector3(40, 40, 40), Vector3(-40, 0, -40));
+	NewObj->size = Vector3(3, 4, 3);
 	NewObj->name = "Cafeteria";
 	v.push_back(NewObj->collisionBox);
 	obj.push_back(NewObj);
@@ -245,22 +286,6 @@ void MyScene::LoadMesh()
 	NewObj->size = Vector3(3, 3, 3);
 	NewObj->name = "CafeteriaCashier";
 	obj.push_back(NewObj);
-	//obj.push_back(NewObj);
-
-	////Cafeteria Cashier
-	//meshList[CafeteriaCashier] = MeshBuilder::GenerateOBJ("CafeteriaCashier", "OBJ//CafeteriaCashier.obj");
-	//meshList[CafeteriaCashier]->textureID = LoadTGA("Image//Shiny_Silver.tga");
-	//meshList[CafeteriaCashier]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	//meshList[CafeteriaCashier]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	//meshList[CafeteriaCashier]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	//meshList[CafeteriaCashier]->material.kShininess = 5.f;
-
-	//NewObj = new Object;
-	//NewObj->mesh = meshList[CafeteriaCashier];
-	//NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
-	//NewObj->size = Vector3(3, 3, 3);
-	//NewObj->name = "CafeteriaCashier";
-	//obj.push_back(NewObj);
 
 	//Doorman
 	meshList[Doorman] = MeshBuilder::GenerateOBJ("Doorman", "OBJ//Doorman.obj");
@@ -270,12 +295,12 @@ void MyScene::LoadMesh()
 	meshList[Doorman]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Doorman]->material.kShininess = 5.f;
 
-	//NewObj = new Object;
-	//NewObj->mesh = meshList[Doorman];
-	//NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
-	//NewObj->size = Vector3(3, 3, 3);
-	//NewObj->name = "Doorman";
-	//obj.push_back(NewObj);
+	NewObj = new Object;
+	NewObj->mesh = meshList[Doorman];
+	NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "Doorman";
+	obj.push_back(NewObj);
 
 	LoadCansMesh();
 

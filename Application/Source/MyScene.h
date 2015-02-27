@@ -51,6 +51,8 @@ class MyScene : public Scene
 		shelf,
 		Shelf_Items,
 		Toy_Shelves,
+		TaC,
+		Banner,
 		ClothesRack,
 		Cafeteria,
 		CafeteriaCashier,
