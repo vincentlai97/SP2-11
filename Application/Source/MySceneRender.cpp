@@ -137,6 +137,12 @@ void MyScene::Render()
 
 	RenderObjects();
 
+	modelStack.PushMatrix(); {
+		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
+
+		RenderMesh(meshList[TEST], false);
+	} modelStack.PopMatrix();
+
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 1.5);
@@ -383,16 +389,6 @@ void MyScene::RenderObjects()
 void MyScene::RenderTargetDetails()
 {
 	Vector3 view = camera.target - camera.position;
-	view.Normalize();
-	view *= 10;
-	Vector3 target = camera.target + view;
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(target.x, target.y, target.z);
-		modelStack.Scale(0.2, 0.2, 0.2);
-
-		RenderMesh(meshList[TEST], false);
-	} modelStack.PopMatrix();
 
 	Object* obj = targetObject();
 

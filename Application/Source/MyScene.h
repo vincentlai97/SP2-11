@@ -15,6 +15,7 @@
 #include "Object.h"
 #include "Gettable.h"
 #include "CollisionBox.h"
+#include "AICharacter.h"
 
 class MyScene : public Scene
 {
@@ -47,12 +48,12 @@ class MyScene : public Scene
 		eDoorButton2,
 		trolley,
 		shelf,
-		Shelf_Items,
 		Toy_Shelves,
 		ClothesRack,
 		Cafeteria,
 		CafeteriaCashier,
 		Doorman,
+		Shelf_Items,
 		Can1 = Shelf_Items,
 		Can2,
 		Can3,
@@ -147,10 +148,14 @@ private:
 	std::vector<Object*> obj;
 	std::vector<Object*> inventory;
 
+	AICharacter ai;
+
 	void LoadMesh();
 	void LoadCansMesh();
 
 	void InitCollisionBox();
+
+	void updateAI(double dt);
 
 	Object* targetObject();
 	

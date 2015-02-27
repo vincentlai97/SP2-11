@@ -144,6 +144,20 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	CloseeDoor2 = 0;
 	eDoorOpened2 = false;
 
+	Path* path = new Path(Vector3(-90, 0, 30), Vector3(-90, 0, 70));
+	ai.paths.push_back(path);
+	path = new Path(Vector3(-90, 0, 70), Vector3(-210, 0, 70), Vector3(0, 0, -1));
+	ai.paths.push_back(path);
+	path = new Path(Vector3(-210, 0, 70), Vector3(-210, 0, 30));
+	ai.paths.push_back(path);
+	path = new Path(Vector3(-210, 0, 30), Vector3(-90, 0, 30), Vector3(0, 0, 1));
+	ai.paths.push_back(path);
+
+	ai.pos = Vector3(-210, 0, 50);
+	ai.dir = Vector3(0, 0, 1);
+	ai.path = ai.paths[2];
+	ai.endofpath = false;
+
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
@@ -373,6 +387,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				buttonBuffer = 0.5;
 			}
 	}
+
+	updateAI(dt);
 
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
 	cameraCollisionBox.Centre = camera.position;
