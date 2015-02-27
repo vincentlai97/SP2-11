@@ -17,6 +17,8 @@
 #include "CollisionBox.h"
 #include "AICharacter.h"
 
+#include <algorithm> //To random vectorlist content
+
 class MyScene : public Scene
 {
 	enum GEOMETRY_TYPE
@@ -63,6 +65,7 @@ class MyScene : public Scene
 		Box3,
 		DisplayCircular,
 		CashierTable,
+		CheckList,
 		GEO_LIGHTBALL,
 		TEST,
 		NUM_GEOMETRY,
@@ -147,6 +150,8 @@ private:
 	std::vector<CollisionBox> elevatorDown;
 	std::vector<Object*> obj;
 	std::vector<Object*> inventory;
+	std::vector<const char*> itemList;
+	std::vector<const char*> checkList;
 
 	AICharacter ai;
 
@@ -162,12 +167,15 @@ private:
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderOnScreen();
 	void RenderInterior();
 	void RenderExterior();
 	void RenderSkyBox();
 	void RenderObjects();
 	void RenderCharacters();
 	void RenderTargetDetails();
+	void RenderCheckList();
+	
 public:
 	MyScene();
 	~MyScene();
