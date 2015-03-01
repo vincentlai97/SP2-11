@@ -246,20 +246,20 @@ void MyScene::LoadMesh()
 	//NewObj->name = "CafeteriaCashier";
 	//obj.push_back(NewObj);
 
-	////Doorman
-	//meshList[Doorman] = MeshBuilder::GenerateOBJ("Doorman", "OBJ//Doorman.obj");
-	//meshList[Doorman]->textureID = LoadTGA("Image//Red_Apron.tga");
-	//meshList[Doorman]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	//meshList[Doorman]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	//meshList[Doorman]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	//meshList[Doorman]->material.kShininess = 5.f;
+	//Doorman
+	meshList[Doorman] = MeshBuilder::GenerateOBJ("Doorman", "OBJ//Doorman.obj");
+	meshList[Doorman]->textureID = LoadTGA("Image//Red_Apron.tga");
+	meshList[Doorman]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Doorman]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Doorman]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Doorman]->material.kShininess = 5.f;
 
-	//NewObj = new Object;
-	//NewObj->mesh = meshList[Doorman];
-	//NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
-	//NewObj->size = Vector3(3, 3, 3);
-	//NewObj->name = "Doorman";
-	//obj.push_back(NewObj);
+	NewObj = new Object;
+	NewObj->mesh = meshList[Doorman];
+	NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
+	NewObj->size = Vector3(3, 3, 3);
+	NewObj->name = "Doorman";
+	obj.push_back(NewObj);
 
 	LoadCansMesh();
 

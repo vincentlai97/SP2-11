@@ -152,6 +152,7 @@ private:
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
+	std::vector<Path*> shelfpaths;
 
 	AICharacter ai;
 
@@ -159,6 +160,7 @@ private:
 	void LoadCansMesh();
 
 	void InitCollisionBox();
+	void InitShelfPaths();
 
 	void updateAI(double dt);
 

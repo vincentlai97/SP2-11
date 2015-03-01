@@ -153,6 +153,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitCollisionBox();
 
+	InitShelfPaths();
+
 	buttonBuffer = 0;
 
 	OpenDoorR = 0;
@@ -166,18 +168,11 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	CloseeDoor2 = 0;
 	eDoorOpened2 = false;
 
-	Path* path = new Path(Vector3(-90, 0, 30), Vector3(-90, 0, 70));
-	ai.paths.push_back(path);
-	path = new Path(Vector3(-90, 0, 70), Vector3(-210, 0, 70), Vector3(0, 0, -1));
-	ai.paths.push_back(path);
-	path = new Path(Vector3(-210, 0, 70), Vector3(-210, 0, 30));
-	ai.paths.push_back(path);
-	path = new Path(Vector3(-210, 0, 30), Vector3(-90, 0, 30), Vector3(0, 0, 1));
-	ai.paths.push_back(path);
+	ai.paths = shelfpaths;
 
-	ai.pos = Vector3(-210, 0, 50);
-	ai.dir = Vector3(0, 0, 1);
-	ai.path = ai.paths[2];
+	ai.pos = Vector3(-200, 0, 70);
+	ai.dir = Vector3(1, 0, 0);
+	ai.path = ai.paths[0];
 	ai.endofpath = false;
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
