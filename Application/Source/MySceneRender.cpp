@@ -77,25 +77,25 @@ void MyScene::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
-	RenderBuildings();
+	RenderObjects();
+	RenderCharacters();
+
+	//Render Exterior Buildings
+	modelStack.PushMatrix(); {
+		RenderBuildings();
+	}modelStack.PopMatrix();
+	modelStack.PushMatrix(); {
+		modelStack.Translate(-200, 0, 0);
+		modelStack.Rotate(90, 0, 1, 0);
+		RenderBuildings();
+	}modelStack.PopMatrix();
+	modelStack.PushMatrix(); {
+		modelStack.Translate(0, 0, 200);
+		modelStack.Rotate(-90, 0, 1, 0);
+		RenderBuildings();
+	}modelStack.PopMatrix();
+
 	RenderSkyBox();
-	RenderInterior();
-	RenderExterior();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorL, 0, 0);
-	modelStack.Translate(38, -5, 297);
-	modelStack.Scale(11.7, 7, 2);
-	RenderMesh(meshList[GEO_DOOR], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorR, 0, 0);
-	modelStack.Translate(107, -5, 297);
-	modelStack.Scale(11.7, 7, 2);
-	RenderMesh(meshList[GEO_DOOR], false);
-	modelStack.PopMatrix();
-
 	//Level 1 Elevator Door
 	modelStack.PushMatrix();
 	modelStack.Translate(-354, -2, 115);
@@ -135,10 +135,23 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
+	RenderInterior();
 
-	RenderObjects();
-	RenderCharacters();
-	
+	modelStack.PushMatrix();
+	modelStack.Translate(OpenDoorL, 0, 0);
+	modelStack.Translate(38, -5, 297);
+	modelStack.Scale(11.7, 6.5, 2);
+	RenderMesh(meshList[GEO_DOOR], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(OpenDoorR, 0, 0);
+	modelStack.Translate(107, -5, 297);
+	modelStack.Scale(11.7, 6.5, 2);
+	RenderMesh(meshList[GEO_DOOR], false);
+	modelStack.PopMatrix();
+
+	RenderExterior();
 
 	modelStack.PushMatrix(); {
 		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
@@ -358,27 +371,27 @@ void MyScene::RenderExterior()
 
 void MyScene::RenderBuildings()
 {
-	for (int xPos = -100, count = 0; count < 7; count++)
-	{
-		modelStack.PushMatrix(); {
-			modelStack.Scale(10, 10, 10);
-			modelStack.Translate(xPos, 0, 100);
-			RenderMesh(meshList[Building1], false);
-		} modelStack.PopMatrix();
-		xPos += 10;
-		modelStack.PushMatrix(); {
-			modelStack.Scale(10, 10, 10);
-			modelStack.Translate(xPos, 0, 100);
-			RenderMesh(meshList[Building2], false);
-		} modelStack.PopMatrix();
-		xPos += 10;
-		modelStack.PushMatrix(); {
-			modelStack.Scale(10, 10, 10);
-			modelStack.Translate(xPos, 0, 100);
-			RenderMesh(meshList[Building3], false);
-		} modelStack.PopMatrix();
-		xPos += 10;
-	}
+		for (int xPos = -100, count = 0; count < 6; count++)
+		{
+			modelStack.PushMatrix(); {
+				modelStack.Scale(10, 10, 10);
+				modelStack.Translate(xPos, 0, 100);
+				RenderMesh(meshList[Building1], false);
+			} modelStack.PopMatrix();
+			xPos += 10;
+			modelStack.PushMatrix(); {
+				modelStack.Scale(10, 10, 10);
+				modelStack.Translate(xPos, 0, 100);
+				RenderMesh(meshList[Building2], false);
+			} modelStack.PopMatrix();
+			xPos += 10;
+			modelStack.PushMatrix(); {
+				modelStack.Scale(10, 10, 10);
+				modelStack.Translate(xPos, 0, 100);
+				RenderMesh(meshList[Building3], false);
+			} modelStack.PopMatrix();
+			xPos += 10;
+		}
 }
 
 void MyScene::RenderSkyBox()
