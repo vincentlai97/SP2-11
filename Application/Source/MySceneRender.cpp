@@ -207,6 +207,7 @@ void MyScene::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	RenderInventory();
 
+	RenderInventory();
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -542,25 +543,20 @@ void MyScene::RenderInventory()
 	Object* obj = targetObject();
 	
 	//Inventory
-	//if(obj->getTaken())
-	//{
-	//	modelStack.Translate(-5, -5, 0);
-	//	modelStack.Scale(2, 2, 2);
-	//	RenderMesh(meshList[trolley], true);
-	//}
-	//RenderTextOnScreen(meshList[GEO_TEXT], "-INVENTORY-", Color(1, 0, 0), 3, 1, 17);
-	//if (inventory.size() == 0){
+	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);
 	modelStack.Scale(6, 5, 1);
 	RenderMesh(meshList[Inventory], true);
-	//RenderTextOnScreen(meshList[GEO_TEXT], "!!EMPTY!!", Color(0,0,0), 3, 1, 16);
-	//}
-	for (int i = 0, zPos = 16; i < inventory.size(); i++, zPos--)
+	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
-		//RenderTextOnScreen(meshList[GEO_TEXT], inventory[i]->name, Color(0, 0, 0), 3, 1, zPos);
+		modelStack.PushMatrix();
+		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
+		modelStack.Scale(0.8, 0.8, 0.8);
+		RenderMesh(inventory[i]->mesh, false);
+		modelStack.PopMatrix();
 	}
-
 	modelStack.PopMatrix();
+	
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
 }
