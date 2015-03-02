@@ -206,8 +206,6 @@ void MyScene::Render()
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	RenderInventory();
-
-	RenderInventory();
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
