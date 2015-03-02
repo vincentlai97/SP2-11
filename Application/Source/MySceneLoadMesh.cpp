@@ -94,6 +94,30 @@ void MyScene::LoadMesh()
 	meshList[SKYBOX_FLOOR]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[SKYBOX_FLOOR]->material.kShininess = 3.f;
 
+	//Buildings
+	meshList[Building1] = MeshBuilder::GenerateOBJ("Building1", "OBJ//Building.obj");
+	meshList[Building1]->textureID = LoadTGA("Image//BuildingTexture.tga");
+	meshList[Building1]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	meshList[Building1]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[Building1]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
+	meshList[Building1]->material.kShininess = 10.f;
+
+	meshList[Building2] = MeshBuilder::GenerateOBJ("Building2", "OBJ//Building.obj");
+	meshList[Building2]->textureID = LoadTGA("Image//BuildingTexture2.tga");
+	meshList[Building2]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	meshList[Building2]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[Building2]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
+	meshList[Building2]->material.kShininess = 10.f;
+
+	meshList[Building3] = MeshBuilder::GenerateOBJ("Building3", "OBJ//Building.obj");
+	meshList[Building3]->textureID = LoadTGA("Image//BuildingTexture3.tga");
+	meshList[Building3]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	meshList[Building3]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[Building3]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
+	meshList[Building3]->material.kShininess = 10.f;
+
+	
+	//Door
 	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJ("Door", "OBJ//Door.obj");
 	meshList[GEO_DOOR]->textureID = LoadTGA("Image//blueglass.tga");
 	meshList[GEO_DOOR]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);

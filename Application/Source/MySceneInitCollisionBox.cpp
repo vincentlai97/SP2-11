@@ -2,14 +2,14 @@
 
 void MyScene::InitCollisionBox()
 {
-	//Interior Hitbox
-	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
-	v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
-	v.push_back(CollisionBox(Vector3(0, -0.5, 0), 800, 1, 600)); // Bottom
-	v.push_back(CollisionBox(Vector3(0, 160.5, 0), 800, 1, 600)); // Top
-	v.push_back(CollisionBox(Vector3(0, 80, 0), 800, 20, 600)); // Middle
-	v.push_back(CollisionBox(Vector3(-400.5, 80, 0), 1, 160, 600)); // Left
-	v.push_back(CollisionBox(Vector3(400.5, 80, 0), 1, 160, 600)); // Right
+		////Interior Hitbox
+		//v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
+		//v.push_back(CollisionBox(Vector3(0, 80, 300.5), 800, 160, 1)); // Back
+		//v.push_back(CollisionBox(Vector3(0, -0.5, 0), 800, 1, 600)); // Bottom
+		//v.push_back(CollisionBox(Vector3(0, 160.5, 0), 800, 1, 600)); // Top
+		//v.push_back(CollisionBox(Vector3(0, 80, 0), 800, 20, 600)); // Middle
+		//v.push_back(CollisionBox(Vector3(-400.5, 80, 0), 1, 160, 600)); // Left
+		//v.push_back(CollisionBox(Vector3(400.5, 80, 0), 1, 160, 600)); // Right
 
 	//Elevator Hitbox
 	v.push_back(CollisionBox(Vector3(-370, 32.5, 170), 50, 35, 10)); //Elevator on Level One

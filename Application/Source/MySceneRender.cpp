@@ -1,6 +1,7 @@
 #include "MyScene.h"
 #include "GL\glew.h"
 #include "Utility.h"
+#include "Application.h"
 
 #include "shader.hpp"
 
@@ -76,6 +77,7 @@ void MyScene::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
+	RenderBuildings();
 	RenderSkyBox();
 	RenderInterior();
 	RenderExterior();
@@ -136,6 +138,7 @@ void MyScene::Render()
 
 	RenderObjects();
 	RenderCharacters();
+	
 
 	modelStack.PushMatrix(); {
 		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
@@ -175,10 +178,21 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 	
-	RenderOnScreen();
 	RenderTargetDetails();
-	RenderCheckList();
-	RenderInventory();
+	if (Application::IsKeyPressed('P'))
+	{
+		RenderOnScreen();
+		RenderCheckList();
+	}
+	else
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'P'", Color(1, 0, 0), 2, 31, 17);
+		RenderTextOnScreen(meshList[GEO_TEXT], "for", Color(1, 0, 0), 2, 31, 16);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Checklist.", Color(1, 0, 0), 2, 31, 15);
+	}
+	//Crosshair
+	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
+
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -316,13 +330,9 @@ void MyScene::RenderOnScreen()
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
-
-	//Crosshair
-	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
+	glEnable(GL_DEPTH_TEST);
 	projectionStack.PopMatrix();
 	viewStack.PopMatrix();
-
-	glEnable(GL_DEPTH_TEST);
 }
 
 void MyScene::RenderInterior()
@@ -344,6 +354,31 @@ void MyScene::RenderExterior()
 		for (int count = 0; count < 3; count++)
 			RenderMesh(meshList[EXT_WALL + count], false);
 	} modelStack.PopMatrix();
+}
+
+void MyScene::RenderBuildings()
+{
+	for (int xPos = -100, count = 0; count < 7; count++)
+	{
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building1], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building2], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building3], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+	}
 }
 
 void MyScene::RenderSkyBox()
@@ -453,7 +488,8 @@ void MyScene::RenderTargetDetails()
 
 void MyScene::RenderCheckList()
 {
-	//CheckList Init	
+	//CheckList Init
+	RenderTextOnScreen(meshList[GEO_TEXT], "CHECKLIST:", Color(1, 0, 0), 2, 31, 17);
 	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 31, zPos);
@@ -465,7 +501,6 @@ void MyScene::RenderCheckList()
 			if (checkList[i] == inventory[j]->name)
 			{
 				RenderTextOnScreen(meshList[GEO_TEXT], "------", Color(0, 0, 0), 2, 31, zPos);
-				//checkList.erase(checkList.begin() + i);
 			}
 		}
 	}

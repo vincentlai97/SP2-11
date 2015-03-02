@@ -42,6 +42,9 @@ class MyScene : public Scene
 		SKYBOX_LEFT,
 		SKYBOX_RIGHT,
 		SKYBOX_FLOOR,
+		Building1,
+		Building2,
+		Building3,
 		ELEVATOR,
 		ESCALATOR,
 		ESCALATOR_HANDLE,
@@ -201,6 +204,7 @@ private:
 	void RenderOnScreen();
 	void RenderInterior();
 	void RenderExterior();
+	void RenderBuildings();
 	void RenderSkyBox();
 	void RenderObjects();
 	void RenderCharacters();
