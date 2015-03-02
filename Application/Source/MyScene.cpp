@@ -2,6 +2,7 @@
 #include "GL\glew.h"
 #include "Application.h"
 #include "Utility.h"
+#include <fstream>
 
 #include "shader.hpp"
 
@@ -130,22 +131,29 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 
-	//Item init
-	itemList.push_back("Can10");
-	itemList.push_back("Can9");
-	itemList.push_back("Can8");
-	itemList.push_back("Can7");
-	itemList.push_back("Can6");
-	itemList.push_back("Can5");
-	itemList.push_back("Can4");
-	itemList.push_back("Can3");
-	itemList.push_back("Can2");
-	itemList.push_back("Can1");
+	//Loading of obj names from text file
+	ifstream Name;
+	string Temp;
 
+	Name.open("Source//Name.txt");
+	while (!Name.eof())
+	{
+		getline(Name, Temp);
+		temp.push_back(Temp);
+	}
+	Name.close();
+
+	//Itemlist init
+	for (int i = 0; i < temp.size(); i++)
+	{
+		const char* tempy = temp[i].c_str();
+		itemList.push_back(tempy);
+	}
 	//CheckList init
+	checklistout = false;
 	srand(time(NULL));
 	random_shuffle(itemList.begin(), itemList.end());
-	for (int i = 0; i < itemList.size(); i++)
+	for (int i = 0; i < 10 && i < itemList.size(); i++)
 	{
 		checkList.push_back(itemList[i]);
 	}
@@ -157,6 +165,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	InitShelfPaths();
 
 	buttonBuffer = 0;
+	checklistBuffer = 0;
 
 	OpenDoorR = 0;
 	OpenDoorL = 0;
@@ -407,13 +416,19 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				buttonBuffer = 0.5;
 			}
 	}
-	
+	if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
+	{
+		checklistout = !checklistout;
+		checklistBuffer = 0.5;
+	}
+
 	updateAI(dt);
 
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
 	cameraCollisionBox.Centre = camera.position;
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
+	if (checklistBuffer > 0) checklistBuffer -= dt;
 }
 
 void MyScene::Exit()
