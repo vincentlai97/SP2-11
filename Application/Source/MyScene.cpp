@@ -178,7 +178,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	ai.path = ai.paths[0];
 	ai.endofpath = false;
 
-	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 20, 500), Vector3(0, 20, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
