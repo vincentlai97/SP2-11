@@ -489,8 +489,10 @@ void MyScene::RenderInventory()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 19);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 18);
 	}
-	
+	else{}
+	modelStack.PopMatrix();
 	//Inventory
+
 	//if(obj->getTaken())
 	//{
 	//	modelStack.Translate(-5, -5, 0);
@@ -499,17 +501,24 @@ void MyScene::RenderInventory()
 	//}
 	//RenderTextOnScreen(meshList[GEO_TEXT], "-INVENTORY-", Color(1, 0, 0), 3, 1, 17);
 	//if (inventory.size() == 0){
+	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);
 	modelStack.Scale(6, 5, 1);
 	RenderMesh(meshList[Inventory], true);
 	//RenderTextOnScreen(meshList[GEO_TEXT], "!!EMPTY!!", Color(0,0,0), 3, 1, 16);
-	//}
-	for (int i = 0, zPos = 16; i < inventory.size(); i++, zPos--)
+	//};
+	//for (int i = 0, zPos = 16; i < inventory.size(); i++, zPos--)
+	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
+		modelStack.PushMatrix();
+		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
+		modelStack.Scale(0.8, 0.8, 0.8);
+		RenderMesh(inventory[i]->mesh, false);
 		//RenderTextOnScreen(meshList[GEO_TEXT], inventory[i]->name, Color(0, 0, 0), 3, 1, zPos);
+		modelStack.PopMatrix();
 	}
-
 	modelStack.PopMatrix();
+	
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
 }
