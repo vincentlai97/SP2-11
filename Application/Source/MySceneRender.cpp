@@ -135,6 +135,13 @@ void MyScene::Render()
 	modelStack.PopMatrix();
 
 	RenderObjects();
+	RenderCharacters();
+
+	modelStack.PushMatrix(); {
+		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
+
+		RenderMesh(meshList[TEST], false);
+	} modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
@@ -167,10 +174,10 @@ void MyScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
-
+	
 	RenderOnScreen();
 	RenderTargetDetails();
-	//RenderCheckList();
+	RenderCheckList();
 	RenderInventory();
 }
 
@@ -300,11 +307,11 @@ void MyScene::RenderOnScreen()
 	glBindTexture(GL_TEXTURE_2D, meshList[CheckList]->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 
-	//modelStack.PushMatrix(); 
-	//modelStack.Translate(70,20,0);
-	//modelStack.Scale(20,30,1);
-	//RenderMesh(meshList[CheckList], false);
-	//modelStack.PopMatrix();
+	modelStack.PushMatrix(); 
+	modelStack.Translate(70,20,0);
+	modelStack.Scale(20,30,1);
+	RenderMesh(meshList[CheckList], false);
+	modelStack.PopMatrix();
 
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -413,7 +420,7 @@ void MyScene::RenderObjects()
 	}
 }
 
-void MyScene::RenderTargetDetails()
+void MyScene::RenderCharacters()
 {
 	Vector3 view = camera.target - camera.position;
 	view.Normalize();
@@ -421,11 +428,27 @@ void MyScene::RenderTargetDetails()
 	Vector3 target = camera.target + view;
 
 	modelStack.PushMatrix(); {
-		modelStack.Translate(target.x, target.y, target.z);
-		modelStack.Scale(0.2, 0.2, 0.2);
+		modelStack.Translate(ai.pos.x, ai.pos.y, ai.pos.z);
+		float angle = ai.lookdir.Angle(Vector3(1, 0, 0));
+		modelStack.Rotate(angle, 0, ai.lookdir.z > 0 ? -1 : 1, 0);
+		modelStack.Scale(3, 3, 3);
 
-		RenderMesh(meshList[TEST], false);
+		RenderMesh(meshList[Doorman], false);
 	} modelStack.PopMatrix();
+
+}
+
+void MyScene::RenderTargetDetails()
+{
+	Vector3 view = camera.target - camera.position;
+
+	Object* obj = targetObject();
+
+	if (obj->name.size() && !obj->getTaken())
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 19);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+	}
 }
 
 void MyScene::RenderCheckList()

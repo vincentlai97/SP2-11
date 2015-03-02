@@ -80,8 +80,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\MyInitSound.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\UpdateSound.cpp" />
+    <ClCompile Include="Source\AICharacter.cpp" />
+    <ClCompile Include="Source\AIMovement.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
@@ -93,16 +93,23 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\MyInitSound.cpp" />
     <ClCompile Include="Source\MyScene.cpp" />
+    <ClCompile Include="Source\MySceneAI.cpp" />
     <ClCompile Include="Source\MySceneInitCollisionBox.cpp" />
+    <ClCompile Include="Source\MySceneInitPaths.cpp" />
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
     <ClCompile Include="Source\MySceneObjectInteraction.cpp" />
     <ClCompile Include="Source\MySceneRender.cpp" />
     <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\Pathing.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\AICharacter.h" />
+    <ClInclude Include="Source\AIMovement.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
@@ -117,6 +124,8 @@
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MyScene.h" />
     <ClInclude Include="Source\Object.h" />
+    <ClInclude Include="Source\Path.h" />
+    <ClInclude Include="Source\Pathing.h" />
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
