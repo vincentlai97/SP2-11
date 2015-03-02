@@ -71,6 +71,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\MySceneInitPaths.cpp">
+    <ClCompile Include="Source\MyInitSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UpdateSound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

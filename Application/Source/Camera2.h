@@ -8,6 +8,11 @@
 
 class Camera2 : public Camera
 {
+public:
+	Vector3 defaultPosition;
+	Vector3 defaultTarget;
+	Vector3 defaultUp;
+
 	enum STATE
 	{
 		JUMPING,
@@ -15,10 +20,6 @@ class Camera2 : public Camera
 	};
 
 	int state;
-public:
-	Vector3 defaultPosition;
-	Vector3 defaultTarget;
-	Vector3 defaultUp;
 
 	Camera2();
 	~Camera2();

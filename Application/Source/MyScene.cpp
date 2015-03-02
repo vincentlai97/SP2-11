@@ -22,6 +22,9 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	glfwSetCursorPos(m_window, xPos, yPos);
 
+	//Run Music Background and Sound effects
+	InitSound();
+
 	//Set background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -189,6 +192,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
 
+	//Update the sound every frame
+	UpdateSound(dt);
 
 	const float LSPEED = 5.f;
 
@@ -418,6 +423,8 @@ void MyScene::Exit()
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
+
+	engine->drop();
 }
 
 void MyScene::load()
