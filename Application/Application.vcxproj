@@ -80,8 +80,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\MyInitSound.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
@@ -93,6 +91,7 @@
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
+    <ClCompile Include="Source\MyInitSound.cpp" />
     <ClCompile Include="Source\MyScene.cpp" />
     <ClCompile Include="Source\MySceneInitCollisionBox.cpp" />
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
@@ -100,6 +99,7 @@
     <ClCompile Include="Source\MySceneRender.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
