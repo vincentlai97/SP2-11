@@ -31,7 +31,7 @@ void AICharacter::update(double dt)
 			}
 		}
 	}
-	std::cout << looktime << " " << path->haveSide() << std::endl;
+	/*std::cout << looktime << " " << path->haveSide() << std::endl;*/
 }
 
 bool AICharacter::isendofpath()

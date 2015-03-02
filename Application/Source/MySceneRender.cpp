@@ -193,20 +193,41 @@ void MyScene::Render()
 	}
 	
 	RenderTargetDetails();
-	if (Application::IsKeyPressed('P'))
-	{
-		RenderOnScreen();
-		RenderCheckList();
-	}
-	else
+	if (checklistout == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'P'", Color(1, 0, 0), 2, 31, 17);
 		RenderTextOnScreen(meshList[GEO_TEXT], "for", Color(1, 0, 0), 2, 31, 16);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Checklist.", Color(1, 0, 0), 2, 31, 15);
 	}
+	else if (checklistout == true)
+	{
+		RenderOnScreen();
+		RenderCheckList();
+	}
+	//AI Dialogue
+	srand(time(NULL));
+	random_shuffle(message.begin(), message.end());
+	for (int i = 0; i < message.size(); i++)
+	{
+		dialogue.push_back(message[i]);
+	}
+	if (camera.position.x < ai.pos.x + 10 && camera.position.x > ai.pos.x - 10 && camera.position.z < ai.pos.z + 10 && camera.position.z > ai.pos.z - 10)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
+		if (talk == true)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+		}
+	}
+	else
+	{
+		talk = false;
+		random_shuffle(dialogue.begin(), dialogue.end());
+	}
+
+
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
-
 	RenderInventory();
 }
 
@@ -306,7 +327,7 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i* 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -496,30 +517,38 @@ void MyScene::RenderTargetDetails()
 
 	if (obj->name.size() && !obj->getTaken())
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 19);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(0, 0, 0), 3, 1, 19);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(0, 0, 0), 3, 1, 18);
 	}
 }
 
 void MyScene::RenderCheckList()
 {
+	int count = 0;
 	//CheckList Init
 	RenderTextOnScreen(meshList[GEO_TEXT], "CHECKLIST:", Color(1, 0, 0), 2, 31, 17);
 	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 31, zPos);
 	}
-	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	for (int zPos = 16, i = 0; i < checkList.size(); zPos--, i++)
 	{
 		for (int j = 0; j < inventory.size(); j++)
 		{
 			if (checkList[i] == inventory[j]->name)
 			{
-				RenderTextOnScreen(meshList[GEO_TEXT], "------", Color(0, 0, 0), 2, 31, zPos);
+				RenderTextOnScreen(meshList[GEO_TEXT], "---------------------", Color(0, 0, 0), 2, 31, zPos);
+				count++;
+				break;
 			}
 		}
 	}
+	if (count == checkList.size())
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Complete", Color(0, 0, 0), 2, 31, 5);
+	}
 	
+		
 }
 
 void MyScene::RenderInventory()
@@ -533,14 +562,7 @@ void MyScene::RenderInventory()
 
 	modelStack.PushMatrix();
 	Object* obj = targetObject();
-
-	if (obj->name.size() && !obj->getTaken())
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(1, 1, 0), 3, 1, 19);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(1, 1, 0), 3, 1, 18);
-	}
-	else{}
-	modelStack.PopMatrix();
+	
 	//Inventory
 	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);

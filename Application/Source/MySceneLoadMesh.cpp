@@ -1,6 +1,7 @@
 #include "MyScene.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
+#include <fstream>	
 
 void MyScene::LoadMesh()
 {
@@ -431,7 +432,7 @@ void MyScene::LoadCansMesh()
 		texturepath += '1' + typecount;
 		texturepath += ".tga";
 
-		meshList[Shelf_Items + typecount] = MeshBuilder::GenerateOBJ("Can4", "OBJ//Can.obj");
+		meshList[Shelf_Items + typecount] = MeshBuilder::GenerateOBJ("Can", "OBJ//Can.obj");
 		meshList[Shelf_Items + typecount]->textureID = LoadTGA(texturepath.c_str());
 		meshList[Shelf_Items + typecount]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 		meshList[Shelf_Items + typecount]->material.kDiffuse.Set(1.f, 1.f, 1.f);
@@ -454,9 +455,7 @@ void MyScene::LoadCansMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[Shelf_Items + typecount];
-					std::string name = "Can";
-					name += '1' + typecount;
-					newObj->name = name;
+					newObj->name = temp[typecount];
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(4, 4, 4);
 					newObj->price = 2.00;

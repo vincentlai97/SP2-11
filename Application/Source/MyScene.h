@@ -158,6 +158,8 @@ private:
 
 	float fps;
 	float buttonBuffer;
+	float checklistBuffer;
+	float talkBuffer;
 
 	double xPos;
 	double yPos;
@@ -174,6 +176,9 @@ private:
 	bool eDoorOpened2;
 	bool testSound;
 
+	bool checklistout;
+	bool talk;
+
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
@@ -184,6 +189,9 @@ private:
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
 	std::vector<Path*> shelfpaths;
+	std::vector<string> temp;
+	std::vector<string> message;
+	std::vector<string> dialogue;
 
 	AICharacter ai;
 
