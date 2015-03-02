@@ -28,8 +28,8 @@ void MyScene::LoadMesh()
 	meshList[WHITE_GLASS]->material.kSpecular.Set(.3, .3, .3);
 	meshList[WHITE_GLASS]->material.kShininess = 10;
 
-	meshList[ESCALATOR] = MeshBuilder::GenerateQuad("escalator", Color(0, 0, 0), 1.f, 1.f);
-	meshList[ESCALATOR]->textureID = LoadTGA("Image//Travelator.tga");
+	meshList[ESCALATOR] = MeshBuilder::GenerateOBJ("escalator", "OBJ//travel.obj");
+	meshList[ESCALATOR]->textureID = LoadTGA("Image//travel.tga");
 	meshList[ESCALATOR]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[ESCALATOR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[ESCALATOR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);

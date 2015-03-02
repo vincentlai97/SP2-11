@@ -117,10 +117,11 @@ void MyScene::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
-	modelStack.Scale(80, 166.43, 0);
-	modelStack.Translate(0, 0.5, 0);
+	modelStack.Rotate(-32.5, 0, 0, 1);
+	//modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+	modelStack.Scale(166, 1, 80);
+	//modelStack.Scale(80, 166.43, 0);
+	modelStack.Translate(-0.5, 0.5, 0);
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
@@ -137,6 +138,8 @@ void MyScene::Render()
 	modelStack.PopMatrix();
 	RenderInterior();
 
+	RenderExterior();
+
 	modelStack.PushMatrix();
 	modelStack.Translate(OpenDoorL, 0, 0);
 	modelStack.Translate(38, -5, 297);
@@ -150,8 +153,6 @@ void MyScene::Render()
 	modelStack.Scale(11.7, 6.5, 2);
 	RenderMesh(meshList[GEO_DOOR], false);
 	modelStack.PopMatrix();
-
-	RenderExterior();
 
 	modelStack.PushMatrix(); {
 		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
