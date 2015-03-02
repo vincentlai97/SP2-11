@@ -321,6 +321,11 @@ Vector3 Vector3::Cross( const Vector3& rhs ) const
 	return Vector3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z, x * rhs.y - y * rhs.x);
 }
 
+float Vector3::Angle( const Vector3& rhs ) const
+{
+	return Math::RadianToDegree(acos(this->Normalized().Dot(rhs.Normalized())));
+}
+
 /******************************************************************************/
 /*!
 \brief

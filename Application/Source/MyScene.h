@@ -15,6 +15,7 @@
 #include "Object.h"
 #include "Gettable.h"
 #include "CollisionBox.h"
+#include "AICharacter.h"
 
 #include <irrKlang.h>
 #pragma comment(lib, "irrKlang.lib") 
@@ -53,7 +54,6 @@ class MyScene : public Scene
 		eDoorButton2,
 		trolley,
 		shelf,
-		Shelf_Items,
 		Toy_Shelves,
 		TaC,
 		Banner,
@@ -61,6 +61,7 @@ class MyScene : public Scene
 		Cafeteria,
 		CafeteriaCashier,
 		Doorman,
+		Shelf_Items,
 		Can1 = Shelf_Items,
 		Can2,
 		Can3,
@@ -169,12 +170,18 @@ private:
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
+	std::vector<Path*> shelfpaths;
+
+	AICharacter ai;
 
 	void LoadMesh();
 	void LoadCansMesh();
 
 	void InitCollisionBox();
+	void InitShelfPaths();
 	int InitSound();
+
+	void updateAI(double dt);
 
 	Object* targetObject();
 	
@@ -186,6 +193,7 @@ private:
 	void RenderExterior();
 	void RenderSkyBox();
 	void RenderObjects();
+	void RenderCharacters();
 	void RenderTargetDetails();
 
 	void RenderCheckList();

@@ -136,6 +136,13 @@ void MyScene::Render()
 	modelStack.PopMatrix();
 
 	RenderObjects();
+	RenderCharacters();
+
+	modelStack.PushMatrix(); {
+		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
+
+		RenderMesh(meshList[TEST], false);
+	} modelStack.PopMatrix();
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 0.5);
@@ -168,14 +175,10 @@ void MyScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
-
 	
-
-
 	RenderOnScreen();
 	RenderTargetDetails();
 	RenderCheckList();
-
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -250,7 +253,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 
 void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -419,22 +422,21 @@ void MyScene::RenderObjects()
 	}
 }
 
+void MyScene::RenderCharacters()
+{
+	modelStack.PushMatrix(); {
+		modelStack.Translate(ai.pos.x, ai.pos.y, ai.pos.z);
+		float angle = ai.lookdir.Angle(Vector3(1, 0, 0));
+		modelStack.Rotate(angle, 0, ai.lookdir.z > 0 ? -1 : 1, 0);
+		modelStack.Scale(3, 3, 3);
+
+		RenderMesh(meshList[Doorman], false);
+	} modelStack.PopMatrix();
+}
+
 void MyScene::RenderTargetDetails()
 {
-	
-
 	Vector3 view = camera.target - camera.position;
-	view.Normalize();
-	view *= 10;
-	Vector3 target = camera.target + view;
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(target.x, target.y, target.z);
-		modelStack.Scale(0.2, 0.2, 0.2);
-
-		RenderMesh(meshList[TEST], false);
-	} modelStack.PopMatrix();
-
 
 	Object* obj = targetObject();
 
