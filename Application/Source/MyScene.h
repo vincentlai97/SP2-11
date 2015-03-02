@@ -71,6 +71,8 @@ class MyScene : public Scene
 		DisplayCircular,
 		CashierTable,
 		CheckList,
+		Inventory,
+		Coke,
 		GEO_LIGHTBALL,
 		TEST,
 		NUM_GEOMETRY,
@@ -124,6 +126,14 @@ class MyScene : public Scene
 		OPENDOOR,
 		REACH,
 		SOUND_TOTAL,
+	};
+
+	enum stages
+	{
+		START_SCREEN = 0,
+		OPTION_SCREEN,
+		GAME_SCREEN,
+		PAUSE_SCREEN,
 	};
 
 
@@ -187,6 +197,7 @@ private:
 	void RenderSkyBox();
 	void RenderObjects();
 	void RenderTargetDetails();
+	void RenderInventory();
 
 	void RenderCheckList();
 	

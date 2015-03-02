@@ -392,6 +392,10 @@ void MyScene::LoadMesh()
 
 	//CheckList
 	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
+
+	//Inventory
+	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
+	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
 }
 
 void MyScene::LoadCansMesh()
