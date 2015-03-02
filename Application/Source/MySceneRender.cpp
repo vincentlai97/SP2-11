@@ -203,6 +203,28 @@ void MyScene::Render()
 		RenderOnScreen();
 		RenderCheckList();
 	}
+	//AI Dialogue
+	srand(time(NULL));
+	random_shuffle(message.begin(), message.end());
+	for (int i = 0; i < message.size(); i++)
+	{
+		dialogue.push_back(message[i]);
+	}
+	if (camera.position.x < ai.pos.x + 10 && camera.position.x > ai.pos.x - 10 && camera.position.z < ai.pos.z + 10 && camera.position.z > ai.pos.z - 10)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
+		if (talk == true)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+		}
+	}
+	else
+	{
+		talk = false;
+		random_shuffle(dialogue.begin(), dialogue.end());
+	}
+
+
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	RenderInventory();

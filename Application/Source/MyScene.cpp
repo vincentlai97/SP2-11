@@ -130,6 +130,20 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+	//Init AI dialogue
+	talk = false;
+	talkBuffer = 0;
+	ifstream msg;
+	string dia;
+
+	msg.open("Source//AIDialogue.txt");
+	while (!msg.eof())
+	{
+		getline(msg, dia);
+		message.push_back(dia);
+	}
+	msg.close();
+	
 
 	//Loading of obj names from text file
 	ifstream Name;
@@ -421,6 +435,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		checklistout = !checklistout;
 		checklistBuffer = 0.5;
 	}
+	if (Application::Mouse_Click(0) && talkBuffer <= 0)
+	{
+		talk = !talk;
+		talkBuffer = 0.5;
+	}
+
+	
+	cout << ai.pos.x << endl;
 
 	updateAI(dt);
 
@@ -429,6 +451,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
+	if (talkBuffer > 0) talkBuffer -= dt;
 }
 
 void MyScene::Exit()
