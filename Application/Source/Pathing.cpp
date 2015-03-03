@@ -54,7 +54,8 @@ bool Pathing::moveAlong(Vector3& current, Vector3 dir, const Path* path, float d
 Path* Pathing::selectPath(const Vector3& current, Vector3& dir, const std::vector<Path*>& paths)
 {
 	srand(time(NULL));
-	dir.Normalize();
+	if (dir != Vector3(0, 0, 0))
+		dir.Normalize();
 
 	std::vector<int> indices;
 

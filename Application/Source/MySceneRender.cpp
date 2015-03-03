@@ -18,14 +18,14 @@ void MyScene::Render()
 		camera.up.x, camera.up.y, camera.up.z
 		);
 
-	if (light[0].type == Light::LIGHT_DIRECTIONAL)
+	if(light[0].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 
-	else if (light[0].type == Light::LIGHT_SPOT)
+	else if(light[0].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
@@ -40,14 +40,14 @@ void MyScene::Render()
 	}
 
 
-	if (light[1].type == Light::LIGHT_DIRECTIONAL)
+	if(light[1].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
 		Vector3 lightDirection_cameraspace1 = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace1.x);
 	}
 
-	else if (light[1].type == Light::LIGHT_SPOT)
+	else if(light[1].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace1 = viewStack.Top() * light[1].position;
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace1.x);
@@ -72,13 +72,10 @@ void MyScene::Render()
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
-
+	
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
-
-	RenderObjects();
-	RenderCharacters();
 
 	//Render Exterior Buildings
 	modelStack.PushMatrix(); {
@@ -117,9 +114,10 @@ void MyScene::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
-	modelStack.Rotate(-32.5, 0, 0, 1);
-	modelStack.Scale(166, 1, 80);
-	modelStack.Translate(-0.5, 0.5, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+	modelStack.Scale(80, 166.43, 0);
+	modelStack.Translate(0, 0.5, 0);
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
@@ -142,8 +140,8 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
+	
 	RenderInterior();
-
 	RenderExterior();
 
 	modelStack.PushMatrix();
@@ -159,13 +157,11 @@ void MyScene::Render()
 	modelStack.Scale(11.7, 6.5, 2);
 	RenderMesh(meshList[GEO_DOOR], false);
 	modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
-
-		RenderMesh(meshList[TEST], false);
-	} modelStack.PopMatrix();
-
+	
+	RenderObjects();
+	RenderCharacter(cashiers);
+	RenderCharacter(shelfCharacters);
+	
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 24.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 25.5);
@@ -187,7 +183,7 @@ void MyScene::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
 		}
 	}
-
+	
 	//Elevator Interaction
 	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
@@ -272,7 +268,7 @@ void MyScene::Render()
 	else
 	{
 		talk = false;
-		random_shuffle(dialogue.begin(), dialogue.end());
+		}
 	}
 
 
@@ -286,7 +282,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 	Mtx44 modelView, modelView_inverse_transpose;
 
 	load();
-	if (enableLight)
+	if(enableLight)
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView = viewStack.Top() * modelStack.Top();
@@ -301,10 +297,10 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 		glUniform1f(m_parameters[U_MATERIAL_SHININESS], mesh->material.kShininess);
 	}
 	else
-	{
+	{	
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
-	if (mesh->textureID > 0)
+	if(mesh->textureID > 0)
 	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
@@ -318,7 +314,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 
 	mesh->Render();
 
-	if (mesh->textureID > 0)
+	if(mesh->textureID > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -326,7 +322,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 
 void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -337,7 +333,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for (unsigned i = 0; i < text.length(); ++i)
+	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.8f, 0, 0); //1.0f is the spacing of each character, you may change this value
@@ -353,7 +349,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 
 void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -374,10 +370,10 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for (unsigned i = 0; i < text.length(); ++i)
+	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i* 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -541,34 +537,58 @@ void MyScene::RenderObjects()
 	}
 }
 
-void MyScene::RenderCharacters()
+void MyScene::RenderCharacter(std::vector<Character*> characters)
 {
-	Vector3 view = camera.target - camera.position;
-	view.Normalize();
-	view *= 10;
-	Vector3 target = camera.target + view;
+	for (int count = 0; count < characters.size(); count++)
+	{
+		Character character(*characters[count]);
+		modelStack.PushMatrix(); {
+			modelStack.Translate(character.pos.x, character.pos.y, character.pos.z);
+			modelStack.Rotate(character.angle, 0, 1, 0);
+			modelStack.Scale(2, 2, 2);
 
-	modelStack.PushMatrix(); {
-		modelStack.Translate(ai.pos.x, ai.pos.y, ai.pos.z);
-		float angle = ai.lookdir.Angle(Vector3(1, 0, 0));
-		modelStack.Rotate(angle, 0, ai.lookdir.z > 0 ? -1 : 1, 0);
-		modelStack.Scale(3, 3, 3);
+			RenderMesh(character.mesh[0], false);
+			RenderMesh(character.mesh[1], false);
+			for (int count = -1; count < 2; count += 2)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(1.5 * count, 6.375, 0);
+					modelStack.Translate(0.625 * count, 0.625, 0);
 
-		RenderMesh(meshList[Doorman], false);
-	} modelStack.PopMatrix();
+					RenderMesh(character.mesh[2], false);
+				} modelStack.PopMatrix();
 
+				modelStack.PushMatrix(); {
+					modelStack.Translate(0.75 * count, 3, 0);
+
+					RenderMesh(character.mesh[3], false);
+				} modelStack.PopMatrix();
+			}
+		} modelStack.PopMatrix();
+	}
 }
 
 void MyScene::RenderTargetDetails()
 {
 	Vector3 view = camera.target - camera.position;
-
-	Object* obj = targetObject();
-
-	if (obj->name.size() && !obj->getTaken())
+	
+	int targeted = MyScene::targeted(shelfItemsCollisionBox);
+	if (targeted != -1)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(0, 0, 0), 3, 1, 19);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(0, 0, 0), 3, 1, 18);
+		Gettable* targetedObj = shelfItems[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 0), 3, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+		}
+	}
+
+	targeted = MyScene::targeted(cashiersCollisionBox);
+	if (targeted != -1)
+	{
+		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 3, 1, 18);
+		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 3, 1, 19);
 	}
 }
 
@@ -609,10 +629,6 @@ void MyScene::RenderInventory()
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
 	viewStack.LoadIdentity();
-
-	modelStack.PushMatrix();
-	Object* obj = targetObject();
-	modelStack.PopMatrix();
 
 	//Inventory
 	modelStack.PushMatrix();

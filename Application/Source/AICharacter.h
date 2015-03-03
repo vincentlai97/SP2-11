@@ -3,24 +3,24 @@
 
 #include <vector>
 
+#include "Character.h"
 #include "Pathing.h"
 
-class AICharacter {
+class AICharacter : public Character {
 private:
 public:
-	Vector3 pos;
 	Vector3 dir;
-	Vector3 lookdir;
 	std::vector<Path*> paths;
 	Path* path;
 	bool endofpath;
 	float turntime;
 	float looktime;
+	bool collide;
 	
-	AICharacter(void) {turntime = 0; looktime = 0;};
+	AICharacter(void) : Character() {dir = Vector3(0, 0, 0); turntime = 0; looktime = 0; angle = 0;};
 	~AICharacter(void) {};
 
-	void update(double dt);
+	void update(double dt, std::vector<CollisionBox*> collisionBox);
 	bool isendofpath();
 };
 
