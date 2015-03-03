@@ -618,47 +618,26 @@ void MyScene::LoadCansMesh()
 
 void MyScene::LoadPizzaMesh()
 {
-	Gettable* NewObj;
+	meshList[Pizza] = MeshBuilder::GenerateOBJ("Pizza", "OBJ//Pizza.obj");
+	meshList[Pizza]->textureID = LoadTGA("Image//Pizza.tga");
+	meshList[Pizza]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[Pizza]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Pizza]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[Pizza]->material.kShininess = 3.f;
 
-	for (int typecount = 0; typecount < 5; typecount++)
-	{
-		std::string texturepath = "Image//Pizza.tga ";
-		texturepath += '1' + typecount;
+    Object* NewObj = new Object;
 
-		meshList[Pizza] = MeshBuilder::GenerateOBJ("Pizza", "OBJ//Pizza.obj");
-		meshList[Pizza]->textureID = LoadTGA("Image//Pizza.tga");
-		meshList[Pizza]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
-		meshList[Pizza]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-		meshList[Pizza]->material.kSpecular.Set(1.f, 1.f, 1.f);
-		meshList[Pizza]->material.kShininess = 3.f;
-
-		Vector3 Fridge;
-
-		for (int count = 0; count < obj.size(); count++)
-			{
-				if (obj[count]->name == "Fridge" && obj[count]->position == typecount)
-					Fridge = obj[count]->collisionBox.Centre;
-			}
-
-		for (float countx = -1, count = 0; countx < 0; countx++)
-			{
-				for (float county = 1.35; county < 4.35; county++)
-				{
-					for (float countz = -2; countz < 4; countz += 2)
-					{	
-						NewObj = new Gettable();
-						NewObj->mesh = meshList[Pizza];
-						NewObj->name = "Pizza";
-						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
-						NewObj->size = Vector3(3, 3, 3);
-						NewObj->price = 5.00;
-						NewObj->collisionBox.Centre = Vector3(countx * 2, county * 5, countz * 7);
-						NewObj->collisionBox.Centre += Fridge;
-						NewObj->position = count++;
-						v.push_back(NewObj->collisionBox);
-						obj.push_back(NewObj);
-					}
-				}
-			}
-	    }
+	for (int posZ = -150, count = 0; posZ <= 150; posZ += 75)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[Pizza];
+			NewObj->name = "Pizza";
+			NewObj->collisionBox = CollisionBox(Vector3(390, 10, posZ), Vector3(10, 10, 20), Vector3(-10, 0, -20));
+			NewObj->size = Vector3(3, 3, 3);
+			NewObj->angle = 180.0f;
+			NewObj->rotation = Vector3(0, 1, 0);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
 }
