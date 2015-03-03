@@ -225,16 +225,17 @@ void MyScene::Render()
 	}
 	//Player Name
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 3, 1, 18);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 3, 1, 17);
 
 	for (int xPos = 10, count = 0; count < PNameList.size(); xPos++, count++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 3, xPos, 14);
 	}
-	if (insert == false)
+	if (insert == false && talk == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to edit your name.", Color(0, 0, 0), 2, 10, 25);
 	}
-	else if (insert == true)
+	else if (insert == true && talk == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in your name.", Color(0, 0, 0), 2, 10, 25);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 10, 24);
@@ -246,21 +247,27 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	for (int count = 0; count < shelfCharacters.size(); count++)
+	for (int xPos = 10, count = 0; count < LetterList.size(); xPos++, count++)
 	{
-		Character character(*shelfCharacters[count]);
-		if (camera.position.x < character.pos.x + 10 && camera.position.x > character.pos.x - 10 && camera.position.z < character.pos.z + 10 && camera.position.z > character.pos.z - 10)
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 3, xPos, 14);
+	}
+	if (camera.position.x < ai.pos.x + 10 && camera.position.x > ai.pos.x - 10 && camera.position.z < ai.pos.z + 10 && camera.position.z > ai.pos.z - 10)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
+		if (talk == true && insertL == false)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
-			if (talk == true)
-			{
-				RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
-			}
+			RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to insert reply.", Color(0, 0, 0), 2, 10, 25);
 		}
-		else
+		if (insertL == true)
 		{
-			talk = false;
-			random_shuffle(dialogue.begin(), dialogue.end());
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 10, 25);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 10, 24);
+		}
+	}
+	else
+	{
+		talk = false;
 		}
 	}
 
