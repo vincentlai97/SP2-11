@@ -133,13 +133,6 @@ void MyScene::LoadMesh()
 	meshList[GEO_DOOR]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_DOOR]->material.kShininess = 10.f;
 
-	meshList[eDoor] = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
-	meshList[eDoor]->textureID = LoadTGA("Image//metal.tga");
-	meshList[eDoor]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
-	meshList[eDoor]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
-	meshList[eDoor]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[eDoor]->material.kShininess = 3.f;
-
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,1,1), 36, 36, 1);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
@@ -492,91 +485,91 @@ void MyScene::LoadMesh()
 	LoadCansMesh();
 	LoadPizzaMesh();
 
-	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));
-
-	//Display Circular cabinet
-	/*meshList[DisplayCircular] = MeshBuilder::GenerateOBJ("DisplayCircular", "OBJ//DisplayCircular.obj");
-	meshList[DisplayCircular]->textureID = LoadTGA("Image//DisplayCircular.tga");
-	meshList[DisplayCircular]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[DisplayCircular]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[DisplayCircular]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[DisplayCircular]->material.kShininess = 5.f;
-	NewObj->mesh = meshList[DisplayCircular];
-	NewObj->Position = Vector3(0, 11, 0);
-	NewObj->Size = Vector3(5, 5, 5);
-	NewObj->rotation = 0.0f;
-	NewObj->Rotation = Vector3(0, 1, 0);
-	NewObj->Name = "Circular Cabinet";
-	NewObj->Price = 0.00;
-	obj.push_back(NewObj);*/
-
-	//Door Stand
-	meshList[eDoorStand] = MeshBuilder::GenerateOBJ("eDoorStand", "OBJ//doorStand.obj");
-	meshList[eDoorStand]->textureID = LoadTGA("Image//metal.tga");
-	meshList[eDoorStand]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[eDoorStand]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[eDoorStand]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[eDoorStand]->material.kShininess = 5.f;
+	//Elevator Door
+	Mesh* door = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
+	door->textureID = LoadTGA("Image//metal.tga");
+	door->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	door->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	door->material.kSpecular.Set(1.f, 1.f, 1.f);
+	door->material.kShininess = 3.f;
 
 	NewObj = new Object;
-	NewObj->mesh = meshList[eDoorStand];
-	NewObj->collisionBox.Centre = Vector3(-340, 0, 130);
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(-350, 0, 150), Vector3(0.5, 50, 15), Vector3(-0.5, 0, -15));
+	NewObj->size = Vector3(4, 5, 1);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoor1";
+	obj.push_back(NewObj);
+	eDoor1 = NewObj;
+	v.push_back(&NewObj->collisionBox);
+	
+	NewObj = new Object;
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(-350, 90, 150), Vector3(0.5, 50, 15), Vector3(-0.5, 0, -15));
+	NewObj->size = Vector3(4, 5, 1);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoor2";
+	obj.push_back(NewObj);
+	eDoor2 = NewObj;
+	v.push_back(&NewObj->collisionBox);
+
+	//Door Stand
+	Mesh* stand = MeshBuilder::GenerateOBJ("eDoorStand", "OBJ//doorStand.obj");
+	stand->textureID = LoadTGA("Image//metal.tga");
+	stand->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	stand->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	stand->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	stand->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = stand;
+	NewObj->collisionBox = CollisionBox(Vector3(-340, 0, 130), Vector3(3, 15, 3), Vector3(-3, 0, -3));
 	NewObj->size = Vector3(2, 2, 2);
 	NewObj->angle = 90.0f;
 	NewObj->rotation = Vector3(0, 1, 0);
-	NewObj->name = "eDoorStand";
+	NewObj->name = "eDoorStand1";
 	obj.push_back(NewObj);
-
-	//Door Button
-	meshList[eDoorButton] = MeshBuilder::GenerateOBJ("eDoorButton", "OBJ//Button.obj");
-	meshList[eDoorButton]->textureID = LoadTGA("Image//Button.tga");
-	meshList[eDoorButton]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[eDoorButton]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[eDoorButton]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[eDoorButton]->material.kShininess = 5.f;
+	v.push_back(&NewObj->collisionBox);
 	
 	NewObj = new Object;
-	NewObj->mesh = meshList[eDoorButton];
-	NewObj->collisionBox.Centre = Vector3(-339, 14, 130);
-	NewObj->size = Vector3(2, 2, 2);
-	NewObj->angle = 90.0f;
-	NewObj->rotation = Vector3(0, 1, 0);
-	NewObj->name = "eDoorButton";
-	obj.push_back(NewObj);
-
-	//Door Stand
-	meshList[eDoorStand2] = MeshBuilder::GenerateOBJ("eDoorStand2", "OBJ//doorStand.obj");
-	meshList[eDoorStand2]->textureID = LoadTGA("Image//metal.tga");
-	meshList[eDoorStand2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[eDoorStand2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[eDoorStand2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[eDoorStand2]->material.kShininess = 5.f;
-	
-	NewObj = new Object;
-	NewObj->mesh = meshList[eDoorStand2];
-	NewObj->collisionBox.Centre = Vector3(-340, 91, 130);
+	NewObj->mesh = stand;
+	NewObj->collisionBox = CollisionBox(Vector3(-340, 90, 130), Vector3(3, 15, 3), Vector3(-3, 0, -3));
 	NewObj->size = Vector3(2, 2, 2);
 	NewObj->angle = 90.0f;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "eDoorStand2";
 	obj.push_back(NewObj);
+	v.push_back(&NewObj->collisionBox);
 
 	//Door Button
-	meshList[eDoorButton2] = MeshBuilder::GenerateOBJ("eDoorButton2", "OBJ//Button.obj");
-	meshList[eDoorButton2]->textureID = LoadTGA("Image//Button.tga");
-	meshList[eDoorButton2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[eDoorButton2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[eDoorButton2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[eDoorButton2]->material.kShininess = 5.f;
-	
+	Mesh* button = MeshBuilder::GenerateOBJ("eDoorButton", "OBJ//Button.obj");
+	button->textureID = LoadTGA("Image//Button.tga");
+	button->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	button->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	button->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	button->material.kShininess = 5.f;
+
 	NewObj = new Object;
-	NewObj->mesh = meshList[eDoorButton2];
-	NewObj->collisionBox.Centre = Vector3(-339, 105, 130);
+	NewObj->mesh = button;
+	NewObj->collisionBox = CollisionBox(Vector3(-339, 15, 130), 3, 3, 3);
+	NewObj->size = Vector3(2, 2, 2);
+	NewObj->angle = 90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "eDoorButton1";
+	obj.push_back(NewObj);
+	eDoorButton1 = NewObj;
+
+	NewObj = new Object;
+	NewObj->mesh = button;
+	NewObj->collisionBox = CollisionBox(Vector3(-339, 105, 130), 3, 3, 3);
 	NewObj->size = Vector3(2, 2, 2);
 	NewObj->angle = 90.0f;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "eDoorButton2";
 	obj.push_back(NewObj);
+	eDoorButton2 = NewObj;
 
 	//CheckList
 	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);

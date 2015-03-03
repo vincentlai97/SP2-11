@@ -193,14 +193,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	OpenDoorR = 0;
 	OpenDoorL = 0;
-	//Level 1 eDoor
-	OpeneDoor = 0;
-	CloseeDoor = 0;
-	eDoorOpened = false;
-	//Level 2 eDoor
-	OpeneDoor2 = 0;
-	CloseeDoor2 = 0;
-	eDoorOpened2 = false;
+	eDoorOpen = false;
+	eDoorClosed = false;
 
 	//Using the toilet
 	SitDown = 0;
@@ -276,64 +270,12 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.y -= 25 * dt;
 	}
 
-	if(cameraCollisionBox.checkCollision(elevatorUp) && Application::IsKeyPressed(VK_UP))
-	{
-		camera.position.y = 120;
-		camera.target.y = 120;
-	}
 
-	else if(cameraCollisionBox.checkCollision(elevatorDown) && Application::IsKeyPressed(VK_DOWN))
-	{
-		camera.position.y = 20;
-		camera.target.y = 20;
-	}
+	InteractDoor(dt);
 
-	//Door will open when person stand at entrance
-	if(camera.position.z >= 295 && camera.position.z <= 400 && camera.position.x >= -70 && camera.position.x <= 70)
-	{
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-
-		if(OpenDoorR >= 70)
-		{
-			OpenDoorR -= 120 * dt;
-		}
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
-		}
-	}
-
-	else if(camera.position.z >= 250 && camera.position.z <= 300 && camera.position.x >= -70 && camera.position.x <= 70)
-	{ 
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-		if(OpenDoorR >= 70)
-		{
-			OpenDoorR -= 120 * dt;
-		}
-
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
-		}
-	}
-
-	else
-	{
-		OpenDoorR -= 120 * dt;
-		OpenDoorL += 120 * dt;
-
-		if(OpenDoorR <= -1)
-		{
-			OpenDoorR += 120 * dt;
-		}
-
-		if(OpenDoorL >= 1)
-		{
-			OpenDoorL -= 120 * dt;
-		}
-	}
+	InteractElevator(dt);
+	InteractElevatorButton(dt);
+	InteractElevatorDoor(dt);
 
 	//Loop to use Toilet
 	for (int i = 0; i < obj.size(); i++)

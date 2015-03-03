@@ -51,11 +51,6 @@ class MyScene : public Scene
 		ESCALATOR_HANDLE,
 		GEO_TEXT,
 		GEO_DOOR,
-		eDoor,
-		eDoorStand,
-		eDoorStand2,
-		eDoorButton,
-		eDoorButton2,
 		trolley,
 		shelf,
 		Toy_Shelves,
@@ -187,14 +182,8 @@ private:
 	
 	float OpenDoorR;
 	float OpenDoorL;
-	//Level 1 eDoor
-	float OpeneDoor;
-	float CloseeDoor;
-	bool eDoorOpened;
-	//Level 2 eDoor
-	float OpeneDoor2;
-	float CloseeDoor2;
-	bool eDoorOpened2;
+	bool eDoorOpen;
+	bool eDoorClosed;
 	bool testSound;
 
 	float SitDown;
@@ -210,11 +199,19 @@ private:
 	std::vector<CollisionBox> travelatorDown;
 	std::vector<CollisionBox> elevatorUp;
 	std::vector<CollisionBox> elevatorDown;
+	std::vector<CollisionBox> elevatorArea;
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* eDoor1;
+	Object* eDoor2;
+	Object* eDoorButton1;
+	Object* eDoorButton2;
+
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
+
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
@@ -242,9 +239,14 @@ private:
 	void InitAICharacters(std::vector<Character*>& character, std::vector<CollisionBox*>& characterCollisionBox, std::vector<Path*> paths, int num);
 	int InitSound();
 
+	void InteractDoor(double dt);
+	void InteractElevator(double dt);
+	void InteractElevatorButton(double dt);
+	void InteractElevatorDoor(double dt);
 	void updateAI(double dt);
 
 	int targeted(const std::vector<CollisionBox*> v);
+	bool targeted(const CollisionBox collisionBox);
 	void takeShelfItems();
 	
 	void RenderMesh(Mesh *mesh, bool enableLight);
