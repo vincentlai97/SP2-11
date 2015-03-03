@@ -198,6 +198,11 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	CloseeDoor2 = 0;
 	eDoorOpened2 = false;
 
+	//Using the toilet
+	SitDown = 0;
+	StandUp = 0;
+	ToiletUsed = false;
+
 	ai.paths = shelfpaths;
 
 	ai.pos = Vector3(-200, 0, 70);
@@ -334,6 +339,32 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
+	//Loop to use Toilet
+	for (int i = 0; i < obj.size(); i++)
+	{
+		//Turn Camera around to face the door
+		if ((obj[i]->name == "Toiletbowl") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			if (Application::Mouse_Click(0) && ToiletUsed == false)
+			{
+				ToiletUsed = true;
+				SitDown +=5;
+			}
+
+			if (ToiletUsed == true && SitDown <= 10)
+		    {
+				    camera.target.z	+= 180;
+				    camera.target.y -= 10;
+					camera.position.z == camera.target.z;
+		    }
+
+			if (Application::IsKeyPressed('F') && ToiletUsed == true)
+			{
+				    ToiletUsed = false;
+				    camera.target.y += 10;
+			}
+		}
+	}
 
 	//Loop to find eDoorButton OBJ
 	for (int i = 0; i < obj.size(); i++)

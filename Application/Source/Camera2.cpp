@@ -20,6 +20,8 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	right.Normalize();
 	this->up = defaultUp = right.Cross(view).Normalized();
 	state = NJUMPING;
+	state = SitDown;
+	state = StandUp;
 }
 
 void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vector<CollisionBox> v, float width, float height, double* xPos, double* yPos)
@@ -29,6 +31,8 @@ void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vect
 
 	double mouseX = width;
 	double mouseY = height;
+
+	bool ToiletUsed;
 
 	if(Application::IsKeyPressed(VK_LEFT) || (*xPos > mouseX))
 	{

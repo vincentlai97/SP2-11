@@ -155,6 +155,52 @@ void MyScene::LoadMesh()
 	meshList[trolley]->material.kSpecular.Set(1.f, 1.f, 1.f);
 	meshList[trolley]->material.kShininess = 3.f;
 
+	meshList[Fridge] = MeshBuilder::GenerateOBJ("Fridge", "OBJ//Fridge.obj");
+	meshList[Fridge]->textureID = LoadTGA("Image//Fridge.tga");
+	meshList[Fridge]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[Fridge]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Fridge]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[Fridge]->material.kShininess = 3.f;
+
+	for (int posZ = -150, count = 0; posZ <= 150; posZ += 75)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[Fridge];
+			NewObj->name = "Fridge";
+			NewObj->collisionBox = CollisionBox(Vector3(390, 0, posZ), Vector3(10, 10, 20), Vector3(-10, 0, -20));
+			NewObj->size = Vector3(3, 3, 3);
+			NewObj->angle = 180.0f;
+			NewObj->rotation = Vector3(0, 1, 0);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
+
+	//Fruitstand
+	meshList[Fruitstand] = MeshBuilder::GenerateOBJ("Fruitstand", "OBJ//Fruitstand.obj");
+	meshList[Fruitstand]->textureID = LoadTGA("Image//Fruits.tga");
+	meshList[Fruitstand]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[Fruitstand]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Fruitstand]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[Fruitstand]->material.kShininess = 3.f;
+
+	for (int posX = 250, count = 0; posX >= 50; posX -= 50)
+	{
+		for (int posZ = -225; posZ <= 125; posZ += 75)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[Fruitstand];
+			NewObj->name = "Fruitstand";
+			NewObj->collisionBox = CollisionBox(Vector3(posX, 0, posZ), Vector3(10, 10, 10), Vector3(-10, 0, -5));
+			NewObj->size = Vector3(4, 4, 4);
+			NewObj->angle = -90.0f;
+			NewObj->rotation = Vector3(0, 1, 0);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
+	}
+
 	meshList[shelf] = MeshBuilder::GenerateOBJ("Shelf", "OBJ//shelf.obj");
 	meshList[shelf]->textureID = LoadTGA("Image//Steeltexture.tga");
 	meshList[shelf]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
@@ -240,7 +286,7 @@ void MyScene::LoadMesh()
 			NewObj->mesh = meshList[TaC];
 			NewObj->name = "TaC";
 			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(15, 40, 10), Vector3(-20, 0, -12));
-			NewObj->size = Vector3(2, 2, 2);
+			NewObj->size = Vector3(3, 3, 3);
 			NewObj->position = count++;
 			v.push_back(NewObj->collisionBox);
 			obj.push_back(NewObj);
@@ -334,7 +380,98 @@ void MyScene::LoadMesh()
 	NewObj->name = "Doorman";
 	obj.push_back(NewObj);
 
+	//Restroom Wall - Back
+	meshList[RestroomBack] = MeshBuilder::GenerateOBJ("RestroomBack", "OBJ//Restroom_Back.obj");
+	meshList[RestroomBack]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomBack]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomBack]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomBack]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomBack]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomBack];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -275), Vector3(20, 40, -15), Vector3(-20, 0, -20));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomBack";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Left
+	meshList[RestroomLeft] = MeshBuilder::GenerateOBJ("RestroomLeft", "OBJ//Restroom_Left.obj");
+	meshList[RestroomLeft]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomLeft]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomLeft]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomLeft]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomLeft]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomLeft];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(-13, 40, 40), Vector3(-15, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomLeft";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Right
+	meshList[RestroomRight] = MeshBuilder::GenerateOBJ("RestroomRight", "OBJ//Restroom_Right.obj");
+	meshList[RestroomRight]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomRight]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomRight]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomRight]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomRight]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomRight];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(20, 40, 40), Vector3(15, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomRight";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Top
+	meshList[RestroomTop] = MeshBuilder::GenerateOBJ("RestroomTop", "OBJ//Restroom_Top.obj");
+	meshList[RestroomTop]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomTop]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomTop]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomTop]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomTop]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomTop];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(20, 50, 50), Vector3(-20, 46, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomTop";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Toiletbowl
+	meshList[Toiletbowl] = MeshBuilder::GenerateOBJ("Toiletbowl", "OBJ//Toiletbowl.obj");
+	meshList[Toiletbowl]->textureID = LoadTGA("Image//Pearly_White.tga");
+	meshList[Toiletbowl]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Toiletbowl]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Toiletbowl]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Toiletbowl]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[Toiletbowl];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -285), Vector3(1, 50, 2), Vector3(-2, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(3.5, 3.5, 3.5);
+	NewObj->name = "Toiletbowl";
+	v.push_back(NewObj->collisionBox);
+	obj.push_back(NewObj);
+
 	LoadCansMesh();
+	LoadPizzaMesh();
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));
 
@@ -450,7 +587,6 @@ void MyScene::LoadCansMesh()
 		meshList[Shelf_Items + typecount]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 		meshList[Shelf_Items + typecount]->material.kShininess = 5.f;
 
-
 		Vector3 shelf;
 		for (int count = 0; count < obj.size(); count++)
 		{
@@ -478,4 +614,30 @@ void MyScene::LoadCansMesh()
 			}
 		}
 	}
+}
+
+void MyScene::LoadPizzaMesh()
+{
+	meshList[Pizza] = MeshBuilder::GenerateOBJ("Pizza", "OBJ//Pizza.obj");
+	meshList[Pizza]->textureID = LoadTGA("Image//Pizza.tga");
+	meshList[Pizza]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+	meshList[Pizza]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Pizza]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[Pizza]->material.kShininess = 3.f;
+
+    Object* NewObj = new Object;
+
+	for (int posZ = -150, count = 0; posZ <= 150; posZ += 75)
+		{
+			NewObj = new Object;
+			NewObj->mesh = meshList[Pizza];
+			NewObj->name = "Pizza";
+			NewObj->collisionBox = CollisionBox(Vector3(390, 10, posZ), Vector3(10, 10, 20), Vector3(-10, 0, -20));
+			NewObj->size = Vector3(3, 3, 3);
+			NewObj->angle = 180.0f;
+			NewObj->rotation = Vector3(0, 1, 0);
+			NewObj->position = count++;
+			v.push_back(NewObj->collisionBox);
+			obj.push_back(NewObj);
+		}
 }

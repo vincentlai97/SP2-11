@@ -64,6 +64,10 @@ class MyScene : public Scene
 		Cafeteria,
 		CafeteriaCashier,
 		Doorman,
+		RestroomBack,
+		RestroomLeft,
+		RestroomRight,
+		RestroomTop,
 		Shelf_Items,
 		Can1 = Shelf_Items,
 		Can2,
@@ -80,6 +84,11 @@ class MyScene : public Scene
 		Coke,
 		GEO_LIGHTBALL,
 		TEST,
+		Toiletbowl,
+		Fridge, 
+		Fruitstand,
+		Pizza,
+		IceCream,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -181,6 +190,10 @@ private:
 	bool eDoorOpened2;
 	bool testSound;
 
+	float SitDown;
+	float StandUp;
+	bool ToiletUsed;
+
 	bool checklistout;
 	bool talk;
 	bool insert;
@@ -204,6 +217,8 @@ private:
 
 	void LoadMesh();
 	void LoadCansMesh();
+	void LoadPizzaMesh();
+	void LoadIceCreamMesh();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
