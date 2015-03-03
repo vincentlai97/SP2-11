@@ -4,6 +4,7 @@
 
 Camera2::Camera2()
 {
+	ToggleToilet = false;
 }
 
 Camera2::~Camera2()
@@ -119,26 +120,30 @@ void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vect
 		}
 	}
 
-	if (Application::IsKeyPressed('W'))
+	if ( ToggleToilet == false)
 	{
-		incr += view * CAMERA_SPEED * dt;
+		if (Application::IsKeyPressed('W'))
+		{
+			incr += view * CAMERA_SPEED * dt;
+		}
+		if (Application::IsKeyPressed('S'))
+		{
+			incr -= view * CAMERA_SPEED * dt;
+		}
+		if (Application::IsKeyPressed('A'))
+		{
+			Vector3 right = view.Cross(up);
+			right.Normalize();
+			incr -= right * CAMERA_SPEED * dt;
+		}
+		if (Application::IsKeyPressed('D'))
+		{
+			Vector3 right = view.Cross(Vector3(up));
+			right.Normalize();
+			incr += right * CAMERA_SPEED * dt;
+		}
 	}
-	if (Application::IsKeyPressed('S'))
-	{
-		incr -= view * CAMERA_SPEED * dt;
-	}
-	if (Application::IsKeyPressed('A'))
-	{
-		Vector3 right = view.Cross(up);
-		right.Normalize();
-		incr -= right * CAMERA_SPEED * dt;
-	}
-	if (Application::IsKeyPressed('D'))
-	{
-		Vector3 right = view.Cross(Vector3(up));
-		right.Normalize();
-		incr += right * CAMERA_SPEED * dt;
-	}
+	
 
 	if (cameraCollisionBox.checkCollision(v, incr))
 	{

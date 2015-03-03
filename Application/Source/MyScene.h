@@ -173,9 +173,13 @@ private:
 	float checklistBuffer;
 	float talkBuffer;
 	float insertBuffer;
+	float PNameBuffer;
 	float letterBuffer;
 	float eraseBuffer;
+	float answerBuffer;
 	string PlayerName;
+	string Answer;
+	
 
 	double xPos;
 	double yPos;
@@ -193,6 +197,7 @@ private:
 	bool checklistout;
 	bool talk;
 	bool insert;
+	bool insertL;
 
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -211,7 +216,8 @@ private:
 
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
-
+	std::vector<Gettable*> pizza;
+	std::vector<CollisionBox*> pizzaCollisionBox;
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
@@ -221,6 +227,7 @@ private:
 	std::vector<string> message;
 	std::vector<string> dialogue;
 	std::vector<char> PNameList;
+	std::vector<char> LetterList;
 
 	std::vector<Character*> cashiers;
 	std::vector<CollisionBox*> cashiersCollisionBox;
@@ -228,6 +235,7 @@ private:
 
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
+
 
 	void LoadMesh();
 	void LoadCansMesh();

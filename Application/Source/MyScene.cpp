@@ -130,13 +130,19 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+	//Player name input
+	PlayerName = "<UNDEFINED>";
+	insert = false;
+	insertBuffer = 0;
+	eraseBuffer = 0;
+	PNameBuffer = 0;
 	//Init AI dialogue
 	insert = false;
 	talk = false;
 	talkBuffer = 0;
 	insertBuffer = 0;
 	letterBuffer = 0;
-	eraseBuffer = 0;
+	insertL = false;
 	PlayerName = "<UNDEFINED>";
 
 	ifstream msg;
@@ -200,6 +206,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	SitDown = 0;
 	StandUp = 0;
 	ToiletUsed = false;
+	
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -291,6 +298,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 			if (ToiletUsed == true && SitDown <= 10)
 			{
+				camera.ToggleToilet = true;
 				camera.target.z	+= 180;
 				camera.target.y -= 10;
 				camera.position.z == camera.target.z;
@@ -298,90 +306,13 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 			if (Application::IsKeyPressed('F') && ToiletUsed == true)
 			{
+				camera.ToggleToilet = false;
 				ToiletUsed = false;
 				camera.target.y += 10;
 			}
 		}
 	}
 
-	//Loop to find eDoorButton OBJ
-	for (int i = 0; i < obj.size(); i++)
-	{
-		//Level 1 Elevator door open
-		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-
-			if (Application::Mouse_Click(0) && eDoorOpened == false)
-			{
-				eDoorOpened = true;
-				v.pop_back();
-			}
-			if (eDoorOpened == true && OpeneDoor < 10)
-			{
-				OpeneDoor += float(12 * dt);	
-			}
-		}
-
-		if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			if (Application::Mouse_Click(0) && eDoorOpened2 == false)
-			{
-				eDoorOpened2 = true;
-				v.pop_back();
-			}
-			if (eDoorOpened2 == true && OpeneDoor2 < 10)
-			{
-				OpeneDoor2 += float(12 * dt);
-			}
-		}	Application::IsKeyPressed('E');
-	}
-
-	//Level 1 Elevator door close
-	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
-	{
-		if (eDoorOpened)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened = false;
-		if (eDoorOpened == false && OpeneDoor > 0)
-		{
-			OpeneDoor -= float(12 * dt);
-		}
-	}
-
-	//Level 2 Elevator door close
-	if (camera.position.x < -360 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
-	{
-		if (eDoorOpened2)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened2 = false;
-		if (eDoorOpened2 == false && OpeneDoor2 > 0)
-		{
-			OpeneDoor2 -= float(12 * dt);
-		}
-	}
-
-	//Level 1 eDoor Autoclose
-	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y < 42)
-	{
-		if (eDoorOpened)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened = false;
-		if (eDoorOpened == false && OpeneDoor > 0)
-		{
-			OpeneDoor -= float(12 * dt);
-		}
-	}
-	//Level 2 eDoor Autoclose
-	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y > 42)
-	{
-		if (eDoorOpened2)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened2 = false;
-		if (eDoorOpened2 == false && OpeneDoor2 > 0)
-		{
-			OpeneDoor2 -= float(12 * dt);
-		}
-	}
 
 	{
 		int targeted = MyScene::targeted(shelfItemsCollisionBox);
@@ -410,7 +341,62 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 	//AI Dialogue
-	if (insert == false)
+	Application::IsKeyPressed(VK_RETURN);
+	if (Application::Mouse_Click(0) && talkBuffer <= 0)
+	{
+		random_shuffle(dialogue.begin(), dialogue.end());
+		for (int count = 0; count < shelfCharacters.size(); count++)
+		{
+			Character character(*shelfCharacters[count]);
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			{
+				talk = !talk;
+				talkBuffer = 0.5;
+			}
+		}
+	}
+
+	if (talk == true)
+	{
+		if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
+		{
+			insertL = !insertL;
+			answerBuffer = 0.5;
+			if (insertL == false)
+			{
+				Answer = "";
+				for (int i = 0; i < LetterList.size(); i++)
+				{
+					Answer += LetterList[i];
+				}
+				LetterList.clear();
+				talk = false;
+			}
+		}
+		if (insertL == true && letterBuffer <= 0)
+		{
+			for (char letter = 'A'; letter < 'Z'; letter++)
+			{
+				if (Application::IsKeyPressed(letter))
+				{
+					LetterList.push_back(letter);
+					letterBuffer = 0.2;
+				}
+			}
+			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			{
+				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
+				eraseBuffer = 0.2;
+			}
+		}
+		
+	}
+	else
+	{
+		updateAI(dt);
+	}
+	//Player name input
+	if (insert == false && talk == false)
 	{
 		//Don't update camera if user choses to input text
 		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
@@ -421,12 +407,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			checklistBuffer = 0.5;
 		}
 	}
-	if (Application::Mouse_Click(0) && talkBuffer <= 0)
-	{
-		talk = !talk;
-		talkBuffer = 0.5;
-	}
-	if (Application::IsKeyPressed(VK_RETURN) && insertBuffer <= 0)
+	if (Application::IsKeyPressed(VK_HOME) && insertBuffer <= 0)
 	{
 		insert = !insert;
 		insertBuffer = 0.5;
@@ -441,14 +422,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-	if (insert == true && letterBuffer <= 0)
+	if (insert == true && PNameBuffer <= 0)
 	{
 		for (char letter = 'A'; letter < 'Z'; letter++)
 		{
 			if (Application::IsKeyPressed(letter))
 			{
 				PNameList.push_back(letter);
-				letterBuffer = 0.2;
+				PNameBuffer = 0.2;
 			}
 		}
 
@@ -456,8 +437,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		{
 			PNameList.erase(PNameList.begin() + PNameList.size() - 1);
 			eraseBuffer = 0.2;
-
-
 		}
 	}	
 
@@ -477,17 +456,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		else checkoutprice = 0;
 	}
 
-	updateAI(dt);
-
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
-
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
 	if (talkBuffer > 0) talkBuffer -= dt;
 	if (insertBuffer > 0) insertBuffer -= dt;
+	if (PNameBuffer > 0) PNameBuffer -= dt;
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
+	if (answerBuffer > 0) answerBuffer -= dt;
 }
 
 void MyScene::Exit()
