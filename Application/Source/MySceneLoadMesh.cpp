@@ -676,8 +676,9 @@ void MyScene::LoadPizzaMesh()
 						NewObj->collisionBox.Centre = Vector3(countx * 2, county * 5, countz * 7);
 						NewObj->collisionBox.Centre += Fridge;
 						NewObj->position = count++;
-						v.push_back(&NewObj->collisionBox);
 						obj.push_back(NewObj);
+					    pizza.push_back(NewObj);
+					    pizzaCollisionBox.push_back(&(NewObj->collisionBox));	
 					}
 				}
 			}

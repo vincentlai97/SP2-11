@@ -268,9 +268,7 @@ void MyScene::Render()
 	else
 	{
 		talk = false;
-		}
 	}
-
 
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);

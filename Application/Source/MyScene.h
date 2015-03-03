@@ -205,6 +205,7 @@ private:
 	float StandUp;
 	bool ToiletUsed;
 
+
 	bool checklistout;
 	bool talk;
 	bool insert;
@@ -220,6 +221,8 @@ private:
 	std::vector<Object*> obj;
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
+	std::vector<Gettable*> pizza;
+	std::vector<CollisionBox*> pizzaCollisionBox;
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
@@ -237,6 +240,11 @@ private:
 
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
+
+	std::vector<Character*> PizzaCharacters;
+	std::vector<CollisionBox*> PizzaCharactersCollisionBox;
+
+	AICharacter ai;
 
 	void LoadMesh();
 	void LoadCansMesh();
