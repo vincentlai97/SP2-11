@@ -467,12 +467,19 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				buttonBuffer = 0.5;
 			}
 	}
-	if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
-	{
-		checklistout = !checklistout;
-		checklistBuffer = 0.5;
-	}
+	
 	//AI Dialogue
+	if (insert == false)
+	{
+		//Don't update camera if user choses to input text
+		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+		cameraCollisionBox.Centre = camera.position;
+		if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
+		{
+			checklistout = !checklistout;
+			checklistBuffer = 0.5;
+		}
+	}
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)
 	{
 		talk = !talk;
@@ -480,10 +487,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 	if (Application::IsKeyPressed(VK_RETURN) && insertBuffer <= 0)
 	{
-		
 		insert = !insert;
 		insertBuffer = 0.5;
-		
 		if (insert == false)
 		{
 			PlayerName = "";
@@ -492,7 +497,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				PlayerName += PNameList[i];
 			}
 			PNameList.clear();
-			
 		}
 	}
 
@@ -514,8 +518,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 	updateAI(dt);
 
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
