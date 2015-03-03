@@ -34,8 +34,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glAlphaFunc(GL_GREATER, 0.1) ;
-    glEnable(GL_ALPHA_TEST) ;
+	glAlphaFunc(GL_GREATER, 0.1) ;
+	glEnable(GL_ALPHA_TEST) ;
 
 	//Generate default VAO
 	glGenVertexArrays(1, &m_vertexArrayID);
@@ -149,7 +149,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 		message.push_back(dia);
 	}
 	msg.close();
-	
+
 
 	//Loading of obj names from text file
 	ifstream Name;
@@ -206,7 +206,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	SitDown = 0;
 	StandUp = 0;
 	ToiletUsed = false;
-	
+
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
@@ -216,7 +216,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
-	
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
@@ -349,16 +348,16 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 
 			if (ToiletUsed == true && SitDown <= 10)
-		    {
-				    camera.target.z	+= 180;
-				    camera.target.y -= 10;
-					camera.position.z == camera.target.z;
-		    }
+			{
+				camera.target.z	+= 180;
+				camera.target.y -= 10;
+				camera.position.z == camera.target.z;
+			}
 
 			if (Application::IsKeyPressed('F') && ToiletUsed == true)
 			{
-				    ToiletUsed = false;
-				    camera.target.y += 10;
+				ToiletUsed = false;
+				camera.target.y += 10;
 			}
 		}
 	}
@@ -369,7 +368,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		//Level 1 Elevator door open
 		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
-			
+
 			if (Application::Mouse_Click(0) && eDoorOpened == false)
 			{
 				eDoorOpened = true;
@@ -468,6 +467,57 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
+	//AI Dialogue
+	if (insert == false)
+	{
+		//Don't update camera if user choses to input text
+		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+		cameraCollisionBox.Centre = camera.position;
+		if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
+		{
+			checklistout = !checklistout;
+			checklistBuffer = 0.5;
+		}
+	}
+	if (Application::Mouse_Click(0) && talkBuffer <= 0)
+	{
+		talk = !talk;
+		talkBuffer = 0.5;
+	}
+	if (Application::IsKeyPressed(VK_RETURN) && insertBuffer <= 0)
+	{
+		insert = !insert;
+		insertBuffer = 0.5;
+		if (insert == false)
+		{
+			PlayerName = "";
+			for (int i = 0; i < PNameList.size(); i++)
+			{
+				PlayerName += PNameList[i];
+			}
+			PNameList.clear();
+		}
+	}
+
+	if (insert == true && letterBuffer <= 0)
+	{
+		for (char letter = 'A'; letter < 'Z'; letter++)
+		{
+			if (Application::IsKeyPressed(letter))
+			{
+				PNameList.push_back(letter);
+				letterBuffer = 0.2;
+			}
+		}
+
+		if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+		{
+			PNameList.erase(PNameList.begin() + PNameList.size() - 1);
+			eraseBuffer = 0.2;
+
+
+		}
+	}	
 
 	{
 		int targeted = MyScene::targeted(cashiersCollisionBox);
@@ -497,7 +547,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 }
-
 
 void MyScene::Exit()
 {

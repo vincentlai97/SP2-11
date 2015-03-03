@@ -35,9 +35,6 @@ void AICharacter::update(double dt, std::vector<CollisionBox*> collisionBox)
 			}
 		}
 	}
-<<<<<<< Updated upstream
-	/*std::cout << looktime << " " << path->haveSide() << std::endl;*/
-=======
 
 	if (this->collisionBox.checkCollision(collisionBox) && !collide)
 	{
@@ -48,7 +45,6 @@ void AICharacter::update(double dt, std::vector<CollisionBox*> collisionBox)
 	else if (!this->collisionBox.checkCollision(collisionBox)) collide = false;
 
 	this->collisionBox.Centre = pos;
->>>>>>> Stashed changes
 }
 
 bool AICharacter::isendofpath()

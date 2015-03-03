@@ -1,7 +1,7 @@
 #include "MyScene.h"
 #include "GL\glew.h"
 #include "Utility.h"
-
+#include "Application.h"
 
 #include "shader.hpp"
 
@@ -76,9 +76,6 @@ void MyScene::Render()
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
-
-	RenderObjects();
-	RenderCharacters();
 
 	//Render Exterior Buildings
 	modelStack.PushMatrix(); {
@@ -249,18 +246,22 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	if (camera.position.x < ai.pos.x + 10 && camera.position.x > ai.pos.x - 10 && camera.position.z < ai.pos.z + 10 && camera.position.z > ai.pos.z - 10)
+	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
-		if (talk == true)
+		Character character(*shelfCharacters[count]);
+		if (camera.position.x < character.pos.x + 10 && camera.position.x > character.pos.x - 10 && camera.position.z < character.pos.z + 10 && camera.position.z > character.pos.z - 10)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
+			if (talk == true)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+			}
 		}
-	}
-	else
-	{
-		talk = false;
-		random_shuffle(dialogue.begin(), dialogue.end());
+		else
+		{
+			talk = false;
+			random_shuffle(dialogue.begin(), dialogue.end());
+		}
 	}
 
 
@@ -621,10 +622,6 @@ void MyScene::RenderInventory()
 	projectionStack.LoadMatrix(ortho);
 	viewStack.PushMatrix();
 	viewStack.LoadIdentity();
-
-	modelStack.PushMatrix();
-	Object* obj = targetObject();
-	modelStack.PopMatrix();
 
 	//Inventory
 	modelStack.PushMatrix();

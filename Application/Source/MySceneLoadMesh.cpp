@@ -172,7 +172,7 @@ void MyScene::LoadMesh()
 			NewObj->angle = 180.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 
@@ -196,7 +196,7 @@ void MyScene::LoadMesh()
 			NewObj->angle = -90.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -414,7 +414,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomBack";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Left
@@ -432,7 +432,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomLeft";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Right
@@ -450,7 +450,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomRight";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Top
@@ -468,7 +468,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomTop";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Toiletbowl
@@ -486,7 +486,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(3.5, 3.5, 3.5);
 	NewObj->name = "Toiletbowl";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	LoadCansMesh();
@@ -658,7 +658,7 @@ void MyScene::LoadPizzaMesh()
 			NewObj->angle = 180.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 }

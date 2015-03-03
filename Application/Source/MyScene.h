@@ -197,7 +197,6 @@ private:
 	bool eDoorOpened2;
 	bool testSound;
 
-<<<<<<< Updated upstream
 	float SitDown;
 	float StandUp;
 	bool ToiletUsed;
@@ -206,10 +205,7 @@ private:
 	bool talk;
 	bool insert;
 
-	std::vector<CollisionBox> v;
-=======
 	std::vector<CollisionBox*> v;
->>>>>>> Stashed changes
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
 	std::vector<CollisionBox> elevatorUp;
