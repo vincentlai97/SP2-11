@@ -17,6 +17,8 @@ public:
 	{
 		JUMPING,
 		NJUMPING,
+		SitDown,
+		StandUp,
 	};
 
 	int state;
