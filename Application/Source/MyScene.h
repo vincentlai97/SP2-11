@@ -161,6 +161,10 @@ private:
 	float buttonBuffer;
 	float checklistBuffer;
 	float talkBuffer;
+	float insertBuffer;
+	float letterBuffer;
+	float eraseBuffer;
+	string PlayerName;
 
 	double xPos;
 	double yPos;
@@ -179,6 +183,7 @@ private:
 
 	bool checklistout;
 	bool talk;
+	bool insert;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -193,6 +198,7 @@ private:
 	std::vector<string> temp;
 	std::vector<string> message;
 	std::vector<string> dialogue;
+	std::vector<char> PNameList;
 
 	AICharacter ai;
 

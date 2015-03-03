@@ -18,14 +18,14 @@ void MyScene::Render()
 		camera.up.x, camera.up.y, camera.up.z
 		);
 
-	if(light[0].type == Light::LIGHT_DIRECTIONAL)
+	if (light[0].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[0].position.x, light[0].position.y, light[0].position.z);
 		Vector3 lightDirection_cameraspace = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightDirection_cameraspace.x);
 	}
 
-	else if(light[0].type == Light::LIGHT_SPOT)
+	else if (light[0].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace = viewStack.Top() * light[0].position;
 		glUniform3fv(m_parameters[U_LIGHT0_POSITION], 1, &lightPosition_cameraspace.x);
@@ -40,14 +40,14 @@ void MyScene::Render()
 	}
 
 
-	if(light[1].type == Light::LIGHT_DIRECTIONAL)
+	if (light[1].type == Light::LIGHT_DIRECTIONAL)
 	{
 		Vector3 lightDir(light[1].position.x, light[1].position.y, light[1].position.z);
 		Vector3 lightDirection_cameraspace1 = viewStack.Top() * lightDir;
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightDirection_cameraspace1.x);
 	}
 
-	else if(light[1].type == Light::LIGHT_SPOT)
+	else if (light[1].type == Light::LIGHT_SPOT)
 	{
 		Position lightPosition_cameraspace1 = viewStack.Top() * light[1].position;
 		glUniform3fv(m_parameters[U_LIGHT1_POSITION], 1, &lightPosition_cameraspace1.x);
@@ -72,7 +72,7 @@ void MyScene::Render()
 	modelStack.Scale(1, 1, 1);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
-	
+
 	modelStack.PushMatrix();
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
@@ -187,7 +187,7 @@ void MyScene::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
 		}
 	}
-	
+
 	//Elevator Interaction
 	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
@@ -197,7 +197,7 @@ void MyScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
-	
+
 	RenderTargetDetails();
 	if (checklistout == false)
 	{
@@ -209,6 +209,22 @@ void MyScene::Render()
 	{
 		RenderOnScreen();
 		RenderCheckList();
+	}
+	//Player Name
+	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 3, 1, 18);
+
+	for (int xPos = 10, count = 0; count < PNameList.size(); xPos++, count++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 3, xPos, 14);
+	}
+	if (insert == false)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to edit your name.", Color(0, 0, 0), 2, 10, 25);
+	}
+	else if (insert == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in your name.", Color(0, 0, 0), 2, 10, 25);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 10, 24);
 	}
 	//AI Dialogue
 	srand(time(NULL));
@@ -242,7 +258,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 	Mtx44 modelView, modelView_inverse_transpose;
 
 	load();
-	if(enableLight)
+	if (enableLight)
 	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 1);
 		modelView = viewStack.Top() * modelStack.Top();
@@ -257,10 +273,10 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 		glUniform1f(m_parameters[U_MATERIAL_SHININESS], mesh->material.kShininess);
 	}
 	else
-	{	
+	{
 		glUniform1i(m_parameters[U_LIGHTENABLED], 0);
 	}
-	if(mesh->textureID > 0)
+	if (mesh->textureID > 0)
 	{
 		glUniform1i(m_parameters[U_COLOR_TEXTURE_ENABLED], 1);
 		glActiveTexture(GL_TEXTURE0);
@@ -274,7 +290,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 
 	mesh->Render();
 
-	if(mesh->textureID > 0)
+	if (mesh->textureID > 0)
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
@@ -282,7 +298,7 @@ void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
 
 void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 {
-	if(!mesh || mesh->textureID <= 0) //Proper error check
+	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -293,7 +309,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for(unsigned i = 0; i < text.length(); ++i)
+	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i * 0.8f, 0, 0); //1.0f is the spacing of each character, you may change this value
@@ -330,7 +346,7 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, mesh->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
-	for(unsigned i = 0; i < text.length(); ++i)
+	for (unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
 		characterSpacing.SetToTranslation(i* 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
@@ -363,13 +379,13 @@ void MyScene::RenderOnScreen()
 	glBindTexture(GL_TEXTURE_2D, meshList[CheckList]->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 
-	modelStack.PushMatrix(); 
-	modelStack.Translate(70,20,0);
-	modelStack.Scale(20,30,1);
+	modelStack.PushMatrix();
+	modelStack.Translate(70, 20, 0);
+	modelStack.Scale(20, 30, 1);
 	RenderMesh(meshList[CheckList], false);
 	modelStack.PopMatrix();
 
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
@@ -381,7 +397,7 @@ void MyScene::RenderInterior()
 {
 	modelStack.PushMatrix(); {
 		modelStack.Scale(20, 20, 20);
-		
+
 		RenderMesh(meshList[INT_WALL], false);
 		RenderMesh(meshList[INT_FLOOR], false);
 		RenderMesh(meshList[WHITE_GLASS], false);
@@ -400,27 +416,27 @@ void MyScene::RenderExterior()
 
 void MyScene::RenderBuildings()
 {
-		for (int xPos = -100, count = 0; count < 6; count++)
-		{
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building1], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building2], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building3], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-		}
+	for (int xPos = -100, count = 0; count < 6; count++)
+	{
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building1], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building2], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building3], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+	}
 }
 
 void MyScene::RenderSkyBox()
@@ -466,9 +482,9 @@ void MyScene::RenderSkyBox()
 	modelStack.PopMatrix();
 
 	//Environment Floor
-	for(int i = 0; i <= 20; i++)
+	for (int i = 0; i <= 20; i++)
 	{
-		for(int a = 0; a < 20; a++)
+		for (int a = 0; a < 20; a++)
 		{
 			modelStack.PushMatrix();
 			modelStack.Rotate(90, 0, -1, 0);
@@ -553,8 +569,8 @@ void MyScene::RenderCheckList()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Complete", Color(0, 0, 0), 2, 31, 5);
 	}
-	
-		
+
+
 }
 
 void MyScene::RenderInventory()
@@ -569,13 +585,13 @@ void MyScene::RenderInventory()
 	modelStack.PushMatrix();
 	Object* obj = targetObject();
 	modelStack.PopMatrix();
-	
+
 	//Inventory
 	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);
 	modelStack.Scale(6, 5, 1);
 	RenderMesh(meshList[Inventory], true);
-	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
+	for (int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
@@ -584,21 +600,21 @@ void MyScene::RenderInventory()
 		modelStack.PopMatrix();
 	}
 	modelStack.PopMatrix();
-	
-	if(inventory.size() >= 1)
+
+	if (inventory.size() >= 1)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(13, 5, 0);
 		modelStack.Scale(6, 6, 2);
 		RenderMesh(meshList[Selector], false);
 		modelStack.PopMatrix();
-		if(Application::IsKeyPressed(VK_RIGHT))
+		if (Application::IsKeyPressed(VK_RIGHT))
 		{
-				modelStack.PushMatrix();
-				modelStack.Translate(13, 5, 0);
-				modelStack.Scale(6, 6, 2);
-				RenderMesh(meshList[Selector], false);
-				modelStack.PopMatrix();
+			modelStack.PushMatrix();
+			modelStack.Translate(13, 5, 0);
+			modelStack.Scale(6, 6, 2);
+			RenderMesh(meshList[Selector], false);
+			modelStack.PopMatrix();
 		}
 	}
 

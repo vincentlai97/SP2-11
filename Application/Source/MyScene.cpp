@@ -131,8 +131,14 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 	//Init AI dialogue
+	insert = false;
 	talk = false;
 	talkBuffer = 0;
+	insertBuffer = 0;
+	letterBuffer = 0;
+	eraseBuffer = 0;
+	PlayerName = "<UNDEFINED>";
+
 	ifstream msg;
 	string dia;
 
@@ -435,14 +441,46 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		checklistout = !checklistout;
 		checklistBuffer = 0.5;
 	}
+	//AI Dialogue
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)
 	{
 		talk = !talk;
 		talkBuffer = 0.5;
 	}
-	
-	cout << ai.pos.x << endl;
+	if (Application::IsKeyPressed(VK_RETURN) && insertBuffer <= 0)
+	{
+		
+		insert = !insert;
+		insertBuffer = 0.5;
+		
+		if (insert == false)
+		{
+			PlayerName = "";
+			for (int i = 0; i < PNameList.size(); i++)
+			{
+				PlayerName += PNameList[i];
+			}
+			PNameList.clear();
+			
+		}
+	}
 
+	if (insert == true && letterBuffer <= 0)
+	{
+		for (char letter = 'A'; letter < 'Z'; letter++)
+		{
+			if (Application::IsKeyPressed(letter))
+			{
+				PNameList.push_back(letter);
+				letterBuffer = 0.2;
+			}
+		}
+		if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+		{
+			PNameList.erase(PNameList.begin() + PNameList.size() - 1);
+			eraseBuffer = 0.2;
+		}
+	}
 	updateAI(dt);
 
 	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
@@ -451,7 +489,11 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
 	if (talkBuffer > 0) talkBuffer -= dt;
+	if (insertBuffer > 0) insertBuffer -= dt;
+	if (letterBuffer > 0) letterBuffer -= dt;
+	if (eraseBuffer > 0) eraseBuffer -= dt;
 }
+
 
 void MyScene::Exit()
 {
