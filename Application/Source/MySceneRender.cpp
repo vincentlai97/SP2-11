@@ -77,9 +77,6 @@ void MyScene::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 	modelStack.PopMatrix();
 
-	RenderObjects();
-	RenderCharacters();
-
 	//Render Exterior Buildings
 	modelStack.PushMatrix(); {
 		RenderBuildings();
@@ -117,9 +114,10 @@ void MyScene::Render()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
-	modelStack.Rotate(-32.5, 0, 0, 1);
-	modelStack.Scale(166, 1, 80);
-	modelStack.Translate(-0.5, 0.5, 0);
+	modelStack.Rotate(90, 0, 1, 0);
+	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
+	modelStack.Scale(80, 166.43, 0);
+	modelStack.Translate(0, 0.5, 0);
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
@@ -142,8 +140,8 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
+	
 	RenderInterior();
-
 	RenderExterior();
 
 	modelStack.PushMatrix();
@@ -159,13 +157,11 @@ void MyScene::Render()
 	modelStack.Scale(11.7, 6.5, 2);
 	RenderMesh(meshList[GEO_DOOR], false);
 	modelStack.PopMatrix();
-
-	modelStack.PushMatrix(); {
-		modelStack.Translate(ai.pos.x, 0, ai.pos.z);
-
-		RenderMesh(meshList[TEST], false);
-	} modelStack.PopMatrix();
-
+	
+	RenderObjects();
+	RenderCharacter(cashiers);
+	RenderCharacter(shelfCharacters);
+	
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 24.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 25.5);
@@ -227,6 +223,22 @@ void MyScene::Render()
 		RenderOnScreen();
 		RenderCheckList();
 	}
+	//Player Name
+	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 3, 1, 18);
+
+	for (int xPos = 10, count = 0; count < PNameList.size(); xPos++, count++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 3, xPos, 14);
+	}
+	if (insert == false)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to edit your name.", Color(0, 0, 0), 2, 10, 25);
+	}
+	else if (insert == true)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in your name.", Color(0, 0, 0), 2, 10, 25);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 10, 24);
+	}
 	//AI Dialogue
 	srand(time(NULL));
 	random_shuffle(message.begin(), message.end());
@@ -234,18 +246,22 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	if (camera.position.x < ai.pos.x + 10 && camera.position.x > ai.pos.x - 10 && camera.position.z < ai.pos.z + 10 && camera.position.z > ai.pos.z - 10)
+	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
-		if (talk == true)
+		Character character(*shelfCharacters[count]);
+		if (camera.position.x < character.pos.x + 10 && camera.position.x > character.pos.x - 10 && camera.position.z < character.pos.z + 10 && camera.position.z > character.pos.z - 10)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact", Color(0, 0, 0), 2, 11, 19);
+			if (talk == true)
+			{
+				RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+			}
 		}
-	}
-	else
-	{
-		talk = false;
-		random_shuffle(dialogue.begin(), dialogue.end());
+		else
+		{
+			talk = false;
+			random_shuffle(dialogue.begin(), dialogue.end());
+		}
 	}
 
 
@@ -326,7 +342,7 @@ void MyScene::RenderText(Mesh* mesh, std::string text, Color color)
 
 void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
-	if (!mesh || mesh->textureID <= 0) //Proper error check
+	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
 
 	glDisable(GL_DEPTH_TEST);
@@ -350,7 +366,7 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i* 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -380,13 +396,13 @@ void MyScene::RenderOnScreen()
 	glBindTexture(GL_TEXTURE_2D, meshList[CheckList]->textureID);
 	glUniform1i(m_parameters[U_COLOR_TEXTURE], 0);
 
-	modelStack.PushMatrix(); 
-	modelStack.Translate(70,20,0);
-	modelStack.Scale(20,30,1);
+	modelStack.PushMatrix();
+	modelStack.Translate(70, 20, 0);
+	modelStack.Scale(20, 30, 1);
 	RenderMesh(meshList[CheckList], false);
 	modelStack.PopMatrix();
 
-	
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
 	glEnable(GL_DEPTH_TEST);
@@ -398,7 +414,7 @@ void MyScene::RenderInterior()
 {
 	modelStack.PushMatrix(); {
 		modelStack.Scale(20, 20, 20);
-		
+
 		RenderMesh(meshList[INT_WALL], false);
 		RenderMesh(meshList[INT_FLOOR], false);
 		RenderMesh(meshList[WHITE_GLASS], false);
@@ -417,27 +433,27 @@ void MyScene::RenderExterior()
 
 void MyScene::RenderBuildings()
 {
-		for (int xPos = -100, count = 0; count < 6; count++)
-		{
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building1], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building2], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-			modelStack.PushMatrix(); {
-				modelStack.Scale(10, 10, 10);
-				modelStack.Translate(xPos, 0, 100);
-				RenderMesh(meshList[Building3], false);
-			} modelStack.PopMatrix();
-			xPos += 10;
-		}
+	for (int xPos = -100, count = 0; count < 6; count++)
+	{
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building1], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building2], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+		modelStack.PushMatrix(); {
+			modelStack.Scale(10, 10, 10);
+			modelStack.Translate(xPos, 0, 100);
+			RenderMesh(meshList[Building3], false);
+		} modelStack.PopMatrix();
+		xPos += 10;
+	}
 }
 
 void MyScene::RenderSkyBox()
@@ -483,9 +499,9 @@ void MyScene::RenderSkyBox()
 	modelStack.PopMatrix();
 
 	//Environment Floor
-	for(int i = 0; i <= 20; i++)
+	for (int i = 0; i <= 20; i++)
 	{
-		for(int a = 0; a < 20; a++)
+		for (int a = 0; a < 20; a++)
 		{
 			modelStack.PushMatrix();
 			modelStack.Rotate(90, 0, -1, 0);
@@ -514,34 +530,58 @@ void MyScene::RenderObjects()
 	}
 }
 
-void MyScene::RenderCharacters()
+void MyScene::RenderCharacter(std::vector<Character*> characters)
 {
-	Vector3 view = camera.target - camera.position;
-	view.Normalize();
-	view *= 10;
-	Vector3 target = camera.target + view;
+	for (int count = 0; count < characters.size(); count++)
+	{
+		Character character(*characters[count]);
+		modelStack.PushMatrix(); {
+			modelStack.Translate(character.pos.x, character.pos.y, character.pos.z);
+			modelStack.Rotate(character.angle, 0, 1, 0);
+			modelStack.Scale(2, 2, 2);
 
-	modelStack.PushMatrix(); {
-		modelStack.Translate(ai.pos.x, ai.pos.y, ai.pos.z);
-		float angle = ai.lookdir.Angle(Vector3(1, 0, 0));
-		modelStack.Rotate(angle, 0, ai.lookdir.z > 0 ? -1 : 1, 0);
-		modelStack.Scale(3, 3, 3);
+			RenderMesh(character.mesh[0], false);
+			RenderMesh(character.mesh[1], false);
+			for (int count = -1; count < 2; count += 2)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(1.5 * count, 6.375, 0);
+					modelStack.Translate(0.625 * count, 0.625, 0);
 
-		RenderMesh(meshList[Doorman], false);
-	} modelStack.PopMatrix();
+					RenderMesh(character.mesh[2], false);
+				} modelStack.PopMatrix();
 
+				modelStack.PushMatrix(); {
+					modelStack.Translate(0.75 * count, 3, 0);
+
+					RenderMesh(character.mesh[3], false);
+				} modelStack.PopMatrix();
+			}
+		} modelStack.PopMatrix();
+	}
 }
 
 void MyScene::RenderTargetDetails()
 {
 	Vector3 view = camera.target - camera.position;
-
-	Object* obj = targetObject();
-
-	if (obj->name.size() && !obj->getTaken())
+	
+	int targeted = MyScene::targeted(shelfItemsCollisionBox);
+	if (targeted != -1)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + obj->name, Color(0, 0, 0), 3, 1, 19);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(obj->getPrice()), Color(0, 0, 0), 3, 1, 18);
+		Gettable* targetedObj = shelfItems[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 0), 3, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+		}
+	}
+
+	targeted = MyScene::targeted(cashiersCollisionBox);
+	if (targeted != -1)
+	{
+		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 3, 1, 18);
+		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 3, 1, 19);
 	}
 }
 
@@ -570,8 +610,8 @@ void MyScene::RenderCheckList()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Complete", Color(0, 0, 0), 2, 31, 5);
 	}
-	
-		
+
+
 }
 
 void MyScene::RenderInventory()
@@ -583,16 +623,12 @@ void MyScene::RenderInventory()
 	viewStack.PushMatrix();
 	viewStack.LoadIdentity();
 
-	modelStack.PushMatrix();
-	Object* obj = targetObject();
-	modelStack.PopMatrix();
-	
 	//Inventory
 	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);
 	modelStack.Scale(6, 5, 1);
 	RenderMesh(meshList[Inventory], true);
-	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
+	for (int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
@@ -601,21 +637,21 @@ void MyScene::RenderInventory()
 		modelStack.PopMatrix();
 	}
 	modelStack.PopMatrix();
-	
-	if(inventory.size() >= 1)
+
+	if (inventory.size() >= 1)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(13, 5, 0);
 		modelStack.Scale(6, 6, 2);
 		RenderMesh(meshList[Selector], false);
 		modelStack.PopMatrix();
-		if(Application::IsKeyPressed(VK_RIGHT))
+		if (Application::IsKeyPressed(VK_RIGHT))
 		{
-				modelStack.PushMatrix();
-				modelStack.Translate(13, 5, 0);
-				modelStack.Scale(6, 6, 2);
-				RenderMesh(meshList[Selector], false);
-				modelStack.PopMatrix();
+			modelStack.PushMatrix();
+			modelStack.Translate(13, 5, 0);
+			modelStack.Scale(6, 6, 2);
+			RenderMesh(meshList[Selector], false);
+			modelStack.PopMatrix();
 		}
 	}
 

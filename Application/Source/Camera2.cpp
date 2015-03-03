@@ -22,9 +22,10 @@ void Camera2::Init(const Vector3& pos, const Vector3& target, const Vector3& up)
 	state = NJUMPING;
 	state = SitDown;
 	state = StandUp;
+	jumpHeight = 0;
 }
 
-void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vector<CollisionBox> v, float width, float height, double* xPos, double* yPos)
+void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vector<CollisionBox*> v, float width, float height, double* xPos, double* yPos)
 {
 	static const float CAMERA_SPEED = 70.f;
 	static const float MOUSE_SPEED = 10.f;
@@ -100,24 +101,26 @@ void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vect
 		Reset();
 	}
 	
-	if (Application::IsKeyPressed(VK_SPACE) && position.y < 17)
-	{
-		state = JUMPING;
-	}
 
 	Vector3 view = (target-position);
 	view.y = 0;
 	view.Normalize();
 	Vector3 incr(0, 0, 0);
-	if (state == NJUMPING && position.y > 15)
+	if (state == NJUMPING)
 	{
 		incr.y -= CAMERA_SPEED * dt;
+		jumpHeight -= CAMERA_SPEED * dt;
 	}
 	else if (state == JUMPING)
 	{
-		if (position.y > 40) state = NJUMPING;
-		else incr.y += CAMERA_SPEED * dt;
+		if (jumpHeight > 20) state = NJUMPING;
+		else 
+		{
+			incr.y += CAMERA_SPEED * dt;
+			jumpHeight += CAMERA_SPEED * dt;
+		}
 	}
+
 	if (Application::IsKeyPressed('W'))
 	{
 		incr += view * CAMERA_SPEED * dt;
@@ -151,6 +154,12 @@ void Camera2::Update(double dt, CollisionBox cameraCollisionBox, const std::vect
 	}
 	position += incr;
 	target += incr;
+
+	if (Application::IsKeyPressed(VK_SPACE) && state == NJUMPING && incr.y == 0 && jumpHeight <= 2)
+	{
+		state = JUMPING;
+		jumpHeight = 0;
+	}
 }
 
 void Camera2::Reset()

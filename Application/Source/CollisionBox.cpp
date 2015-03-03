@@ -84,3 +84,13 @@ bool CollisionBox::checkCollision(std::vector<CollisionBox> v, Vector3 incr)
 	}
 	return false;
 }
+
+bool CollisionBox::checkCollision(std::vector<CollisionBox*> v, Vector3 incr)
+{
+	for (int count = 0; count < v.size(); count++)
+	{
+		if (CollisionBox::checkCollision(*v[count], incr))
+			return true;
+	}
+	return false;
+}

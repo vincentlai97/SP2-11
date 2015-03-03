@@ -172,7 +172,7 @@ void MyScene::LoadMesh()
 			NewObj->angle = 180.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 
@@ -196,7 +196,7 @@ void MyScene::LoadMesh()
 			NewObj->angle = -90.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -220,7 +220,7 @@ void MyScene::LoadMesh()
 			NewObj->size = Vector3(4, 4, 4);
 			NewObj->collisionBox.Centre = Vector3(posX, 0, posZ);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -243,7 +243,7 @@ void MyScene::LoadMesh()
 		NewObj->angle = 180.0f;
 		NewObj->rotation = Vector3(0, 1, 0);
 		NewObj->position = count++;
-		v.push_back(NewObj->collisionBox);
+		v.push_back(&NewObj->collisionBox);
 		obj.push_back(NewObj);
 	}
 
@@ -265,7 +265,7 @@ void MyScene::LoadMesh()
 			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(10, 40, 10), Vector3(-10, 0, -10));
 			NewObj->size = Vector3(4, 4, 4);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -288,7 +288,7 @@ void MyScene::LoadMesh()
 			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(15, 40, 10), Vector3(-20, 0, -12));
 			NewObj->size = Vector3(3, 3, 3);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -308,7 +308,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(3, 4, 3);
 	NewObj->name = "Banner";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	////Clothes Racks - 2nd Floor
@@ -329,7 +329,7 @@ void MyScene::LoadMesh()
 			NewObj->collisionBox = CollisionBox(Vector3(posX, 90, posZ), Vector3(10, 40, 10), Vector3(-10, 0, -10));
 			NewObj->size = Vector3(4, 4, 4);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 	}
@@ -347,7 +347,7 @@ void MyScene::LoadMesh()
 	NewObj->collisionBox = CollisionBox(Vector3(-365, 90, -265), Vector3(40, 40, 40), Vector3(-40, 0, -40));
 	NewObj->size = Vector3(3, 4, 3);
 	NewObj->name = "Cafeteria";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Cafeteria Cashier
@@ -365,20 +365,39 @@ void MyScene::LoadMesh()
 	NewObj->name = "CafeteriaCashier";
 	obj.push_back(NewObj);
 
-	//Doorman
-	meshList[Doorman] = MeshBuilder::GenerateOBJ("Doorman", "OBJ//Doorman.obj");
-	meshList[Doorman]->textureID = LoadTGA("Image//Red_Apron.tga");
-	meshList[Doorman]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[Doorman]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-	meshList[Doorman]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-	meshList[Doorman]->material.kShininess = 5.f;
-
-	NewObj = new Object;
-	NewObj->mesh = meshList[Doorman];
-	NewObj->collisionBox.Centre = Vector3(-365, 90, -265);
-	NewObj->size = Vector3(3, 3, 3);
-	NewObj->name = "Doorman";
-	obj.push_back(NewObj);
+	for (int count = 0; count < 4; count++)
+	{
+		Character* cashier = new Character;
+		cashier->mesh.push_back(MeshBuilder::GenerateOBJ("cashier", "OBJ//Head.obj"));
+		cashier->mesh[0]->textureID = LoadTGA("Image//Face.tga");
+		cashier->mesh[0]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		cashier->mesh[0]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		cashier->mesh[0]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		cashier->mesh[0]->material.kShininess = 5.f;
+		cashier->mesh.push_back(MeshBuilder::GenerateOBJ("cashier", "OBJ//Body.obj"));
+		cashier->mesh[1]->textureID = LoadTGA("Image//CashierShirt.tga");
+		cashier->mesh[1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		cashier->mesh[1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		cashier->mesh[1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		cashier->mesh[1]->material.kShininess = 5.f;
+		cashier->mesh.push_back(MeshBuilder::GenerateOBJ("cashier", "OBJ//Limb.obj"));
+		cashier->mesh[2]->textureID = LoadTGA("Image//CashierLimbs.tga");
+		cashier->mesh[2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		cashier->mesh[2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		cashier->mesh[2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		cashier->mesh[2]->material.kShininess = 5.f;
+		cashier->mesh.push_back(MeshBuilder::GenerateOBJ("cashier", "OBJ//Limb.obj"));
+		cashier->mesh[3]->textureID = LoadTGA("Image//CashierLimbs.tga");
+		cashier->mesh[3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		cashier->mesh[3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		cashier->mesh[3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		cashier->mesh[3]->material.kShininess = 5.f;
+		cashier->pos = Vector3(50 * count + 125, 0, 205);
+		cashier->angle = -90;
+		cashier->collisionBox.set(Vector3(cashier->pos), Vector3(15, 20, 15), Vector3(-15, 0, -15));
+		cashiers.push_back(cashier);
+		cashiersCollisionBox.push_back(&cashier->collisionBox);
+	}
 
 	//Restroom Wall - Back
 	meshList[RestroomBack] = MeshBuilder::GenerateOBJ("RestroomBack", "OBJ//Restroom_Back.obj");
@@ -395,7 +414,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomBack";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Left
@@ -413,7 +432,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomLeft";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Right
@@ -431,7 +450,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomRight";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Restroom Wall - Top
@@ -449,7 +468,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(4, 6, 4);
 	NewObj->name = "RestroomTop";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	//Toiletbowl
@@ -467,7 +486,7 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->size = Vector3(3.5, 3.5, 3.5);
 	NewObj->name = "Toiletbowl";
-	v.push_back(NewObj->collisionBox);
+	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
 	LoadCansMesh();
@@ -610,6 +629,8 @@ void MyScene::LoadCansMesh()
 					newObj->collisionBox.Centre += shelf;
 					newObj->position = count++;
 					obj.push_back(newObj);
+					shelfItems.push_back(newObj);
+					shelfItemsCollisionBox.push_back(&(newObj->collisionBox));
 				}
 			}
 		}
@@ -637,7 +658,7 @@ void MyScene::LoadPizzaMesh()
 			NewObj->angle = 180.0f;
 			NewObj->rotation = Vector3(0, 1, 0);
 			NewObj->position = count++;
-			v.push_back(NewObj->collisionBox);
+			v.push_back(&NewObj->collisionBox);
 			obj.push_back(NewObj);
 		}
 }
