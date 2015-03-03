@@ -491,6 +491,8 @@ void MyScene::LoadMesh()
 
 	LoadCansMesh();
 	LoadPizzaMesh();
+	LoadDetergentMesh();
+	LoadChocolateMesh();
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1));
 
@@ -684,3 +686,102 @@ void MyScene::LoadPizzaMesh()
 			}
 	    }
 }
+
+void MyScene::LoadChocolateMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//Chocolate.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[Chocolate] = MeshBuilder::GenerateOBJ("Chocolate", "OBJ//Chocolate.obj");
+		meshList[Chocolate]->textureID = LoadTGA("Image//Chocolate.tga");
+		meshList[Chocolate]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[Chocolate]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[Chocolate]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[Chocolate]->material.kShininess = 3.f;
+
+		Vector3 shelf;
+
+		for (int count = 0; count < obj.size(); count++)
+			{
+				if (obj[count]->name == "shelf" && obj[count]->position == typecount)
+					shelf = obj[count]->collisionBox.Centre;
+			}
+
+		for (float countx = 8, count = 0; countx < 10; countx++)
+			{
+				for (float county = 0; county < 5; county++)
+				{
+					for (float countz = -1; countz < 2; countz += 2)
+					{	
+						NewObj = new Gettable();
+						NewObj->mesh = meshList[Chocolate];
+						NewObj->name = "Chocolate";
+						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+						NewObj->size = Vector3(4, 4, 4);
+						NewObj->price = 1.60;
+						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
+						NewObj->collisionBox.Centre += shelf;
+						NewObj->position = count++;
+						obj.push_back(NewObj);
+					    detergent.push_back(NewObj);
+					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+					}
+				}
+			}
+	    }
+}
+
+void MyScene::LoadDetergentMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//Detergent.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[Detergent] = MeshBuilder::GenerateOBJ("Detergent", "OBJ//Detergent.obj");
+		meshList[Detergent]->textureID = LoadTGA("Image//Detergent.tga");
+		meshList[Detergent]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[Detergent]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[Detergent]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[Detergent]->material.kShininess = 3.f;
+
+		Vector3 shelf;
+
+		for (int count = 0; count < obj.size(); count++)
+			{
+				if (obj[count]->name == "shelf" && obj[count]->position == typecount)
+					shelf = obj[count]->collisionBox.Centre;
+			}
+
+		for (float countx = 6, count = 0; countx < 8; countx++)
+			{
+				for (float county = 0; county < 5; county++)
+				{
+					for (float countz = -1; countz < 2; countz += 2)
+					{	
+						NewObj = new Gettable();
+						NewObj->mesh = meshList[Detergent];
+						NewObj->name = "Detergent";
+						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+						NewObj->size = Vector3(1.5, 1.5, 1.5);
+						NewObj->price = 1.60;
+						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
+						NewObj->collisionBox.Centre += shelf;
+						NewObj->position = count++;
+						obj.push_back(NewObj);
+					    detergent.push_back(NewObj);
+					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+					}
+				}
+			}
+	    }
+}
+
+
+

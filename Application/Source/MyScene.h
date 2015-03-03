@@ -96,6 +96,8 @@ class MyScene : public Scene
 		Fruitstand,
 		Pizza,
 		IceCream,
+		Chocolate,
+		Detergent,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -205,7 +207,6 @@ private:
 	float StandUp;
 	bool ToiletUsed;
 
-
 	bool checklistout;
 	bool talk;
 	bool insert;
@@ -223,6 +224,10 @@ private:
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Gettable*> pizza;
 	std::vector<CollisionBox*> pizzaCollisionBox;
+	std::vector<Gettable*> chocolate;
+	std::vector<CollisionBox*> chocolateCollisionBox;
+	std::vector<Gettable*> detergent;
+	std::vector<CollisionBox*> detergentCollisionBox;
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
@@ -246,6 +251,8 @@ private:
 	void LoadCansMesh();
 	void LoadPizzaMesh();
 	void LoadIceCreamMesh();
+	void LoadChocolateMesh();
+	void LoadDetergentMesh();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
