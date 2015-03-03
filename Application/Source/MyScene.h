@@ -241,10 +241,6 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
-	std::vector<Character*> PizzaCharacters;
-	std::vector<CollisionBox*> PizzaCharactersCollisionBox;
-
-	AICharacter ai;
 
 	void LoadMesh();
 	void LoadCansMesh();

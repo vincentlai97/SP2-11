@@ -130,13 +130,19 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
+	//Player name input
+	PlayerName = "<UNDEFINED>";
+	insert = false;
+	insertBuffer = 0;
+	eraseBuffer = 0;
+	PNameBuffer = 0;
 	//Init AI dialogue
 	insert = false;
 	talk = false;
 	talkBuffer = 0;
 	insertBuffer = 0;
 	letterBuffer = 0;
-	eraseBuffer = 0;
+	insertL = false;
 	PlayerName = "<UNDEFINED>";
 
 	ifstream msg;
@@ -471,7 +477,62 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 	//AI Dialogue
-	if (insert == false)
+	Application::IsKeyPressed(VK_RETURN);
+	if (Application::Mouse_Click(0) && talkBuffer <= 0)
+	{
+		random_shuffle(dialogue.begin(), dialogue.end());
+		for (int count = 0; count < shelfCharacters.size(); count++)
+		{
+			Character character(*shelfCharacters[count]);
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			{
+				talk = !talk;
+				talkBuffer = 0.5;
+			}
+		}
+	}
+
+	if (talk == true)
+	{
+		if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
+		{
+			insertL = !insertL;
+			answerBuffer = 0.5;
+			if (insertL == false)
+			{
+				Answer = "";
+				for (int i = 0; i < LetterList.size(); i++)
+				{
+					Answer += LetterList[i];
+				}
+				LetterList.clear();
+				talk = false;
+			}
+		}
+		if (insertL == true && letterBuffer <= 0)
+		{
+			for (char letter = 'A'; letter < 'Z'; letter++)
+			{
+				if (Application::IsKeyPressed(letter))
+				{
+					LetterList.push_back(letter);
+					letterBuffer = 0.2;
+				}
+			}
+			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			{
+				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
+				eraseBuffer = 0.2;
+			}
+		}
+		
+	}
+	else
+	{
+		updateAI(dt);
+	}
+	//Player name input
+	if (insert == false && talk == false)
 	{
 		//Don't update camera if user choses to input text
 		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
@@ -482,12 +543,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			checklistBuffer = 0.5;
 		}
 	}
-	if (Application::Mouse_Click(0) && talkBuffer <= 0)
-	{
-		talk = !talk;
-		talkBuffer = 0.5;
-	}
-	if (Application::IsKeyPressed(VK_RETURN) && insertBuffer <= 0)
+	if (Application::IsKeyPressed(VK_HOME) && insertBuffer <= 0)
 	{
 		insert = !insert;
 		insertBuffer = 0.5;
@@ -502,14 +558,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-	if (insert == true && letterBuffer <= 0)
+	if (insert == true && PNameBuffer <= 0)
 	{
 		for (char letter = 'A'; letter < 'Z'; letter++)
 		{
 			if (Application::IsKeyPressed(letter))
 			{
 				PNameList.push_back(letter);
-				letterBuffer = 0.2;
+				PNameBuffer = 0.2;
 			}
 		}
 
@@ -517,8 +573,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		{
 			PNameList.erase(PNameList.begin() + PNameList.size() - 1);
 			eraseBuffer = 0.2;
-
-
 		}
 	}	
 
@@ -538,17 +592,14 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		else checkoutprice = 0;
 	}
 
-	updateAI(dt);
-
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
-
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
 	if (talkBuffer > 0) talkBuffer -= dt;
 	if (insertBuffer > 0) insertBuffer -= dt;
+	if (PNameBuffer > 0) PNameBuffer -= dt;
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
+	if (answerBuffer > 0) answerBuffer -= dt;
 }
 
 void MyScene::Exit()
