@@ -118,12 +118,18 @@ void MyScene::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
 	modelStack.Rotate(-32.5, 0, 0, 1);
-	//modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 	modelStack.Scale(166, 1, 80);
-	//modelStack.Scale(80, 166.43, 0);
 	modelStack.Translate(-0.5, 0.5, 0);
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
+
+	//modelStack.PushMatrix();
+	//modelStack.Translate(-280, 40, 260);
+	//modelStack.Rotate(-10, 0, 0, 1);
+	//modelStack.Scale(18, 14, 10);
+	//modelStack.Translate(-0.5, 0.5, 0);
+	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-374, 0, 150);
@@ -562,6 +568,7 @@ void MyScene::RenderInventory()
 
 	modelStack.PushMatrix();
 	Object* obj = targetObject();
+	modelStack.PopMatrix();
 	
 	//Inventory
 	modelStack.PushMatrix();
@@ -578,6 +585,23 @@ void MyScene::RenderInventory()
 	}
 	modelStack.PopMatrix();
 	
+	if(inventory.size() >= 1)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(13, 5, 0);
+		modelStack.Scale(6, 6, 2);
+		RenderMesh(meshList[Selector], false);
+		modelStack.PopMatrix();
+		if(Application::IsKeyPressed(VK_RIGHT))
+		{
+				modelStack.PushMatrix();
+				modelStack.Translate(13, 5, 0);
+				modelStack.Scale(6, 6, 2);
+				RenderMesh(meshList[Selector], false);
+				modelStack.PopMatrix();
+		}
+	}
+
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
 }

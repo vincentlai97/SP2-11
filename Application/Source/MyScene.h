@@ -76,6 +76,7 @@ class MyScene : public Scene
 		CashierTable,
 		CheckList,
 		Inventory,
+		Selector,
 		Coke,
 		GEO_LIGHTBALL,
 		TEST,

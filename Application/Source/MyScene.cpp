@@ -440,7 +440,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		talk = !talk;
 		talkBuffer = 0.5;
 	}
-
 	
 	cout << ai.pos.x << endl;
 

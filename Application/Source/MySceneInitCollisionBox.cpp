@@ -4,9 +4,9 @@ void MyScene::InitCollisionBox()
 {
 	//Interior Hitbox
 	v.push_back(CollisionBox(Vector3(0, 80, -300.5), 800, 160, 1)); // Front
-	v.push_back(CollisionBox(Vector3(235, 80, 300.5), 330, 160, 1)); // Back Right
-	v.push_back(CollisionBox(Vector3(-235, 80, 300.5), 330, 160, 1)); // Back Left
-	v.push_back(CollisionBox(Vector3(0, -0.5, 0), 800, 0.3, 600)); // Bottom
+	v.push_back(CollisionBox(Vector3(235, 90, 300.5), 330, 160, 1)); // Back Right
+	v.push_back(CollisionBox(Vector3(-235, 90, 300.5), 330, 160, 1)); // Back Left
+	v.push_back(CollisionBox(Vector3(0, -1.0, 0), 800, 0.2, 600)); // Bottom
 	v.push_back(CollisionBox(Vector3(0, 160.5, 0), 800, 1, 600)); // Top
 	v.push_back(CollisionBox(Vector3(0, 80, 0), 800, 20, 600)); // Middle
 	v.push_back(CollisionBox(Vector3(-400.5, 80, 0), 1, 160, 600)); // Left
