@@ -323,6 +323,7 @@ Vector3 Vector3::Cross( const Vector3& rhs ) const
 
 float Vector3::Angle( const Vector3& rhs ) const
 {
+	if (this->Normalized() == -rhs.Normalized()) return 180;
 	return Math::RadianToDegree(acos(this->Normalized().Dot(rhs.Normalized())));
 }
 

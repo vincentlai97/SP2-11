@@ -2,5 +2,6 @@
 
 void MyScene::updateAI(double dt)
 {
-	ai.update(dt);
+	for (int count = 0; count < shelfCharacters.size(); count++)
+		shelfCharacters[count]->update(dt, shelfCharactersCollisionBox);
 }

@@ -15,6 +15,7 @@
 #include "Object.h"
 #include "Gettable.h"
 #include "CollisionBox.h"
+#include "Character.h"
 #include "AICharacter.h"
 
 #include <irrKlang.h>
@@ -76,6 +77,11 @@ class MyScene : public Scene
 		Box1,
 		Box2,
 		Box3,
+		Cashier,
+		Cashier_Head = Cashier,
+		Cashier_Body,
+		Cashier_Arm,
+		Cashier_Leg,
 		DisplayCircular,
 		CashierTable,
 		CheckList,
@@ -83,6 +89,7 @@ class MyScene : public Scene
 		Selector,
 		Coke,
 		GEO_LIGHTBALL,
+		Character_1,
 		TEST,
 		Toiletbowl,
 		Fridge, 
@@ -190,6 +197,7 @@ private:
 	bool eDoorOpened2;
 	bool testSound;
 
+<<<<<<< Updated upstream
 	float SitDown;
 	float StandUp;
 	bool ToiletUsed;
@@ -199,21 +207,34 @@ private:
 	bool insert;
 
 	std::vector<CollisionBox> v;
+=======
+	std::vector<CollisionBox*> v;
+>>>>>>> Stashed changes
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
 	std::vector<CollisionBox> elevatorUp;
 	std::vector<CollisionBox> elevatorDown;
+	std::vector<CollisionBox*> cashierArea;
+
 	std::vector<Object*> obj;
+	std::vector<Gettable*> shelfItems;
+	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
+
 	std::vector<Path*> shelfpaths;
 	std::vector<string> temp;
 	std::vector<string> message;
 	std::vector<string> dialogue;
 	std::vector<char> PNameList;
 
-	AICharacter ai;
+	std::vector<Character*> cashiers;
+	std::vector<CollisionBox*> cashiersCollisionBox;
+	float checkoutprice;
+
+	std::vector<Character*> shelfCharacters;
+	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
 	void LoadMesh();
 	void LoadCansMesh();
@@ -222,11 +243,13 @@ private:
 
 	void InitCollisionBox();
 	void InitShelfPaths();
+	void InitAICharacters(std::vector<Character*>& character, std::vector<CollisionBox*>& characterCollisionBox, std::vector<Path*> paths, int num);
 	int InitSound();
 
 	void updateAI(double dt);
 
-	Object* targetObject();
+	int targeted(const std::vector<CollisionBox*> v);
+	void takeShelfItems();
 	
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -237,7 +260,7 @@ private:
 	void RenderBuildings();
 	void RenderSkyBox();
 	void RenderObjects();
-	void RenderCharacters();
+	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();
 
