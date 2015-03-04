@@ -135,11 +135,11 @@ void GameState::LoadMesh()
 	meshList[startscreen]= MeshBuilder::GenerateQuad("Start Screen", Color(1, 1, 1), 10, 10);
 	meshList[startscreen]->textureID = LoadTGA("Image//Start_Screen.tga");
 
-	meshList[choosescreen]= MeshBuilder::GenerateQuad("Choose Screen", Color(1, 1, 1), 10, 10);
-	meshList[choosescreen]->textureID = LoadTGA("Image//Choose_Screen.tga");
+	meshList[winscreen]= MeshBuilder::GenerateQuad("Winning Screen", Color(1, 1, 1), 10, 10);
+	meshList[winscreen]->textureID = LoadTGA("Image//Win_Screen.tga");
 
-	meshList[optionscreen]= MeshBuilder::GenerateQuad("Options Screen", Color(1, 1, 1), 10, 10);
-	meshList[optionscreen]->textureID = LoadTGA("Image//Options_Screen.tga");
+	meshList[losescreen]= MeshBuilder::GenerateQuad("Losing Screen", Color(1, 1, 1), 10, 10);
+	meshList[losescreen]->textureID = LoadTGA("Image//Lose_Screen.tga");
 }
 
 void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
@@ -161,7 +161,6 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 		if(Application::Mouse_Click(0) && (*xPosition > 185 && *xPosition < 585 && *yPosition > 165 && *yPosition < 240) && mouseBuffer <= 1 && mouseBuff == true)
 		{
 			state = 1;
-			gameState = CHOOSE_SCREEN; //Enter Choice Screen
 			xPos = w / 2;
 			yPos = h / 2;
 			mouseBuffer = 0.5;
@@ -326,6 +325,16 @@ void GameState::RenderScreens()
 	else if(gameState == OPTION_SCREEN)
 	{
 		Options_Screen();
+	}
+
+	else if(gameState == WINNING_SCREEN)
+	{
+		Win_Screen();
+	}
+
+	else if(gameState == LOSING_SCREEN)
+	{
+		Lose_Screen();
 	}
 }
 

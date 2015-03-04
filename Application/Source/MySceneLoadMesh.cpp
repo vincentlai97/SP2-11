@@ -523,7 +523,7 @@ void MyScene::LoadMesh()
 	NewObj = new Object;
 	NewObj->mesh = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
 	NewObj->mesh->textureID = LoadTGA("Image//car.tga");
-	NewObj->collisionBox = CollisionBox(Vector3(-40, 8, 710), 10, 10, 10);
+	NewObj->collisionBox = CollisionBox(Vector3(-40, 8, 710), 12, 10, 10);
 	obj.push_back(NewObj);
 	car = NewObj;
 	v.push_back(&NewObj->collisionBox);

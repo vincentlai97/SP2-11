@@ -26,7 +26,8 @@ class GameState : public Scene
 	{
 		startscreen,
 		optionscreen,
-		choosescreen,
+		winscreen,
+		losescreen,
 		TOTAL_SCREENS,
 	};
 
@@ -75,11 +76,8 @@ class GameState : public Scene
 	{
 		START_SCREEN = 0,
 		OPTION_SCREEN,
-		CHOOSE_SCREEN,
-		GAMEPLAY,
-		PAUSE_SCREEN,
-		END_GAME,
-		CREDIT
+		WINNING_SCREEN,
+		LOSING_SCREEN,
 	};
 
 private:
@@ -93,7 +91,8 @@ private:
 	
 	void Start_Screen();
 	void Options_Screen();
-	void Choose_Screen();
+	void Win_Screen();
+	void Lose_Screen();
 	void RenderScreens();
 	void LoadMesh();
 
