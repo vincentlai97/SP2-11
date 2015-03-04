@@ -140,13 +140,15 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
-	
-	RenderInterior();
-	RenderExterior();
-	
+
+
 	RenderObjects();
+
+	RenderInterior();
 	RenderCharacter(cashiers);
 	RenderCharacter(shelfCharacters);
+
+	RenderExterior();
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(1, 0, 1), 2, 1, 24.5);
