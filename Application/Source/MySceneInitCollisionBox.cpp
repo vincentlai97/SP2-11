@@ -3,6 +3,12 @@
 void MyScene::InitCollisionBox()
 {
 	CollisionBox* collisionBox;
+
+	//Exterior Hitbox
+	collisionBox = new CollisionBox(Vector3(0, -0.5, 400), 1800, 1, 1800); //Bottom
+	v.push_back(collisionBox);
+	collisionBox = new CollisionBox(Vector3(0,  500, 1000), 200, 200, 200); //Front
+	v.push_back(collisionBox);
 	//Interior Hitbox
 	collisionBox = new CollisionBox(Vector3(0, 115, 300.5), 800, 90, 1); // Front Top
 	v.push_back(collisionBox);
