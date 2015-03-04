@@ -52,9 +52,6 @@
     <ClCompile Include="Source\MySceneLoadMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MySceneObjectInteraction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Gettable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -77,6 +74,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\UpdateSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MySceneInteraction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MySceneInitCharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Options_Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Start_Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,6 +160,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AICharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

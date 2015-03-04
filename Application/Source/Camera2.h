@@ -20,11 +20,14 @@ public:
 	};
 
 	int state;
+	float jumpHeight;
+
+	bool ToggleToilet;
 
 	Camera2();
 	~Camera2();
 	virtual void Init(const Vector3& pos, const Vector3& target, const Vector3& up);
-	virtual void Update(double dt, CollisionBox cameraCollisionBox, std::vector<CollisionBox> v, float w, float h, double* xPos, double* yPos);
+	virtual void Update(double dt, CollisionBox cameraCollisionBox, std::vector<CollisionBox*> v, float w, float h, double* xPos, double* yPos);
 	virtual void Reset();
 };
 

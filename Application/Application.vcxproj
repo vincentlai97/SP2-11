@@ -80,12 +80,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.cpp" />
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Options_Screen.cpp" />
+    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Start_Menu.cpp" />
     <ClCompile Include="Source\AICharacter.cpp" />
     <ClCompile Include="Source\AIMovement.cpp" />
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\Camera2.cpp" />
     <ClCompile Include="Source\CameraFly.cpp" />
+    <ClCompile Include="Source\Character.cpp" />
     <ClCompile Include="Source\CollisionBox.cpp" />
     <ClCompile Include="Source\Gettable.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
@@ -96,10 +100,11 @@
     <ClCompile Include="Source\MyInitSound.cpp" />
     <ClCompile Include="Source\MyScene.cpp" />
     <ClCompile Include="Source\MySceneAI.cpp" />
+    <ClCompile Include="Source\MySceneInitCharacter.cpp" />
     <ClCompile Include="Source\MySceneInitCollisionBox.cpp" />
     <ClCompile Include="Source\MySceneInitPaths.cpp" />
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
-    <ClCompile Include="Source\MySceneObjectInteraction.cpp" />
+    <ClCompile Include="Source\MySceneInteraction.cpp" />
     <ClCompile Include="Source\MySceneRender.cpp" />
     <ClCompile Include="Source\Object.cpp" />
     <ClCompile Include="Source\Pathing.cpp" />
@@ -108,12 +113,14 @@
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.h" />
     <ClInclude Include="Source\AICharacter.h" />
     <ClInclude Include="Source\AIMovement.h" />
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Camera2.h" />
     <ClInclude Include="Source\CameraFly.h" />
+    <ClInclude Include="Source\Character.h" />
     <ClInclude Include="Source\CollisionBox.h" />
     <ClInclude Include="Source\Gettable.h" />
     <ClInclude Include="Source\Light.h" />

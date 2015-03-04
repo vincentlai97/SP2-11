@@ -15,6 +15,7 @@
 #include "Object.h"
 #include "Gettable.h"
 #include "CollisionBox.h"
+#include "Character.h"
 #include "AICharacter.h"
 
 #include <irrKlang.h>
@@ -50,11 +51,6 @@ class MyScene : public Scene
 		ESCALATOR_HANDLE,
 		GEO_TEXT,
 		GEO_DOOR,
-		eDoor,
-		eDoorStand,
-		eDoorStand2,
-		eDoorButton,
-		eDoorButton2,
 		trolley,
 		shelf,
 		Toy_Shelves,
@@ -64,6 +60,10 @@ class MyScene : public Scene
 		Cafeteria,
 		CafeteriaCashier,
 		Doorman,
+		RestroomBack,
+		RestroomLeft,
+		RestroomRight,
+		RestroomTop,
 		Shelf_Items,
 		Can1 = Shelf_Items,
 		Can2,
@@ -72,6 +72,11 @@ class MyScene : public Scene
 		Box1,
 		Box2,
 		Box3,
+		Cashier,
+		Cashier_Head = Cashier,
+		Cashier_Body,
+		Cashier_Arm,
+		Cashier_Leg,
 		DisplayCircular,
 		CashierTable,
 		CheckList,
@@ -79,13 +84,25 @@ class MyScene : public Scene
 		Selector,
 		Coke,
 		GEO_LIGHTBALL,
+		Character_1,
 		TEST,
 		road,
 		Car,
 		Car2,
 		Car3,
+		Toiletbowl,
+		Fridge, 
+		Fruitstand,
+		Pizza,
+		IceCream,
+		Chocolate,
+		Detergent,
+		AppleRed,
+		AppleGreen,
+		ToiletDoor,
 		NUM_GEOMETRY,
 	};
+
 	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
@@ -158,56 +175,104 @@ private:
 	float buttonBuffer;
 	float checklistBuffer;
 	float talkBuffer;
+	float insertBuffer;
+	float PNameBuffer;
+	float letterBuffer;
+	float eraseBuffer;
+	float answerBuffer;
+	string PlayerName;
+	string Answer;
 
 	double xPos;
 	double yPos;
 	
 	float OpenDoorR;
 	float OpenDoorL;
-	//Level 1 eDoor
-	float OpeneDoor;
-	float CloseeDoor;
-	bool eDoorOpened;
-	//Level 2 eDoor
-	float OpeneDoor2;
-	float CloseeDoor2;
-	bool eDoorOpened2;
+	bool eDoorOpen;
+	bool eDoorClosed;
 	bool testSound;
+
+	float SitDown;
+	float StandUp;
+	bool ToiletUsed;
 
 	bool checklistout;
 	bool talk;
+	bool insert;
+	bool insertL;
 
 	float translateCarX;
 
-	double* xPosition;
-	double* yPosition;
-
-	std::vector<CollisionBox> v;
+	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
 	std::vector<CollisionBox> elevatorUp;
 	std::vector<CollisionBox> elevatorDown;
+	std::vector<CollisionBox> elevatorArea;
+	std::vector<CollisionBox*> cashierArea;
+
 	std::vector<Object*> obj;
+
+	Object* eDoor1;
+	Object* eDoor2;
+	Object* eDoorButton1;
+	Object* eDoorButton2;
+
+	std::vector<Gettable*> shelfItems;
+	std::vector<CollisionBox*> shelfItemsCollisionBox;
+	std::vector<Gettable*> pizza;
+	std::vector<CollisionBox*> pizzaCollisionBox;
+	std::vector<Gettable*> chocolate;
+	std::vector<CollisionBox*> chocolateCollisionBox;
+	std::vector<Gettable*> detergent;
+	std::vector<CollisionBox*> detergentCollisionBox;
+	std::vector<Gettable*> RedApple;
+	std::vector<CollisionBox*> RedAppleCollisionBox;
+	std::vector<Gettable*> GreenApple;
+	std::vector<CollisionBox*> GreenAppleCollisionBox;
+
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
+
 	std::vector<Path*> shelfpaths;
 	std::vector<string> temp;
 	std::vector<string> message;
 	std::vector<string> dialogue;
+	std::vector<char> PNameList;
+	std::vector<char> LetterList;
 
-	AICharacter ai;
+	std::vector<Character*> cashiers;
+	std::vector<CollisionBox*> cashiersCollisionBox;
+	float checkoutprice;
+
+	std::vector<Character*> shelfCharacters;
+	std::vector<CollisionBox*> shelfCharactersCollisionBox;
+
 
 	void LoadMesh();
 	void LoadCansMesh();
+	void LoadPizzaMesh();
+	void LoadIceCreamMesh();
+	void LoadChocolateMesh();
+	void LoadDetergentMesh();
+	void LoadAppleRedMesh();
+	void LoadAppleGreenMesh();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
+	void InitAICharacters(std::vector<Character*>& character, std::vector<CollisionBox*>& characterCollisionBox, std::vector<Path*> paths, int num);
 	int InitSound();
 
+	void InteractDoor(double dt);
+	void InteractElevator(double dt);
+	void InteractElevatorButton(double dt);
+	void InteractElevatorDoor(double dt);
 	void updateAI(double dt);
 
-	Object* targetObject();
+	int targeted(const std::vector<CollisionBox*> v);
+	bool targeted(const CollisionBox collisionBox);
+	void takeShelfItems();
 	
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderText(Mesh* mesh, std::string text, Color color);
@@ -218,7 +283,7 @@ private:
 	void RenderBuildings();
 	void RenderSkyBox();
 	void RenderObjects();
-	void RenderCharacters();
+	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();
 	void RenderRoad();
