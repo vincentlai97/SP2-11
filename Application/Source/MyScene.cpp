@@ -211,7 +211,10 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	ToiletUsed = false;
 	
 	soundJump = false;
-
+	money = 100;
+	win = false;
+	gameover = false;
+	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
@@ -451,14 +454,37 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		{
 			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
 			{
-				checkoutprice = 0;
-				for (int count = 0; count < inventory.size(); count++)
+				int count = 0;
+				for (int i = 0; i < checkList.size(); i++)
 				{
-					checkoutprice += inventory[count]->getPrice();
+					for (int j = 0; j < inventory.size(); j++)
+					{
+						if (checkList[i] == inventory[j]->name)
+						{
+							count++;
+							break;
+						}
+					}
 				}
+				if (count == checkList.size())
+				{
+					checkoutprice = 0;
+					for (int count = 0; count < inventory.size(); count++)
+					{
+						checkoutprice += inventory[count]->getPrice();
+					}
+					if (money < checkoutprice) enoughmoney = false;
+					else win = true;
+				}
+				else completeInventory = false;
 			}
 		}
-		else checkoutprice = 0;
+		else
+		{
+			checkoutprice = 0;
+			completeInventory = true;
+			enoughmoney = true;
+		}
 	}
 
 	translateCarX += 50 * dt;
@@ -476,6 +502,9 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
+
+	if (win && targeted(car->collisionBox)) 
+		if (Application::Mouse_Click(0)) gameover = true;
 }
 
 void MyScene::Exit()
