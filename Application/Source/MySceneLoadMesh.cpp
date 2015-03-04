@@ -1,4 +1,5 @@
 #include "MyScene.h"
+#include "newScene.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include <fstream>	
@@ -124,7 +125,6 @@ void MyScene::LoadMesh()
 	meshList[Building3]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
 	meshList[Building3]->material.kShininess = 10.f;
 
-	
 	//Door
 	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJ("Door", "OBJ//Door.obj");
 	meshList[GEO_DOOR]->textureID = LoadTGA("Image//blueglass.tga");
@@ -432,6 +432,20 @@ void MyScene::LoadMesh()
 	//Inventory Selector
 	meshList[Selector] = MeshBuilder::GenerateQuad("Selector", Color(1, 1, 1), 1, 1);
 	meshList[Selector]->textureID = LoadTGA("Image//Selector.tga");
+
+	//Main Road
+	meshList[road]= MeshBuilder::GenerateQuad("main road", Color(1, 1, 1), 15, 10);
+	meshList[road] ->textureID = LoadTGA("Image//road.tga");
+
+	//Vehicle
+	meshList[Car] = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
+	meshList[Car]->textureID = LoadTGA("Image//car.tga");
+
+	meshList[Car2] = MeshBuilder::GenerateOBJ("Car2", "OBJ//Car.obj");
+	meshList[Car2]->textureID = LoadTGA("Image//car2.tga");
+
+	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
+	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
 }
 
 void MyScene::LoadCansMesh()

@@ -80,6 +80,10 @@ class MyScene : public Scene
 		Coke,
 		GEO_LIGHTBALL,
 		TEST,
+		road,
+		Car,
+		Car2,
+		Car3,
 		NUM_GEOMETRY,
 	};
 	enum UNIFORM_TYPE
@@ -133,15 +137,6 @@ class MyScene : public Scene
 		SOUND_TOTAL,
 	};
 
-	enum stages
-	{
-		START_SCREEN = 0,
-		OPTION_SCREEN,
-		GAME_SCREEN,
-		PAUSE_SCREEN,
-	};
-
-
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -156,6 +151,8 @@ private:
 
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
+
+	int gameState;
 
 	float fps;
 	float buttonBuffer;
@@ -179,6 +176,11 @@ private:
 
 	bool checklistout;
 	bool talk;
+
+	float translateCarX;
+
+	double* xPosition;
+	double* yPosition;
 
 	std::vector<CollisionBox> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -219,9 +221,14 @@ private:
 	void RenderCharacters();
 	void RenderTargetDetails();
 	void RenderInventory();
-
+	void RenderRoad();
+	void RenderCar();
+	void RenderPCar();
 	void RenderCheckList();
 	
+	void Start_Screen();
+	void RenderScreens();
+
 	ISoundEngine* engine;
 	ISound* sound[SOUND_TOTAL];
 

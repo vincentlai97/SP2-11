@@ -16,6 +16,9 @@ MyScene::~MyScene()
 
 void MyScene::Init(GLFWwindow* m_window, float w, float h)
 {
+	//Gamestates for menu screens
+	//stages gameState = START_SCREEN;
+
 	xPos = w / 2;
 	yPos = h / 2;
 
@@ -199,19 +202,39 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	ai.path = ai.paths[0];
 	ai.endofpath = false;
 
+	//gameState = START_SCREEN;
+
 	camera.Init(Vector3(0, 20, 500), Vector3(0, 20, 0), Vector3(0, 15, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
+
+	state = 1;
 }
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
-	
+	//gameState = START_SCREEN;
 	glfwGetCursorPos(m_window, &xPos, &yPos);
-
+	//xPosition = &xPos;
+	//yPosition = &yPos;
 	glfwSetCursorPos(m_window, w / 2, h / 2);
+	//cout << *xPosition << endl;
+	//cout << *yPosition << endl;
+	//Update the screen menu
+	//if(gameState == START_SCREEN)
+	//{
+	//	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	//	camera.Reset();
+	//	//int state = glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT);
+	//	if(Application::Mouse_Click(0))//&& (*xPosition > 185 && *xPosition < 585 && *yPosition > 165 && *yPosition < 240)
+	//	{
+	//		gameState = GAMEPLAY;
+	//		xPos = w / 2;
+	//		yPos = h / 2;
+	//	}
+	//}
 
 	//Update the sound every frame
 	UpdateSound(dt);
@@ -442,6 +465,13 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 	
 	cout << ai.pos.x << endl;
+
+	translateCarX += 50 * dt;
+
+	if(translateCarX >= 1000)
+	{
+		translateCarX = -400;
+	}
 
 	updateAI(dt);
 

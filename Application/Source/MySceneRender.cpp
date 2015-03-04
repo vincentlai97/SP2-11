@@ -1,4 +1,5 @@
 #include "MyScene.h"
+#include "newScene.h"
 #include "GL\glew.h"
 #include "Utility.h"
 #include "Application.h"
@@ -93,6 +94,23 @@ void MyScene::Render()
 		modelStack.Translate(0, 0, 200);
 		modelStack.Rotate(-90, 0, 1, 0);
 		RenderBuildings();
+	}modelStack.PopMatrix();
+
+	modelStack.PushMatrix();{
+	RenderRoad();
+	}modelStack.PopMatrix();
+
+	modelStack.PushMatrix();{
+		modelStack.Translate(-500, 0, 0);
+		modelStack.Translate(translateCarX, 8, 610);
+		modelStack.Rotate(-90, 0, 1, 0);
+		RenderCar();
+	}modelStack.PopMatrix();
+
+	modelStack.PushMatrix();{
+		modelStack.Translate(-40, 8, 710);
+		modelStack.Rotate(90, 0, 1, 0);
+		RenderPCar();
 	}modelStack.PopMatrix();
 
 	RenderSkyBox();
@@ -231,9 +249,9 @@ void MyScene::Render()
 		random_shuffle(dialogue.begin(), dialogue.end());
 	}
 
-
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
+	
 	RenderInventory();
 }
 
@@ -574,7 +592,7 @@ void MyScene::RenderInventory()
 	modelStack.PushMatrix();
 	modelStack.Translate(40.5, 5, 0);
 	modelStack.Scale(6, 5, 1);
-	RenderMesh(meshList[Inventory], true);
+	RenderMesh(meshList[Inventory], false);
 	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
 		modelStack.PushMatrix();
@@ -585,23 +603,71 @@ void MyScene::RenderInventory()
 	}
 	modelStack.PopMatrix();
 	
+	float x = 13;
 	if(inventory.size() >= 1)
 	{
-		modelStack.PushMatrix();
-		modelStack.Translate(13, 5, 0);
-		modelStack.Scale(6, 6, 2);
-		RenderMesh(meshList[Selector], false);
-		modelStack.PopMatrix();
+		//modelStack.PushMatrix();
+		//modelStack.Translate(13, 5, 0);
+		//modelStack.Scale(6, 6, 2);
+		//RenderMesh(meshList[Selector], false);
+		//modelStack.PopMatrix();
 		if(Application::IsKeyPressed(VK_RIGHT))
-		{
+		{	
+			for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
+			{
 				modelStack.PushMatrix();
-				modelStack.Translate(13, 5, 0);
+				modelStack.Translate(xPos + 13, 5, 0);
 				modelStack.Scale(6, 6, 2);
 				RenderMesh(meshList[Selector], false);
 				modelStack.PopMatrix();
+			}
 		}
 	}
 
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
+}
+
+void MyScene::RenderRoad()
+{
+	for(int i = 5; i <= 40; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate((i * 50) - 1200, 0.2, 650);
+		modelStack.Rotate(90, 0, 1, 0);
+		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Scale(10, 10, 10);
+		RenderMesh(meshList[road], false);
+		modelStack.PopMatrix();
+	}
+}
+
+void MyScene::RenderCar()
+{
+	for(int zPos = -100, count = 0; count < 1; count++)
+	{
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, zPos);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[Car2], false);
+	modelStack.PopMatrix();
+	
+	zPos += 80;
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, zPos);
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[Car3], false);
+	modelStack.PopMatrix();
+
+	zPos += 80;
+	}
+}
+
+void MyScene::RenderPCar()
+{
+	modelStack.PushMatrix();
+	modelStack.Scale(5, 5, 5);
+	RenderMesh(meshList[Car], false);
+	modelStack.PopMatrix();
 }

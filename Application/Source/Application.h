@@ -17,6 +17,7 @@ public:
 
 	int getWidth();
 	int getHeight();
+	int state;
 
 private:
 	int height;

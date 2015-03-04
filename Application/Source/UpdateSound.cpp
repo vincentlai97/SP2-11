@@ -16,7 +16,6 @@ void MyScene::UpdateSound(double dt)
 	}
 
 	sound[FOOTSTEPS]->setIsPaused(true);
-	sound[JUMP]->setIsPaused(true);
 	sound[REACH]->setIsPaused(true);
 	
 	if(Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
@@ -26,7 +25,7 @@ void MyScene::UpdateSound(double dt)
 
 	if(Application::IsKeyPressed(VK_SPACE))
 	{
-		sound[JUMP]->setIsPaused(false);
+		sound[JUMP] = engine->play2D("../irrKlang/media/Jumping.mp3", false);
 	}
 
 	if(Application::IsKeyPressed(VK_UP) && cameraCollisionBox.checkCollision(elevatorUp) || Application::IsKeyPressed(VK_DOWN) && cameraCollisionBox.checkCollision(elevatorDown))
