@@ -124,15 +124,6 @@ void MyScene::LoadMesh()
 	meshList[Building3]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
 	meshList[Building3]->material.kShininess = 10.f;
 
-	
-	//Door
-	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJ("Door", "OBJ//Door.obj");
-	meshList[GEO_DOOR]->textureID = LoadTGA("Image//blueglass.tga");
-	meshList[GEO_DOOR]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_DOOR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_DOOR]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
-	meshList[GEO_DOOR]->material.kShininess = 10.f;
-
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,1,1), 36, 36, 1);
 
 	meshList[GEO_TEXT] = MeshBuilder::GenerateText("text", 16, 16);
@@ -482,8 +473,63 @@ void MyScene::LoadMesh()
 	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
+	LoadDoorMesh();
+	LoadElevatorMesh();
+	
 	LoadCansMesh();
 	LoadPizzaMesh();
+	LoadDetergentMesh();
+	LoadChocolateMesh();
+	LoadAppleRedMesh();
+	LoadAppleGreenMesh();
+
+	//Toilet Door
+	meshList[ToiletDoor] = MeshBuilder::GenerateOBJ("ToiletDoor", "OBJ//ToiletDoor.obj");
+	meshList[ToiletDoor]->textureID = LoadTGA("Image//ToiletDoor.tga");
+	meshList[ToiletDoor]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	meshList[ToiletDoor]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[ToiletDoor]->material.kSpecular.Set(1.f, 1.f, 1.f);
+	meshList[ToiletDoor]->material.kShininess = 3.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[ToiletDoor];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -250), Vector3(0.5, 50, 15), Vector3(-0.5, 0, -15));
+	NewObj->size = Vector3(6, 10, 6);
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "ToiletDoor";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//CheckList
+	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
+
+	//Inventory
+	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
+	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
+
+	//Inventory Selector
+	meshList[Selector] = MeshBuilder::GenerateQuad("Selector", Color(1, 1, 1), 1, 1);
+	meshList[Selector]->textureID = LoadTGA("Image//Selector.tga");
+
+	//Main Road
+	meshList[road]= MeshBuilder::GenerateQuad("main road", Color(1, 1, 1), 15, 10);
+	meshList[road] ->textureID = LoadTGA("Image//road.tga");
+
+	//Vehicle
+	meshList[Car] = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
+	meshList[Car]->textureID = LoadTGA("Image//car.tga");
+
+	meshList[Car2] = MeshBuilder::GenerateOBJ("Car2", "OBJ//Car.obj");
+	meshList[Car2]->textureID = LoadTGA("Image//car2.tga");
+
+	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
+	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
+}
+
+void MyScene::LoadElevatorMesh()
+{
+	Object* NewObj;
 
 	//Elevator Door
 	Mesh* door = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
@@ -570,17 +616,40 @@ void MyScene::LoadMesh()
 	NewObj->name = "eDoorButton2";
 	obj.push_back(NewObj);
 	eDoorButton2 = NewObj;
+}
 
-	//CheckList
-	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
+void MyScene::LoadDoorMesh()
+{
+	Object* NewObj;
 
-	//Inventory
-	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
-	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
+	Mesh* door = MeshBuilder::GenerateOBJ("door", "OBJ//Door.obj");
+	door->textureID = LoadTGA("Image//blueglass.tga");
+	door->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	door->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	door->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
+	door->material.kShininess = 10.f;
 
-	//Inventory Selector
-	meshList[Selector] = MeshBuilder::GenerateQuad("Selector", Color(1, 1, 1), 1, 1);
-	meshList[Selector]->textureID = LoadTGA("Image//Selector.tga");
+	NewObj = new Object;
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(-35, 0, 300), Vector3(35, 70, 1), Vector3(-35, 0, 0));
+	NewObj->size = Vector3(7, 7, 1);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "DoorL";
+	obj.push_back(NewObj);
+	DoorL = NewObj;
+	v.push_back(&NewObj->collisionBox);
+
+	NewObj = new Object;
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(35, 0, 300), Vector3(35, 70, 1), Vector3(-35, 0, 0));
+	NewObj->size = Vector3(7, 7, 1);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "DoorR";
+	obj.push_back(NewObj);
+	DoorR = NewObj;
+	v.push_back(&NewObj->collisionBox);
 }
 
 void MyScene::LoadCansMesh()
@@ -677,3 +746,195 @@ void MyScene::LoadPizzaMesh()
 			}
 	    }
 }
+
+void MyScene::LoadChocolateMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//Chocolate.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[Chocolate] = MeshBuilder::GenerateOBJ("Chocolate", "OBJ//Chocolate.obj");
+		meshList[Chocolate]->textureID = LoadTGA("Image//Chocolate.tga");
+		meshList[Chocolate]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[Chocolate]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[Chocolate]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[Chocolate]->material.kShininess = 3.f;
+
+		Vector3 shelf;
+
+		for (int count = 0; count < obj.size(); count++)
+			{
+				if (obj[count]->name == "shelf" && obj[count]->position == typecount)
+					shelf = obj[count]->collisionBox.Centre;
+			}
+
+		for (float countx = 8, count = 0; countx < 10; countx++)
+			{
+				for (float county = 0; county < 5; county++)
+				{
+					for (float countz = -1; countz < 2; countz += 2)
+					{	
+						NewObj = new Gettable();
+						NewObj->mesh = meshList[Chocolate];
+						NewObj->name = "Chocolate";
+						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+						NewObj->size = Vector3(4, 4, 4);
+						NewObj->price = 1.60;
+						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
+						NewObj->collisionBox.Centre += shelf;
+						NewObj->position = count++;
+						obj.push_back(NewObj);
+					    detergent.push_back(NewObj);
+					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+					}
+				}
+			}
+	    }
+}
+
+void MyScene::LoadDetergentMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//Detergent.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[Detergent] = MeshBuilder::GenerateOBJ("Detergent", "OBJ//Detergent.obj");
+		meshList[Detergent]->textureID = LoadTGA("Image//Detergent.tga");
+		meshList[Detergent]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[Detergent]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[Detergent]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[Detergent]->material.kShininess = 3.f;
+
+		Vector3 shelf;
+
+		for (int count = 0; count < obj.size(); count++)
+			{
+				if (obj[count]->name == "shelf" && obj[count]->position == typecount)
+					shelf = obj[count]->collisionBox.Centre;
+			}
+
+		for (float countx = 6, count = 0; countx < 8; countx++)
+			{
+				for (float county = 0; county < 5; county++)
+				{
+					for (float countz = -1; countz < 2; countz += 2)
+					{	
+						NewObj = new Gettable();
+						NewObj->mesh = meshList[Detergent];
+						NewObj->name = "Detergent";
+						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+						NewObj->size = Vector3(1.5, 1.5, 1.5);
+						NewObj->price = 3.60;
+						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
+						NewObj->collisionBox.Centre += shelf;
+						NewObj->position = count++;
+						obj.push_back(NewObj);
+					    detergent.push_back(NewObj);
+					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+					}
+				}
+			}
+	    }
+}
+
+void MyScene::LoadAppleRedMesh()
+{
+	Gettable* newObj;
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//AppleRed.tga";
+		texturepath += '1' + typecount;
+
+		meshList[AppleRed] = MeshBuilder::GenerateOBJ("AppleRed", "OBJ//AppleRed.obj");
+	    meshList[AppleRed]->textureID = LoadTGA("Image//AppleRed.tga");
+		meshList[AppleRed]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		meshList[AppleRed]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[AppleRed]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		meshList[AppleRed]->material.kShininess = 5.f;
+
+		Vector3 Fruitstand;
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "Fruitstand" && obj[count]->position == typecount)
+				Fruitstand = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = -4.14, count = 0; countx < 1; countx++)
+		{
+			for (float county = 1.4; county < 2; county++)
+			{
+				for (float countz = 0.125; countz < 1; countz++)
+				{	
+					newObj = new Gettable();
+					newObj->mesh = meshList[AppleRed];
+					newObj->name = "AppleRed";
+					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
+					newObj->size = Vector3(1, 1, 1);
+					newObj->price = 1.00;
+					newObj->collisionBox.Centre = Vector3(countx * 50, county * 8, countz * 50);
+					newObj->collisionBox.Centre += Fruitstand;
+					newObj->position = count++;
+					obj.push_back(newObj);
+					RedApple.push_back(newObj);
+					RedAppleCollisionBox.push_back(&(newObj->collisionBox));
+				}
+			}
+		}
+	}
+}
+
+void MyScene::LoadAppleGreenMesh()
+{
+	Gettable* newObj;
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//AppleGreen.tga";
+		texturepath += '1' + typecount;
+
+		meshList[AppleGreen] = MeshBuilder::GenerateOBJ("AppleGreen", "OBJ//AppleGreen.obj");
+		meshList[AppleGreen]->textureID = LoadTGA("Image//AppleGreen.tga");
+		meshList[AppleGreen]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		meshList[AppleGreen]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[AppleGreen]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		meshList[AppleGreen]->material.kShininess = 5.f;
+
+		Vector3 Fruitstand;
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "Fruitstand" && obj[count]->position == typecount)
+				Fruitstand = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = -4, count = 0; countx < 1; countx++)
+		{
+			for (float county = 1.5; county < 2; county++)
+			{
+				for (float countz = 0.125; countz < 1; countz++)
+				{	
+					newObj = new Gettable();
+					newObj->mesh = meshList[AppleGreen];
+					newObj->name = "AppleGreen";
+					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
+					newObj->size = Vector3(1, 1, 1);
+					newObj->price = 1.00;
+					newObj->collisionBox.Centre = Vector3(countx * 50, county * 8, countz * 50);
+					newObj->collisionBox.Centre += Fruitstand;
+					newObj->position = count++;
+					obj.push_back(newObj);
+					GreenApple.push_back(newObj);
+					GreenAppleCollisionBox.push_back(&(newObj->collisionBox));
+				}
+			}
+		}
+	}
+}
+
+
+
+

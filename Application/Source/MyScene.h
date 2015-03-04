@@ -86,13 +86,23 @@ class MyScene : public Scene
 		GEO_LIGHTBALL,
 		Character_1,
 		TEST,
+		road,
+		Car,
+		Car2,
+		Car3,
 		Toiletbowl,
 		Fridge, 
 		Fruitstand,
 		Pizza,
 		IceCream,
+		Chocolate,
+		Detergent,
+		AppleRed,
+		AppleGreen,
+		ToiletDoor,
 		NUM_GEOMETRY,
 	};
+
 	enum UNIFORM_TYPE
 	{
 		U_MVP = 0,
@@ -144,15 +154,6 @@ class MyScene : public Scene
 		SOUND_TOTAL,
 	};
 
-	enum stages
-	{
-		START_SCREEN = 0,
-		OPTION_SCREEN,
-		GAME_SCREEN,
-		PAUSE_SCREEN,
-	};
-
-
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -168,6 +169,8 @@ private:
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
 
+	int gameState;
+
 	float fps;
 	float buttonBuffer;
 	float checklistBuffer;
@@ -179,7 +182,6 @@ private:
 	float answerBuffer;
 	string PlayerName;
 	string Answer;
-	
 
 	double xPos;
 	double yPos;
@@ -199,25 +201,40 @@ private:
 	bool insert;
 	bool insertL;
 
+	float translateCarX;
+
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
-	std::vector<CollisionBox> elevatorUp;
-	std::vector<CollisionBox> elevatorDown;
-	std::vector<CollisionBox> elevatorArea;
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* DoorL;
+	Object* DoorR;
+	CollisionBox doorArea;
 
 	Object* eDoor1;
 	Object* eDoor2;
 	Object* eDoorButton1;
 	Object* eDoorButton2;
+	CollisionBox elevatorUp;
+	CollisionBox elevatorDown;
+	CollisionBox elevatorArea;
 
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Gettable*> pizza;
 	std::vector<CollisionBox*> pizzaCollisionBox;
+	std::vector<Gettable*> chocolate;
+	std::vector<CollisionBox*> chocolateCollisionBox;
+	std::vector<Gettable*> detergent;
+	std::vector<CollisionBox*> detergentCollisionBox;
+	std::vector<Gettable*> RedApple;
+	std::vector<CollisionBox*> RedAppleCollisionBox;
+	std::vector<Gettable*> GreenApple;
+	std::vector<CollisionBox*> GreenAppleCollisionBox;
+
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
@@ -236,11 +253,18 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
-
 	void LoadMesh();
+
+	void LoadDoorMesh();
+	void LoadElevatorMesh();
+
 	void LoadCansMesh();
 	void LoadPizzaMesh();
 	void LoadIceCreamMesh();
+	void LoadChocolateMesh();
+	void LoadDetergentMesh();
+	void LoadAppleRedMesh();
+	void LoadAppleGreenMesh();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
@@ -248,9 +272,11 @@ private:
 	int InitSound();
 
 	void InteractDoor(double dt);
+
 	void InteractElevator(double dt);
 	void InteractElevatorButton(double dt);
 	void InteractElevatorDoor(double dt);
+
 	void updateAI(double dt);
 
 	int targeted(const std::vector<CollisionBox*> v);
@@ -269,9 +295,14 @@ private:
 	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();
-
+	void RenderRoad();
+	void RenderCar();
+	void RenderPCar();
 	void RenderCheckList();
 	
+	void Start_Screen();
+	void RenderScreens();
+
 	ISoundEngine* engine;
 	ISound* sound[SOUND_TOTAL];
 

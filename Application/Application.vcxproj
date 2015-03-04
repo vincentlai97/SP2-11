@@ -103,9 +103,12 @@
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
     <ClCompile Include="Source\MySceneInteraction.cpp" />
     <ClCompile Include="Source\MySceneRender.cpp" />
+    <ClCompile Include="Source\newScene.cpp" />
     <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\Options_Screen.cpp" />
     <ClCompile Include="Source\Pathing.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Start_Menu.cpp" />
     <ClCompile Include="Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
@@ -126,6 +129,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MyScene.h" />
+    <ClInclude Include="Source\newScene.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Pathing.h" />
