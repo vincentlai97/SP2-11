@@ -180,14 +180,8 @@ private:
 	float letterBuffer;
 	float eraseBuffer;
 	float answerBuffer;
-	float mouseBuffer;
 	string PlayerName;
 	string Answer;
-	float money;
-	bool completeInventory;
-	bool enoughmoney;
-	bool win;
-	bool gameover;
 
 	double xPos;
 	double yPos;
@@ -213,10 +207,6 @@ private:
 	bool insertL;
 
 	float translateCarX;
-	float translateCustomerZ;
-
-	bool soundJump;
-	bool cashierScene;
 
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -224,10 +214,6 @@ private:
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
-
-	Object* car;
-
-	Object* paperbag;
 
 	Object* DoorL;
 	Object* DoorR;
@@ -274,8 +260,6 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
-	std::vector<Character*> customers;
-
 	void LoadMesh();
 
 	void LoadDoorMesh();
@@ -288,7 +272,6 @@ private:
 	void LoadDetergentMesh();
 	void LoadAppleRedMesh();
 	void LoadAppleGreenMesh();
-	void LoadCustomers();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
@@ -316,7 +299,6 @@ private:
 	void RenderBuildings();
 	void RenderSkyBox();
 	void RenderObjects();
-	void RenderDoor();
 	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();
@@ -324,7 +306,6 @@ private:
 	void RenderCar();
 	void RenderPCar();
 	void RenderCheckList();
-	void RenderCustomers(std::vector<Character*> customers);
 	
 	void Start_Screen();
 	void RenderScreens();
