@@ -85,13 +85,13 @@
     <ClCompile Include="Source\MySceneInitCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.cpp">
+    <ClCompile Include="Source\newScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Options_Screen.cpp">
+    <ClCompile Include="Source\Options_Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Start_Menu.cpp">
+    <ClCompile Include="Source\Start_Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -165,7 +165,7 @@
     <ClInclude Include="Source\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.h">
+    <ClInclude Include="Source\newScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

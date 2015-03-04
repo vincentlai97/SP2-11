@@ -80,9 +80,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Options_Screen.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Start_Menu.cpp" />
     <ClCompile Include="Source\AICharacter.cpp" />
     <ClCompile Include="Source\AIMovement.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -106,14 +103,16 @@
     <ClCompile Include="Source\MySceneLoadMesh.cpp" />
     <ClCompile Include="Source\MySceneInteraction.cpp" />
     <ClCompile Include="Source\MySceneRender.cpp" />
+    <ClCompile Include="Source\newScene.cpp" />
     <ClCompile Include="Source\Object.cpp" />
+    <ClCompile Include="Source\Options_Screen.cpp" />
     <ClCompile Include="Source\Pathing.cpp" />
     <ClCompile Include="Source\shader.cpp" />
+    <ClCompile Include="Source\Start_Menu.cpp" />
     <ClCompile Include="Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\newScene.h" />
     <ClInclude Include="Source\AICharacter.h" />
     <ClInclude Include="Source\AIMovement.h" />
     <ClInclude Include="Source\Application.h" />
@@ -130,6 +129,7 @@
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
     <ClInclude Include="Source\MyScene.h" />
+    <ClInclude Include="Source\newScene.h" />
     <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Path.h" />
     <ClInclude Include="Source\Pathing.h" />
