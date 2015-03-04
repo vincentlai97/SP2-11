@@ -199,14 +199,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	OpenDoorR = 0;
 	OpenDoorL = 0;
-	//Level 1 eDoor
-	OpeneDoor = 0;
-	CloseeDoor = 0;
-	eDoorOpened = false;
-	//Level 2 eDoor
-	OpeneDoor2 = 0;
-	CloseeDoor2 = 0;
-	eDoorOpened2 = false;
+	eDoorOpen = false;
+	eDoorClosed = false;
 
 	//Using the toilet
 	SitDown = 0;
@@ -283,64 +277,12 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.y -= 25 * dt;
 	}
 
-	if(cameraCollisionBox.checkCollision(elevatorUp) && Application::IsKeyPressed(VK_UP))
-	{
-		camera.position.y = 120;
-		camera.target.y = 120;
-	}
 
-	else if(cameraCollisionBox.checkCollision(elevatorDown) && Application::IsKeyPressed(VK_DOWN))
-	{
-		camera.position.y = 20;
-		camera.target.y = 20;
-	}
+	InteractDoor(dt);
 
-	//Door will open when person stand at entrance
-	if(camera.position.z >= 295 && camera.position.z <= 400 && camera.position.x >= -70 && camera.position.x <= 70)
-	{
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-
-		if(OpenDoorR >= 70)
-		{
-			OpenDoorR -= 120 * dt;
-		}
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
-		}
-	}
-
-	else if(camera.position.z >= 250 && camera.position.z <= 300 && camera.position.x >= -70 && camera.position.x <= 70)
-	{ 
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-		if(OpenDoorR >= 70)
-		{
-			OpenDoorR -= 120 * dt;
-		}
-
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
-		}
-	}
-
-	else
-	{
-		OpenDoorR -= 120 * dt;
-		OpenDoorL += 120 * dt;
-
-		if(OpenDoorR <= -1)
-		{
-			OpenDoorR += 120 * dt;
-		}
-
-		if(OpenDoorL >= 1)
-		{
-			OpenDoorL -= 120 * dt;
-		}
-	}
+	InteractElevator(dt);
+	InteractElevatorButton(dt);
+	InteractElevatorDoor(dt);
 
 	//Loop to use Toilet
 	for (int i = 0; i < obj.size(); i++)
@@ -371,84 +313,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-	//Loop to find eDoorButton OBJ
-	for (int i = 0; i < obj.size(); i++)
-	{
-		//Level 1 Elevator door open
-		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-
-			if (Application::Mouse_Click(0) && eDoorOpened == false)
-			{
-				eDoorOpened = true;
-				v.pop_back();
-			}
-			if (eDoorOpened == true && OpeneDoor < 10)
-			{
-				OpeneDoor += float(12 * dt);	
-			}
-		}
-
-		if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			if (Application::Mouse_Click(0) && eDoorOpened2 == false)
-			{
-				eDoorOpened2 = true;
-				v.pop_back();
-			}
-			if (eDoorOpened2 == true && OpeneDoor2 < 10)
-			{
-				OpeneDoor2 += float(12 * dt);
-			}
-		}	Application::IsKeyPressed('E');
-	}
-
-	//Level 1 Elevator door close
-	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
-	{
-		if (eDoorOpened)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened = false;
-		if (eDoorOpened == false && OpeneDoor > 0)
-		{
-			OpeneDoor -= float(12 * dt);
-		}
-	}
-
-	//Level 2 Elevator door close
-	if (camera.position.x < -360 && camera.position.y > 42 && camera.position.z < 160 && camera.position.z > 140)
-	{
-		if (eDoorOpened2)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened2 = false;
-		if (eDoorOpened2 == false && OpeneDoor2 > 0)
-		{
-			OpeneDoor2 -= float(12 * dt);
-		}
-	}
-
-	//Level 1 eDoor Autoclose
-	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y < 42)
-	{
-		if (eDoorOpened)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened = false;
-		if (eDoorOpened == false && OpeneDoor > 0)
-		{
-			OpeneDoor -= float(12 * dt);
-		}
-	}
-	//Level 2 eDoor Autoclose
-	if (camera.position.x > -250 || camera.position.z < 100 && camera.position.y > 42)
-	{
-		if (eDoorOpened2)
-			v.push_back(&CollisionBox(Vector3(-350, 65, 150), 5, 150, 10));
-		eDoorOpened2 = false;
-		if (eDoorOpened2 == false && OpeneDoor2 > 0)
-		{
-			OpeneDoor2 -= float(12 * dt);
-		}
-	}
 
 	{
 		int targeted = MyScene::targeted(shelfItemsCollisionBox);

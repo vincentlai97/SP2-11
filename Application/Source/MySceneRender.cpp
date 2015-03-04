@@ -93,24 +93,6 @@ void MyScene::Render()
 	}modelStack.PopMatrix();
 
 	RenderSkyBox();
-	//Level 1 Elevator Door
-	modelStack.PushMatrix();
-	modelStack.Translate(-354, -2, 115);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(5.5, 4, 2);
-	modelStack.Translate(0, OpeneDoor, 0);
-	RenderMesh(meshList[eDoor], false);
-	modelStack.PopMatrix();
-
-	//Level 2 Elevator Door
-	modelStack.PushMatrix();
-	modelStack.Translate(-354, 88, 115);
-	modelStack.Rotate(90, 0, 1, 0);
-	modelStack.Scale(5.5, 4, 2);
-	modelStack.Translate(0, OpeneDoor2, 0);
-	RenderMesh(meshList[eDoor], false);
-	modelStack.PopMatrix();
-
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-220, 0, 260);
@@ -163,27 +145,24 @@ void MyScene::Render()
 	RenderCharacter(shelfCharacters);
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(0, 0, 0), 2, 1, 24.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(0, 0, 0), 2, 1, 25.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(0, 0, 0), 2, 1, 26.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(1, 0, 1), 2, 1, 24.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(1, 0, 1), 2, 1, 25.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(1, 0, 1), 2, 1, 26.5);
 
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 27.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 28.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 29.5);
 
-	//Object information when camera position is close to object
-	for (int i = 0; i < obj.size(); i++)
+	if (targeted(eDoorButton1->collisionBox) || targeted(eDoorButton2->collisionBox))
 	{
-		if ((obj[i]->name == "eDoorButton") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
-		}
-		else if ((obj[i]->name == "eDoorButton2") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 30) && (camera.target.y < obj[i]->collisionBox.Centre.y + 5) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
-		}
+		RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
 	}
 	
+	if ((targeted(eDoor1->collisionBox) || targeted(eDoor2->collisionBox)))
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Click to open door", Color(1, 1, 0), 3, 1, 19);
+	}
+
 	//Elevator Interaction
 	if (camera.position.x < -360 && camera.position.y < 42 && camera.position.z < 160 && camera.position.z > 140)
 	{
@@ -528,8 +507,8 @@ void MyScene::RenderObjects()
 		{
 			modelStack.PushMatrix();
 			modelStack.Translate(obj[i]->collisionBox.Centre.x, obj[i]->collisionBox.Centre.y, obj[i]->collisionBox.Centre.z);
-			modelStack.Scale(obj[i]->size.x, obj[i]->size.y, obj[i]->size.z);
 			modelStack.Rotate(obj[i]->angle, obj[i]->rotation.x, obj[i]->rotation.y, obj[i]->rotation.z);
+			modelStack.Scale(obj[i]->size.x, obj[i]->size.y, obj[i]->size.z);
 			RenderMesh(obj[i]->mesh, false);
 			modelStack.PopMatrix();
 		}
