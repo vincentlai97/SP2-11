@@ -210,8 +210,13 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	StandUp = 0;
 	ToiletUsed = false;
 	
-
-	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	soundJump = false;
+	money = 100;
+	win = false;
+	gameover = false;
+	cashierScene = false;
+	
+	camera.Init(Vector3(0, 20, 500), Vector3(0, 20, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
@@ -360,7 +365,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
-
 	if (talk == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
@@ -388,7 +392,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;
@@ -450,16 +454,44 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		{
 			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
 			{
-				checkoutprice = 0;
-				for (int count = 0; count < inventory.size(); count++)
+				int count = 0;
+				for (int i = 0; i < checkList.size(); i++)
 				{
-					checkoutprice += inventory[count]->getPrice();
+					for (int j = 0; j < inventory.size(); j++)
+					{
+						if (checkList[i] == inventory[j]->name)
+						{
+							count++;
+							break;
+						}
+					}
 				}
+				if (count == checkList.size())
+				{
+					checkoutprice = 0;
+					for (int count = 0; count < inventory.size(); count++)
+					{
+						checkoutprice += inventory[count]->getPrice();
+					}
+					if (money < checkoutprice) enoughmoney = false;
+					else
+					{
+						inventory.clear();
+						win = true;
+						inventory.push_back(paperbag);
+					}
+				}
+				else completeInventory = false;
 			}
 		}
-		else checkoutprice = 0;
+		else
+		{
+			checkoutprice = 0;
+			completeInventory = true;
+			enoughmoney = true;
+		}
 	}
-
+	//Car Movement
 	translateCarX += 50 * dt;
 
 	if(translateCarX >= 1000)
@@ -467,10 +499,32 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		translateCarX = -400;
 	}
 
-	updateAI(dt);
-
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
+	//Entering into cashier scenario
+	for(int i = 0; i < obj.size(); i++)
+	{
+		if((obj[i]->name == "Cashier Table")&& (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			if(Application::Mouse_Click(0) && mouseBuffer < 0)
+			{
+				mouseBuffer += 0.5;
+				cashierScene = true;
+			}
+			if(cashierScene == true)
+			{
+				camera.Init(Vector3(325, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+				cashierScene = false;
+			}
+		}
+	}
+	translateCustomerZ += 50 * dt;
+	if(cashierScene == true)
+	{
+		//Customer Movements
+		if(translateCustomerZ >= 200)
+		{
+			translateCustomerZ = 200;
+		}
+	}
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
@@ -480,6 +534,10 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
+	if(mouseBuffer > 0) mouseBuffer -= dt;
+
+	if (win && targeted(car->collisionBox)) 
+		if (Application::Mouse_Click(0)) gameover = true;
 }
 
 void MyScene::Exit()

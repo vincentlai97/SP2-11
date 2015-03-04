@@ -5,7 +5,7 @@ void MyScene::InitCollisionBox()
 	CollisionBox* collisionBox;
 
 	//Exterior Hitbox
-	collisionBox = new CollisionBox(Vector3(0, -0.5, 400), 1800, 1, 1800); //Bottom
+	collisionBox = new CollisionBox(Vector3(0, -0.5, 400), 2200, 1, 1690); //Bottom
 	v.push_back(collisionBox);
 	collisionBox = new CollisionBox(Vector3(0,  500, 1000), 200, 200, 200); //Front
 	v.push_back(collisionBox);
