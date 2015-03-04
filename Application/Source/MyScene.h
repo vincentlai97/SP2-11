@@ -86,6 +86,10 @@ class MyScene : public Scene
 		GEO_LIGHTBALL,
 		Character_1,
 		TEST,
+		road,
+		Car,
+		Car2,
+		Car3,
 		Toiletbowl,
 		Fridge, 
 		Fruitstand,
@@ -150,15 +154,6 @@ class MyScene : public Scene
 		SOUND_TOTAL,
 	};
 
-	enum stages
-	{
-		START_SCREEN = 0,
-		OPTION_SCREEN,
-		GAME_SCREEN,
-		PAUSE_SCREEN,
-	};
-
-
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -174,6 +169,8 @@ private:
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
 
+	int gameState;
+
 	float fps;
 	float buttonBuffer;
 	float checklistBuffer;
@@ -185,7 +182,6 @@ private:
 	float answerBuffer;
 	string PlayerName;
 	string Answer;
-	
 
 	double xPos;
 	double yPos;
@@ -210,20 +206,26 @@ private:
 	bool insert;
 	bool insertL;
 
+	float translateCarX;
+
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
-	std::vector<CollisionBox> elevatorUp;
-	std::vector<CollisionBox> elevatorDown;
-	std::vector<CollisionBox> elevatorArea;
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* DoorL;
+	Object* DoorR;
+	CollisionBox doorArea;
 
 	Object* eDoor1;
 	Object* eDoor2;
 	Object* eDoorButton1;
 	Object* eDoorButton2;
+	CollisionBox elevatorUp;
+	CollisionBox elevatorDown;
+	CollisionBox elevatorArea;
 
 	Object* ToiletDoor;
 
@@ -258,8 +260,11 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
-
 	void LoadMesh();
+
+	void LoadDoorMesh();
+	void LoadElevatorMesh();
+
 	void LoadCansMesh();
 	void LoadPizzaMesh();
 	void LoadIceCreamMesh();
@@ -274,9 +279,11 @@ private:
 	int InitSound();
 
 	void InteractDoor(double dt);
+
 	void InteractElevator(double dt);
 	void InteractElevatorButton(double dt);
 	void InteractElevatorDoor(double dt);
+
 	void updateAI(double dt);
 
 	int targeted(const std::vector<CollisionBox*> v);
@@ -295,9 +302,14 @@ private:
 	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();
-
+	void RenderRoad();
+	void RenderCar();
+	void RenderPCar();
 	void RenderCheckList();
 	
+	void Start_Screen();
+	void RenderScreens();
+
 	ISoundEngine* engine;
 	ISound* sound[SOUND_TOTAL];
 

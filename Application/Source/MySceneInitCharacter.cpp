@@ -14,11 +14,11 @@ void MyScene::InitAICharacters(std::vector<Character*>& character, std::vector<C
 		ai->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Head.obj"));
 		ai->mesh[0]->textureID = LoadTGA("Image//Face.tga");
 		ai->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Body.obj"));
-		ai->mesh[1]->textureID = LoadTGA("Image//CustomerShirt2.tga");
+		ai->mesh[1]->textureID = LoadTGA("Image//CustomerShirt1.tga");
 		ai->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
-		ai->mesh[2]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
+		ai->mesh[2]->textureID = LoadTGA("Image//CustomerLimbs1.tga");
 		ai->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
-		ai->mesh[3]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
+		ai->mesh[3]->textureID = LoadTGA("Image//CustomerLimbs1.tga");
 
 		ai->paths = paths;
 		

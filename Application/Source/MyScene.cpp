@@ -16,6 +16,9 @@ MyScene::~MyScene()
 
 void MyScene::Init(GLFWwindow* m_window, float w, float h)
 {
+	//Gamestates for menu screens
+	//stages gameState = START_SCREEN;
+
 	xPos = w / 2;
 	yPos = h / 2;
 
@@ -213,6 +216,8 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
+
+	state = 1;
 }
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
@@ -454,6 +459,18 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 		else checkoutprice = 0;
 	}
+
+	translateCarX += 50 * dt;
+
+	if(translateCarX >= 1000)
+	{
+		translateCarX = -400;
+	}
+
+	updateAI(dt);
+
+	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+	cameraCollisionBox.Centre = camera.position;
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
