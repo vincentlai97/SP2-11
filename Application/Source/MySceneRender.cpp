@@ -277,6 +277,11 @@ void MyScene::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	
 	RenderInventory();
+
+	if (!completeInventory) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(0, 1, 0), 5, 8.3, 6);
+	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(0, 1, 0), 5, 8.3, 6);
+
+	if (gameover) RenderTextOnScreen(meshList[GEO_TEXT], "GAMEOVER!", Color(0, 1, 0), 5, 8.3, 6);
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)

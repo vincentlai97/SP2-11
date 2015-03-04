@@ -182,6 +182,11 @@ private:
 	float answerBuffer;
 	string PlayerName;
 	string Answer;
+	float money;
+	bool completeInventory;
+	bool enoughmoney;
+	bool win;
+	bool gameover;
 
 	double xPos;
 	double yPos;
@@ -216,6 +221,8 @@ private:
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* car;
 
 	Object* DoorL;
 	Object* DoorR;
