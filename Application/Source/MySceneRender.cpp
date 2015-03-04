@@ -143,20 +143,6 @@ void MyScene::Render()
 	
 	RenderInterior();
 	RenderExterior();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorL, 0, 0);
-	modelStack.Translate(38, -5, 297);
-	modelStack.Scale(11.7, 6.5, 2);
-	RenderMesh(meshList[GEO_DOOR], false);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	modelStack.Translate(OpenDoorR, 0, 0);
-	modelStack.Translate(107, -5, 297);
-	modelStack.Scale(11.7, 6.5, 2);
-	RenderMesh(meshList[GEO_DOOR], false);
-	modelStack.PopMatrix();
 	
 	RenderObjects();
 	RenderCharacter(cashiers);

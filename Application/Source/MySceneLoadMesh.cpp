@@ -1,5 +1,4 @@
 #include "MyScene.h"
-#include "newScene.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include <fstream>	
@@ -124,14 +123,6 @@ void MyScene::LoadMesh()
 	meshList[Building3]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[Building3]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
 	meshList[Building3]->material.kShininess = 10.f;
-
-	//Door
-	meshList[GEO_DOOR] = MeshBuilder::GenerateOBJ("Door", "OBJ//Door.obj");
-	meshList[GEO_DOOR]->textureID = LoadTGA("Image//blueglass.tga");
-	meshList[GEO_DOOR]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
-	meshList[GEO_DOOR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
-	meshList[GEO_DOOR]->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
-	meshList[GEO_DOOR]->material.kShininess = 10.f;
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1,1,1), 36, 36, 1);
 
@@ -482,6 +473,9 @@ void MyScene::LoadMesh()
 	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
 
+	LoadDoorMesh();
+	LoadElevatorMesh();
+	
 	LoadCansMesh();
 	LoadPizzaMesh();
 	LoadDetergentMesh();
@@ -506,6 +500,36 @@ void MyScene::LoadMesh()
 	NewObj->name = "ToiletDoor";
 	v.push_back(&NewObj->collisionBox);
 	obj.push_back(NewObj);
+
+	//CheckList
+	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
+
+	//Inventory
+	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
+	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
+
+	//Inventory Selector
+	meshList[Selector] = MeshBuilder::GenerateQuad("Selector", Color(1, 1, 1), 1, 1);
+	meshList[Selector]->textureID = LoadTGA("Image//Selector.tga");
+
+	//Main Road
+	meshList[road]= MeshBuilder::GenerateQuad("main road", Color(1, 1, 1), 15, 10);
+	meshList[road] ->textureID = LoadTGA("Image//road.tga");
+
+	//Vehicle
+	meshList[Car] = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
+	meshList[Car]->textureID = LoadTGA("Image//car.tga");
+
+	meshList[Car2] = MeshBuilder::GenerateOBJ("Car2", "OBJ//Car.obj");
+	meshList[Car2]->textureID = LoadTGA("Image//car2.tga");
+
+	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
+	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
+}
+
+void MyScene::LoadElevatorMesh()
+{
+	Object* NewObj;
 
 	//Elevator Door
 	Mesh* door = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
@@ -592,31 +616,40 @@ void MyScene::LoadMesh()
 	NewObj->name = "eDoorButton2";
 	obj.push_back(NewObj);
 	eDoorButton2 = NewObj;
+}
 
-	//CheckList
-	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
+void MyScene::LoadDoorMesh()
+{
+	Object* NewObj;
 
-	//Inventory
-	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
-	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
+	Mesh* door = MeshBuilder::GenerateOBJ("door", "OBJ//Door.obj");
+	door->textureID = LoadTGA("Image//blueglass.tga");
+	door->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	door->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	door->material.kSpecular.Set(0.1f, 0.1f, 0.1f);
+	door->material.kShininess = 10.f;
 
-	//Inventory Selector
-	meshList[Selector] = MeshBuilder::GenerateQuad("Selector", Color(1, 1, 1), 1, 1);
-	meshList[Selector]->textureID = LoadTGA("Image//Selector.tga");
+	NewObj = new Object;
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(-35, 0, 300), Vector3(35, 70, 1), Vector3(-35, 0, 0));
+	NewObj->size = Vector3(7, 7, 1);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "DoorL";
+	obj.push_back(NewObj);
+	DoorL = NewObj;
+	v.push_back(&NewObj->collisionBox);
 
-	//Main Road
-	meshList[road]= MeshBuilder::GenerateQuad("main road", Color(1, 1, 1), 15, 10);
-	meshList[road] ->textureID = LoadTGA("Image//road.tga");
-
-	//Vehicle
-	meshList[Car] = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
-	meshList[Car]->textureID = LoadTGA("Image//car.tga");
-
-	meshList[Car2] = MeshBuilder::GenerateOBJ("Car2", "OBJ//Car.obj");
-	meshList[Car2]->textureID = LoadTGA("Image//car2.tga");
-
-	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
-	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
+	NewObj = new Object;
+	NewObj->mesh = door;
+	NewObj->collisionBox = CollisionBox(Vector3(35, 0, 300), Vector3(35, 70, 1), Vector3(-35, 0, 0));
+	NewObj->size = Vector3(7, 7, 1);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "DoorR";
+	obj.push_back(NewObj);
+	DoorR = NewObj;
+	v.push_back(&NewObj->collisionBox);
 }
 
 void MyScene::LoadCansMesh()

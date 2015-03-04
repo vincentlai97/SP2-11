@@ -206,17 +206,21 @@ private:
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
-	std::vector<CollisionBox> elevatorUp;
-	std::vector<CollisionBox> elevatorDown;
-	std::vector<CollisionBox> elevatorArea;
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* DoorL;
+	Object* DoorR;
+	CollisionBox doorArea;
 
 	Object* eDoor1;
 	Object* eDoor2;
 	Object* eDoorButton1;
 	Object* eDoorButton2;
+	CollisionBox elevatorUp;
+	CollisionBox elevatorDown;
+	CollisionBox elevatorArea;
 
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
@@ -249,8 +253,11 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
-
 	void LoadMesh();
+
+	void LoadDoorMesh();
+	void LoadElevatorMesh();
+
 	void LoadCansMesh();
 	void LoadPizzaMesh();
 	void LoadIceCreamMesh();
@@ -265,9 +272,11 @@ private:
 	int InitSound();
 
 	void InteractDoor(double dt);
+
 	void InteractElevator(double dt);
 	void InteractElevatorButton(double dt);
 	void InteractElevatorDoor(double dt);
+
 	void updateAI(double dt);
 
 	int targeted(const std::vector<CollisionBox*> v);

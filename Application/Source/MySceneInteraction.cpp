@@ -41,51 +41,18 @@ bool MyScene::targeted(const CollisionBox collisionBox)
 
 void MyScene::InteractDoor(double dt)
 {
-	//Door will open when person stand at entrance
-	if(camera.position.z >= 295 && camera.position.z <= 400 && camera.position.x >= -70 && camera.position.x <= 70)
+	if (cameraCollisionBox.checkCollision(doorArea))
 	{
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-
-		if(OpenDoorR >= 70)
+		if (DoorR->collisionBox.Centre.x < 105)
 		{
-			OpenDoorR -= 120 * dt;
-		}
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
+			DoorR->collisionBox.Centre.x += dt * 30;
+			DoorL->collisionBox.Centre.x -= dt * 30;
 		}
 	}
-
-	else if(camera.position.z >= 250 && camera.position.z <= 300 && camera.position.x >= -70 && camera.position.x <= 70)
-	{ 
-		OpenDoorR += 120 * dt;
-		OpenDoorL -= 120 * dt;
-		if(OpenDoorR >= 70)
-		{
-			OpenDoorR -= 120 * dt;
-		}
-
-		if(OpenDoorL <= -70)
-		{
-			OpenDoorL += 120 * dt;
-		}
-	}
-
-	else
+	else if (DoorR->collisionBox.Centre.x > 35)
 	{
-		OpenDoorR -= 120 * dt;
-		OpenDoorL += 120 * dt;
-
-		if(OpenDoorR <= -1)
-		{
-			OpenDoorR += 120 * dt;
-		}
-
-		if(OpenDoorL >= 1)
-		{
-			OpenDoorL -= 120 * dt;
-		}
+		DoorR->collisionBox.Centre.x -= dt * 30;
+		DoorL->collisionBox.Centre.x += dt * 30;
 	}
 }
 
