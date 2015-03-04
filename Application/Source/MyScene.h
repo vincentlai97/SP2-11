@@ -180,6 +180,7 @@ private:
 	float letterBuffer;
 	float eraseBuffer;
 	float answerBuffer;
+	float mouseBuffer;
 	string PlayerName;
 	string Answer;
 	float money;
@@ -212,8 +213,10 @@ private:
 	bool insertL;
 
 	float translateCarX;
+	float translateCustomerZ;
 
 	bool soundJump;
+	bool cashierScene;
 
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -269,6 +272,8 @@ private:
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
 
+	std::vector<Character*> customers;
+
 	void LoadMesh();
 
 	void LoadDoorMesh();
@@ -281,6 +286,7 @@ private:
 	void LoadDetergentMesh();
 	void LoadAppleRedMesh();
 	void LoadAppleGreenMesh();
+	void LoadCustomers();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
@@ -315,6 +321,7 @@ private:
 	void RenderCar();
 	void RenderPCar();
 	void RenderCheckList();
+	void RenderCustomers(std::vector<Character*> customers);
 	
 	void Start_Screen();
 	void RenderScreens();

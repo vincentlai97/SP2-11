@@ -214,6 +214,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	money = 100;
 	win = false;
 	gameover = false;
+	cashierScene = false;
 	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -486,12 +487,39 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			enoughmoney = true;
 		}
 	}
-
+	//Car Movement
 	translateCarX += 50 * dt;
 
 	if(translateCarX >= 1000)
 	{
 		translateCarX = -400;
+	}
+
+	//Entering into cashier scenario
+	for(int i = 0; i < obj.size(); i++)
+	{
+		if((obj[i]->name == "Cashier Table")&& (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			if(Application::Mouse_Click(0) && mouseBuffer < 0)
+			{
+				mouseBuffer += 0.5;
+				cashierScene = true;
+			}
+			if(cashierScene == true)
+			{
+				camera.Init(Vector3(325, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+				cashierScene = false;
+			}
+		}
+	}
+	translateCustomerZ += 50 * dt;
+	if(cashierScene == true)
+	{
+		//Customer Movements
+		if(translateCustomerZ >= 200)
+		{
+			translateCustomerZ = 200;
+		}
 	}
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
@@ -502,6 +530,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
+	if(mouseBuffer > 0) mouseBuffer -= dt;
 
 	if (win && targeted(car->collisionBox)) 
 		if (Application::Mouse_Click(0)) gameover = true;

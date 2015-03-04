@@ -217,7 +217,7 @@ void MyScene::LoadMesh()
 	meshList[CashierTable]->material.kShininess = 5.f;
 
 
-	for (int posX = 120, count = 0; posX <= 270; posX += 50)
+	for (int posX = 120, count = 0; count < 5; posX += 50)
 	{
 		NewObj = new Object;
 		NewObj->mesh = meshList[CashierTable];
@@ -381,6 +381,38 @@ void MyScene::LoadMesh()
 		cashier->collisionBox.set(Vector3(cashier->pos), Vector3(15, 20, 15), Vector3(-15, 0, -15));
 		cashiers.push_back(cashier);
 		cashiersCollisionBox.push_back(&cashier->collisionBox);
+	}
+
+	for(int count = 0; count < 4; count++)
+	{
+		Character* customer = new Character;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Head.obj"));
+		customer->mesh[0]->textureID = LoadTGA("Image//Face.tga");
+		customer->mesh[0]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[0]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[0]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[0]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Body.obj"));
+		customer->mesh[1]->textureID = LoadTGA("Image//customerShirt.tga");
+		customer->mesh[1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[1]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
+		customer->mesh[2]->textureID = LoadTGA("Image//customerLimbs.tga");
+		customer->mesh[2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[2]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
+		customer->mesh[3]->textureID = LoadTGA("Image//customerLimbs.tga");
+		customer->mesh[3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[3]->material.kShininess = 5.f;
+		customer->pos = Vector3(50 * count + 125, 0, 205);
+		customer->angle = -90;
+		customers.push_back(customer);
 	}
 
 	//Restroom Wall - Back
@@ -942,7 +974,3 @@ void MyScene::LoadAppleGreenMesh()
 		}
 	}
 }
-
-
-
-

@@ -273,6 +273,12 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
 
+
+		modelStack.PushMatrix();
+		modelStack.Translate(310, 0, 0);
+		RenderCustomers(customers);
+		modelStack.PopMatrix();
+
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	
@@ -680,7 +686,7 @@ void MyScene::RenderRoad()
 		modelStack.PushMatrix();
 		modelStack.Translate((i * 50) - 1200, 0.2, 650);
 		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(10, 10, 10);
 		RenderMesh(meshList[road], false);
 		modelStack.PopMatrix();
@@ -715,4 +721,35 @@ void MyScene::RenderPCar()
 	modelStack.Scale(5, 5, 5);
 	RenderMesh(meshList[Car], false);
 	modelStack.PopMatrix();
+}
+
+void MyScene::RenderCustomers(std::vector<Character*> customers)
+{
+	for (int count = 0; count < customers.size(); count++)
+	{
+		Character character(*customers[count]);
+		modelStack.PushMatrix(); {
+			modelStack.Translate(0, 0, translateCustomerZ);
+			modelStack.Rotate(character.angle, 0, 1, 0);
+			modelStack.Scale(2, 2, 2);
+
+			RenderMesh(character.mesh[0], false);
+			RenderMesh(character.mesh[1], false);
+			for (int count = -1; count < 2; count += 2)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(1.5 * count, 6.375, 0);
+					modelStack.Translate(0.625 * count, 0.625, 0);
+
+					RenderMesh(character.mesh[2], false);
+				} modelStack.PopMatrix();
+
+				modelStack.PushMatrix(); {
+					modelStack.Translate(0.75 * count, 3, 0);
+
+					RenderMesh(character.mesh[3], false);
+				} modelStack.PopMatrix();
+			}
+		} modelStack.PopMatrix();
+	}
 }
