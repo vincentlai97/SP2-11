@@ -144,21 +144,13 @@ void MyScene::Render()
 
 	RenderObjects();
 
-	RenderInterior();
-	RenderDoor();
+	
 	RenderCharacter(cashiers);
 	RenderCharacter(shelfCharacters);
+	RenderInterior();
 
+	RenderDoor();
 	RenderExterior();
-	
-	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(1, 0, 1), 2, 1, 24.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(1, 0, 1), 2, 1, 25.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(1, 0, 1), 2, 1, 26.5);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 27.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 28.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 29.5);
 
 	if (targeted(eDoorButton1->collisionBox) || targeted(eDoorButton2->collisionBox))
 	{
@@ -229,12 +221,12 @@ void MyScene::Render()
 		RenderCheckList();
 	}
 	//Player Name
-	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 3, 1, 18);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 3, 1, 17);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
 	for (int xPos = 1, count = 0; count < PNameList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 3, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 14);
 	}
 	if (insert == false && talk == false)
 	{
@@ -254,24 +246,22 @@ void MyScene::Render()
 	}
 	for (int xPos = 1, count = 0; count < LetterList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 3, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 14);
 	}
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
 		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 1, 19);
 		}
 	}
 
+	if (talk == true)
+		RenderTextOnScreen(meshList[GEO_TEXT], "Npc:" + dialogue[0], Color(0, 0, 0), 2, 6, 5);
 	if (talk == true && insertL == false)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to insert reply.", Color(0, 0, 0), 2, 1, 23);
-	}
-	else if (insertL == true)
-	{
+	else if (insertL == true){
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22	);
 	}
@@ -281,10 +271,10 @@ void MyScene::Render()
 	
 	RenderInventory();
 
-	if (!completeInventory) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(0, 1, 0), 5, 8.3, 6);
-	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(0, 1, 0), 5, 8.3, 6);
-
-	if (gameover) RenderTextOnScreen(meshList[GEO_TEXT], "GAMEOVER!", Color(0, 1, 0), 5, 8.3, 6);
+	if (!completeInventory && win == false) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(1, 0, 0), 2, 1, 18);
+	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(1, 0, 0), 5, 1, 12);
+	if (win && !gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "Proceed to car!", Color(1, 0, 0), 5, 1, 10);
+	if (gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "GameOver!", Color(1, 0, 0), 5, 1, 10);
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -383,7 +373,7 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i * 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -613,8 +603,8 @@ void MyScene::RenderTargetDetails()
 	targeted = MyScene::targeted(cashiersCollisionBox);
 	if (targeted != -1)
 	{
-		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 3, 1, 18);
-		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 3, 1, 19);
+		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 2, 1, 18);
+		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 2, 1, 19);
 	}
 }
 
@@ -664,7 +654,7 @@ void MyScene::RenderInventory()
 	for(int i = 0, xPos = -5; i < inventory.size(); i++, xPos++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
+		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6a
 		modelStack.Scale(0.8, 0.8, 0.8);
 		RenderMesh(inventory[i]->mesh, false);
 		modelStack.PopMatrix();

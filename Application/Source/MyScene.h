@@ -224,6 +224,8 @@ private:
 
 	Object* car;
 
+	Object* paperbag;
+
 	Object* DoorL;
 	Object* DoorR;
 	CollisionBox doorArea;
