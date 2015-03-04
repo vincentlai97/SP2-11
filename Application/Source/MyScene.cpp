@@ -216,7 +216,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	gameover = false;
 	cashierScene = false;
 	
-	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	camera.Init(Vector3(0, 20, 500), Vector3(0, 20, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
@@ -365,7 +365,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
-
 	if (talk == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
@@ -393,7 +392,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;
@@ -475,7 +474,12 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 						checkoutprice += inventory[count]->getPrice();
 					}
 					if (money < checkoutprice) enoughmoney = false;
-					else win = true;
+					else
+					{
+						inventory.clear();
+						win = true;
+						inventory.push_back(paperbag);
+					}
 				}
 				else completeInventory = false;
 			}

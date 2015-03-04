@@ -231,6 +231,108 @@ void MyScene::LoadMesh()
 		obj.push_back(NewObj);
 	}
 
+	//Restroom Wall - Back
+	meshList[RestroomBack] = MeshBuilder::GenerateOBJ("RestroomBack", "OBJ//Restroom_Back.obj");
+	meshList[RestroomBack]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomBack]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomBack]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomBack]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomBack]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomBack];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -275), Vector3(20, 40, -15), Vector3(-20, 0, -20));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomBack";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Left
+	meshList[RestroomLeft] = MeshBuilder::GenerateOBJ("RestroomLeft", "OBJ//Restroom_Left.obj");
+	meshList[RestroomLeft]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomLeft]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomLeft]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomLeft]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomLeft]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomLeft];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(-13, 40, 40), Vector3(-15, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomLeft";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Right
+	meshList[RestroomRight] = MeshBuilder::GenerateOBJ("RestroomRight", "OBJ//Restroom_Right.obj");
+	meshList[RestroomRight]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomRight]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomRight]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomRight]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomRight]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomRight];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(20, 40, 40), Vector3(15, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomRight";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Restroom Wall - Top
+	meshList[RestroomTop] = MeshBuilder::GenerateOBJ("RestroomTop", "OBJ//Restroom_Top.obj");
+	meshList[RestroomTop]->textureID = LoadTGA("Image//Toilet.tga");
+	meshList[RestroomTop]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[RestroomTop]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[RestroomTop]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[RestroomTop]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[RestroomTop];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -276), Vector3(20, 50, 50), Vector3(-20, 46, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(4, 6, 4);
+	NewObj->name = "RestroomTop";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	//Toiletbowl
+	meshList[Toiletbowl] = MeshBuilder::GenerateOBJ("Toiletbowl", "OBJ//Toiletbowl.obj");
+	meshList[Toiletbowl]->textureID = LoadTGA("Image//Pearly_White.tga");
+	meshList[Toiletbowl]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[Toiletbowl]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+	meshList[Toiletbowl]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+	meshList[Toiletbowl]->material.kShininess = 5.f;
+
+	NewObj = new Object;
+	NewObj->mesh = meshList[Toiletbowl];
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -285), Vector3(1, 50, 2), Vector3(-2, 0, -10));
+	NewObj->angle = -90.0f;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->size = Vector3(3.5, 3.5, 3.5);
+	NewObj->name = "Toiletbowl";
+	v.push_back(&NewObj->collisionBox);
+	obj.push_back(NewObj);
+
+	
+	LoadElevatorMesh();
+	
+	LoadCansMesh();
+	LoadPizzaMesh();
+	LoadDetergentMesh();
+	LoadChocolateMesh();
+	LoadAppleRedMesh();
+	LoadAppleGreenMesh();
+	LoadDoorMesh();
+
+
 	//Toy Shelves - 2nd Floor
 	meshList[Toy_Shelves] = MeshBuilder::GenerateOBJ("Toy_Shelves", "OBJ//Toy_Shelf.obj");
 	meshList[Toy_Shelves]->textureID = LoadTGA("Image//Toy_Shelf.tga");
@@ -239,7 +341,7 @@ void MyScene::LoadMesh()
 	meshList[Toy_Shelves]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[Toy_Shelves]->material.kShininess = 5.f;
 
-	for(int posX = 250, count = 0; posX > 0; posX -= 50)
+	for (int posX = 250, count = 0; posX > 0; posX -= 50)
 	{
 		for (int posZ = 250; posZ >= 50; posZ -= 50)
 		{
@@ -262,7 +364,7 @@ void MyScene::LoadMesh()
 	meshList[TaC]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[TaC]->material.kShininess = 5.f;
 
-	for(int posX = -300, count = 0; posX < -125; posX += 75)
+	for (int posX = -300, count = 0; posX < -125; posX += 75)
 	{
 		for (int posZ = -150; posZ < 50; posZ += 75)
 		{
@@ -303,7 +405,7 @@ void MyScene::LoadMesh()
 	meshList[ClothesRack]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
 	meshList[ClothesRack]->material.kShininess = 5.f;
 
-	for(int posX = 250, count = 0; posX > 0; posX -= 50)
+	for (int posX = 250, count = 0; posX > 0; posX -= 50)
 	{
 		for (int posZ = -50; posZ > -300; posZ -= 50)
 		{
@@ -565,6 +667,24 @@ void MyScene::LoadMesh()
 
 	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
 	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
+
+
+
+	Mesh* paperbag = MeshBuilder::GenerateOBJ("paperbag", "OBJ//paperbag.obj");
+	paperbag->textureID = LoadTGA("Image//paperbag.tga");
+	paperbag->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	paperbag->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	paperbag->material.kSpecular.Set(1.f, 1.f, 1.f);
+	paperbag->material.kShininess = 3.f;
+
+	NewObj = new Gettable;
+	NewObj->mesh = paperbag;
+	NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	NewObj->size = Vector3(0.02, 0.02, 0.02);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "PaperBag";
+	MyScene::paperbag = NewObj;
 }
 
 void MyScene::LoadElevatorMesh()
@@ -676,7 +796,6 @@ void MyScene::LoadDoorMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "DoorL";
-	obj.push_back(NewObj);
 	DoorL = NewObj;
 	v.push_back(&NewObj->collisionBox);
 
@@ -687,7 +806,6 @@ void MyScene::LoadDoorMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "DoorR";
-	obj.push_back(NewObj);
 	DoorR = NewObj;
 	v.push_back(&NewObj->collisionBox);
 }
