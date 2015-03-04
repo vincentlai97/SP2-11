@@ -395,7 +395,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				eraseBuffer = 0.2;
 			}
 		}
-		
 	}
 	else
 	{
