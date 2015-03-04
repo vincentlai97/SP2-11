@@ -95,7 +95,7 @@ class MyScene : public Scene
 		Detergent,
 		AppleRed,
 		AppleGreen,
-		ToiletDoor,
+		//ToiletDoor,
 		NUM_GEOMETRY,
 	};
 
@@ -200,6 +200,11 @@ private:
 	float StandUp;
 	bool ToiletUsed;
 
+	float OpenToilet;
+	float CloseToilet;
+	bool TDoorState;
+	bool TDoorLocked;
+
 	bool checklistout;
 	bool talk;
 	bool insert;
@@ -219,6 +224,8 @@ private:
 	Object* eDoor2;
 	Object* eDoorButton1;
 	Object* eDoorButton2;
+
+	Object* ToiletDoor;
 
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;

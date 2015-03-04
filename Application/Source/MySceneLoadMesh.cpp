@@ -490,7 +490,7 @@ void MyScene::LoadMesh()
 	LoadAppleGreenMesh();
 
 	//Toilet Door
-	meshList[ToiletDoor] = MeshBuilder::GenerateOBJ("ToiletDoor", "OBJ//ToiletDoor.obj");
+	/*meshList[ToiletDoor] = MeshBuilder::GenerateOBJ("ToiletDoor", "OBJ//ToiletDoor.obj");
 	meshList[ToiletDoor]->textureID = LoadTGA("Image//ToiletDoor.tga");
 	meshList[ToiletDoor]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
 	meshList[ToiletDoor]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
@@ -499,13 +499,13 @@ void MyScene::LoadMesh()
 
 	NewObj = new Object;
 	NewObj->mesh = meshList[ToiletDoor];
-	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -250), Vector3(0.5, 50, 15), Vector3(-0.5, 0, -15));
-	NewObj->size = Vector3(6, 10, 6);
+	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -240), Vector3(0.5, 50, 15), Vector3(-0.5, 0, -15));
+	NewObj->size = Vector3(8, 10, 8);
 	NewObj->angle = -90.0f;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "ToiletDoor";
 	v.push_back(&NewObj->collisionBox);
-	obj.push_back(NewObj);
+	obj.push_back(NewObj);*/
 
 	//Elevator Door
 	Mesh* door = MeshBuilder::GenerateOBJ("eDoor", "OBJ//Door.obj");
@@ -818,7 +818,7 @@ void MyScene::LoadAppleRedMesh()
 				Fruitstand = obj[count]->collisionBox.Centre;
 		}
 
-		for (float countx = -4.14, count = 0; countx < 1; countx++)
+		for (float countx = -4.14, count = 0; countx < 0; countx++)
 		{
 			for (float county = 1.4; county < 2; county++)
 			{
