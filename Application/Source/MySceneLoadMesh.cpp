@@ -535,6 +535,22 @@ void MyScene::LoadMesh()
 
 	meshList[Car3] = MeshBuilder::GenerateOBJ("Car3", "OBJ//Car.obj");
 	meshList[Car3]->textureID = LoadTGA("Image//car3.tga");
+
+	Mesh* paperbag = MeshBuilder::GenerateOBJ("paperbag", "OBJ//paperbag.obj");
+	paperbag->textureID = LoadTGA("Image//paperbag.tga");
+	paperbag->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
+	paperbag->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	paperbag->material.kSpecular.Set(1.f, 1.f, 1.f);
+	paperbag->material.kShininess = 3.f;
+
+	NewObj = new Gettable;
+	NewObj->mesh = paperbag;
+	NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0));
+	NewObj->size = Vector3(1, 1, 1);
+	NewObj->angle = 0;
+	NewObj->rotation = Vector3(0, 1, 0);
+	NewObj->name = "PaperBag";
+	obj.push_back(NewObj);
 }
 
 void MyScene::LoadElevatorMesh()
