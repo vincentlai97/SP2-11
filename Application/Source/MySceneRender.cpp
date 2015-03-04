@@ -233,7 +233,7 @@ void MyScene::Render()
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
-		if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
@@ -247,9 +247,9 @@ void MyScene::Render()
 	else if (insertL == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22	);
 	}
-
+	
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	RenderInventory();
