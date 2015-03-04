@@ -203,6 +203,8 @@ private:
 
 	float translateCarX;
 
+	bool soundJump;
+
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;

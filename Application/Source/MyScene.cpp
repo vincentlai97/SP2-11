@@ -210,6 +210,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	StandUp = 0;
 	ToiletUsed = false;
 	
+	soundJump = false;
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -467,11 +468,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	{
 		translateCarX = -400;
 	}
-
-	updateAI(dt);
-
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;

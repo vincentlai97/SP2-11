@@ -40,6 +40,7 @@ int MyScene::InitSound()
 	//Set up Opening of doors Music
 	//sound[OPENDOOR] = engine->play2D("../irrKlang/media/doorOpen.mp3", true, true);
 	
+	soundJump = false;
 	
 	return 0;
 }
