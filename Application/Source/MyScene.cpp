@@ -210,6 +210,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	StandUp = 0;
 	ToiletUsed = false;
 	
+	soundJump = false;
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -393,7 +394,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				eraseBuffer = 0.2;
 			}
 		}
-		
 	}
 	else
 	{
