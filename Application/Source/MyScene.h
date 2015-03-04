@@ -308,6 +308,7 @@ private:
 	void RenderBuildings();
 	void RenderSkyBox();
 	void RenderObjects();
+	void RenderDoor();
 	void RenderCharacter(std::vector<Character*> characters);
 	void RenderTargetDetails();
 	void RenderInventory();

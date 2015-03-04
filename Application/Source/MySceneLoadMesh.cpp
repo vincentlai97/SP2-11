@@ -646,7 +646,6 @@ void MyScene::LoadDoorMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "DoorL";
-	obj.push_back(NewObj);
 	DoorL = NewObj;
 	v.push_back(&NewObj->collisionBox);
 
@@ -657,7 +656,6 @@ void MyScene::LoadDoorMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "DoorR";
-	obj.push_back(NewObj);
 	DoorR = NewObj;
 	v.push_back(&NewObj->collisionBox);
 }

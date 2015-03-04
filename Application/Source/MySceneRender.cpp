@@ -145,6 +145,7 @@ void MyScene::Render()
 	RenderObjects();
 
 	RenderInterior();
+	RenderDoor();
 	RenderCharacter(cashiers);
 	RenderCharacter(shelfCharacters);
 
@@ -545,7 +546,23 @@ void MyScene::RenderObjects()
 		}
 	}
 }
+void MyScene::RenderDoor()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(DoorL->collisionBox.Centre.x, DoorL->collisionBox.Centre.y, DoorL->collisionBox.Centre.z);
+	modelStack.Rotate(DoorL->angle, DoorL->rotation.x, DoorL->rotation.y, DoorL->rotation.z);
+	modelStack.Scale(DoorL->size.x, DoorL->size.y, DoorL->size.z);
+	RenderMesh(DoorL->mesh, false);
+	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(DoorR->collisionBox.Centre.x, DoorR->collisionBox.Centre.y, DoorR->collisionBox.Centre.z);
+	modelStack.Rotate(DoorR->angle, DoorR->rotation.x, DoorR->rotation.y, DoorR->rotation.z);
+	modelStack.Scale(DoorR->size.x, DoorR->size.y, DoorR->size.z);
+	RenderMesh(DoorR->mesh, false);
+	modelStack.PopMatrix();
+
+}
 void MyScene::RenderCharacter(std::vector<Character*> characters)
 {
 	for (int count = 0; count < characters.size(); count++)
