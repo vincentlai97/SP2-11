@@ -23,9 +23,15 @@ void MyScene::UpdateSound(double dt)
 		sound[FOOTSTEPS]->setIsPaused(false);
 	}
 
-	if(Application::IsKeyPressed(VK_SPACE))
+	if(Application::IsKeyPressed(VK_SPACE) && soundJump == true)
 	{
 		sound[JUMP] = engine->play2D("../irrKlang/media/Jumping.mp3", false);
+		soundJump = false;
+	}
+
+	if(!Application::IsKeyPressed(VK_SPACE))
+	{
+		soundJump = true;
 	}
 
 	if(Application::IsKeyPressed(VK_UP) && cameraCollisionBox.checkCollision(elevatorUp) || Application::IsKeyPressed(VK_DOWN) && cameraCollisionBox.checkCollision(elevatorDown))

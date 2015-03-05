@@ -1,4 +1,4 @@
-#include "newScene.h"
+#include "Winning_Screen.h"
 #include "GL\glew.h"
 #include "Application.h"
 #include "Utility.h"
@@ -6,7 +6,7 @@
 
 #include "shader.hpp"
 
-void GameState::Init(GLFWwindow* m_window, float w, float h)
+void WinState::Init(GLFWwindow* m_window, float w, float h)
 {
 	xPos = w / 2;
 	yPos = h / 2;
@@ -126,19 +126,18 @@ void GameState::Init(GLFWwindow* m_window, float w, float h)
 	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
 
-	state = 0;
+	state = 2;
 }
 
-void GameState::LoadMesh()
+void WinState::LoadMesh()
 {
-	//Start_Screen
-	meshList[startscreen]= MeshBuilder::GenerateQuad("Start Screen", Color(1, 1, 1), 10, 10);
-	meshList[startscreen]->textureID = LoadTGA("Image//Start_Screen.tga");
+	meshList[winscreen]= MeshBuilder::GenerateQuad("Winning Screen", Color(1, 1, 1), 10, 10);
+	meshList[winscreen]->textureID = LoadTGA("Image//Win_Screen.tga");
 }
 
-void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
+void WinState::Update(double dt, GLFWwindow* m_window, float w, float h)
 {
-	gameState = START_SCREEN;
+	winState = WINNING_SCREEN;
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 	xPosition = &xPos;
 	yPosition = &yPos;
@@ -148,12 +147,13 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	
 	//Update the screen menu
-	if(gameState == START_SCREEN)
+	if(winState == WINNING_SCREEN)
 	{
 		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		camera.Reset();
-		if(Application::Mouse_Click(0) && (*xPosition > 185 && *xPosition < 585 && *yPosition > 165 && *yPosition < 240) && mouseBuffer <= 1 && mouseBuff == true)
+		if(Application::Mouse_Click(0) && (*xPosition > 205 && *xPosition < 601 && *yPosition > 240 && *yPosition < 310) && mouseBuffer <= 1 && mouseBuff == true)
 		{
+			cout << "HELLO HELLO" << endl;
 			state = 1;
 			xPos = w / 2;
 			yPos = h / 2;
@@ -161,19 +161,7 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 
-		if(Application::Mouse_Click(0))
-		{
-			mouseBuff = true;
-			if((*xPosition > 185 && *xPosition < 585 && *yPosition > 318 && *yPosition < 390) && mouseBuffer <= 1 && mouseBuff == true)
-			{
-				gameState = OPTION_SCREEN;
-				xPos = w / 2;
-				yPos = h / 2;
-				mouseBuffer = 0.5;
-			}
-		}
-
-		if(Application::Mouse_Click(0) && (*xPosition > 185 && *xPosition < 585 && *yPosition > 475 && *yPosition < 548))
+		if(Application::Mouse_Click(0) && (*xPosition > 205 && *xPosition < 601 && *yPosition > 395 && *yPosition < 470))
 		{
 			exit(0); //Exit the game
 		}
@@ -185,7 +173,7 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 }
 
-void GameState::Render()
+void WinState::Render()
 {	//Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	// Render VBO here
@@ -200,7 +188,7 @@ void GameState::Render()
 	RenderScreens();
 }
 
-void GameState::RenderMesh(Mesh *mesh, bool enableLight)
+void WinState::RenderMesh(Mesh *mesh, bool enableLight)
 {
 	Mtx44 modelView, modelView_inverse_transpose;
 
@@ -243,7 +231,7 @@ void GameState::RenderMesh(Mesh *mesh, bool enableLight)
 	}
 }
 
-void GameState::RenderText(Mesh* mesh, std::string text, Color color)
+void WinState::RenderText(Mesh* mesh, std::string text, Color color)
 {
 	if(!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -270,7 +258,7 @@ void GameState::RenderText(Mesh* mesh, std::string text, Color color)
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GameState::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
+void WinState::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y)
 {
 	if (!mesh || mesh->textureID <= 0) //Proper error check
 		return;
@@ -310,33 +298,28 @@ void GameState::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, fl
 	glEnable(GL_DEPTH_TEST);
 }
 
-void GameState::RenderScreens()
+void WinState::RenderScreens()
 {
-	if(gameState == START_SCREEN)
+	if(winState == WINNING_SCREEN)
 	{
-		Start_Screen();
-	}
-	
-	else if(gameState == OPTION_SCREEN)
-	{
-		Options_Screen();
+		Win_Screen();
 	}
 }
 
-void GameState::Exit()
+void WinState::Exit()
 {
 	// Cleanup VBO here
 	glDeleteVertexArrays(1, &m_vertexArrayID);
 	glDeleteProgram(m_programID);
 }
 
-void GameState::load()
+void WinState::load()
 {
 	Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 }
 
-void GameState::reset()
+void WinState::reset()
 {
 	modelStack.LoadIdentity();
 	load();

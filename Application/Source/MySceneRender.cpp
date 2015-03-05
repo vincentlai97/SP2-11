@@ -115,6 +115,12 @@ void MyScene::Render()
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, 55, 260);
+	modelStack.Scale(15, 15, 15);
+	RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	modelStack.PopMatrix();
+
 	//modelStack.PushMatrix();
 	//modelStack.Translate(-280, 40, 260);
 	//modelStack.Rotate(-10, 0, 0, 1);
@@ -199,7 +205,7 @@ void MyScene::Render()
 	}
 
 	RenderTargetDetails();
-	if (checklistout == false)
+	if (checklistout == false && customer == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'P'", Color(1, 0, 0), 2, 31, 17);
 		RenderTextOnScreen(meshList[GEO_TEXT], "for", Color(1, 0, 0), 2, 31, 16);
@@ -282,6 +288,23 @@ void MyScene::Render()
 				RenderMesh(meshList[TEST], false);
 			} modelStack.PopMatrix();
 		}
+	}
+
+	//Customers
+	modelStack.PushMatrix();
+	modelStack.Translate(300, 0, 0);
+	RenderCustomers(customers);
+	modelStack.PopMatrix();
+
+	if(customer == false)
+	{
+		RenderInventory();
+	}
+	else if(customer == true)
+	{
+		RenderPList();
+		RenderPayment();
+		insertNum = true;
 	}
 }
 
@@ -698,7 +721,7 @@ void MyScene::RenderRoad()
 		modelStack.PushMatrix();
 		modelStack.Translate((i * 50) - 1200, 0.2, 650);
 		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(10, 10, 10);
 		RenderMesh(meshList[road], false);
 		modelStack.PopMatrix();
@@ -725,4 +748,69 @@ void MyScene::RenderCar()
 
 	zPos += 80;
 	}
+}
+
+void MyScene::RenderCustomers(std::vector<Character*> customers)
+{
+	for (int count = 0; count < customers.size(); count++)
+	{
+		Character character(*customers[count]);
+		modelStack.PushMatrix(); {
+			modelStack.Translate(0, 0, translateCustomerZ);
+			modelStack.Translate(0, 0, translateCustomerZ1);
+			modelStack.Rotate(180, 0, 1, 0);
+			modelStack.Rotate(character.angle, 0, 1, 0);
+			modelStack.Scale(2, 2, 2);
+
+			RenderMesh(character.mesh[0], false);
+			RenderMesh(character.mesh[1], false);
+			for (int count = -1; count < 2; count += 2)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(1.5 * count, 6.375, 0);
+					modelStack.Translate(0.625 * count, 0.625, 0);
+
+					RenderMesh(character.mesh[2], false);
+				} modelStack.PopMatrix();
+
+				modelStack.PushMatrix(); {
+					modelStack.Translate(0.75 * count, 3, 0);
+
+					RenderMesh(character.mesh[3], false);
+				} modelStack.PopMatrix();
+			}
+		} modelStack.PopMatrix();
+	}
+}
+
+void MyScene::RenderPayment()
+{	
+	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 18);
+}
+
+void MyScene::RenderPList()
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+
+	modelStack.PushMatrix();
+	modelStack.Translate(66, 20, 0);
+	modelStack.Scale(25, 30, 1);
+	RenderMesh(meshList[PaymentList], false);
+	modelStack.PopMatrix();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+	glEnable(GL_DEPTH_TEST);
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
 }

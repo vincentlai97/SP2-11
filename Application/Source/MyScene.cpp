@@ -531,17 +531,83 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		translateCarX = -400;
 	}
 
+//Entering into cashier scenario
+	for(int i = 0; i < obj.size(); i++)
+	{
+		if((obj[i]->name == "Cashier Table" && obj[i]->position == 4) && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			translateCustomerZ += 120 * dt;
+			if(Application::Mouse_Click(0) && mouseBuffer < 0)
+			{
+				camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+				cameraCollisionBox.Centre = camera.position;
+				mouseBuffer += 0.5;
+				cashierScene = true;
+			}
+
+			if(cashierScene == true)
+			{
+				camera.Init(Vector3(325, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+				cashierScene = false;
+			}
+
+			else if(Application::IsKeyPressed('E'))
+			{
+				camera.Init(Vector3(335, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+			}
+
+			//Customer Movements
+			if(translateCustomerZ >= 200)
+			{
+				translateCustomerZ = 200;
+				customer = true;
+				paid = false;
+			}
+
+			if(Application::IsKeyPressed('T'))
+			{
+				paid = true;
+			}
+
+			if(paid == true)
+			{
+				translateCustomerZ1 += 20 * dt;
+				customer = false;
+			}
+
+			if (insertNum == true && PNumBuffer <= 0)
+			{
+				for (char letter = '0'; letter < '9'; letter++)
+				{
+					if (Application::IsKeyPressed(letter))
+					{
+						PNumList.push_back(letter);
+						PNumBuffer = 0.2;
+					}
+				}
+
+				if (Application::IsKeyPressed(VK_BACK) && PNumList.size() != 0 && eraseBuffer <= 0)
+				{
+					PNumList.erase(PNumList.begin() + PNumList.size() - 1);
+					eraseBuffer = 0.2;
+				}
+			}
+		}
+	}
+
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
 	if (talkBuffer > 0) talkBuffer -= dt;
 	if (insertBuffer > 0) insertBuffer -= dt;
 	if (PNameBuffer > 0) PNameBuffer -= dt;
+	if (PNumBuffer > 0) PNumBuffer -= dt;
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
+	if (mouseBuffer > 0) mouseBuffer -= dt;
 
 	if (win && targeted(car->collisionBox)) 
-		if (Application::Mouse_Click(0)) gameover = true;
+		if (Application::Mouse_Click(0)) state = 2;
 }
 
 void MyScene::Exit()
