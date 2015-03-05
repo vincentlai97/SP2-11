@@ -838,9 +838,9 @@ void MyScene::LoadChocolateMesh()
 						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
 						NewObj->collisionBox.Centre += shelf;
 						NewObj->position = count++;
-						obj.push_back(NewObj);
-					    detergent.push_back(NewObj);
-					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+						obj.push_back(NewObj); 
+						shelfItems.push_back(NewObj);
+						shelfItemsCollisionBox.push_back(&(NewObj->collisionBox));
 					}
 				}
 			}
@@ -886,9 +886,9 @@ void MyScene::LoadDetergentMesh()
 						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
 						NewObj->collisionBox.Centre += shelf;
 						NewObj->position = count++;
-						obj.push_back(NewObj);
-					    detergent.push_back(NewObj);
-					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+						obj.push_back(NewObj); 
+						shelfItems.push_back(NewObj);
+						shelfItemsCollisionBox.push_back(&(NewObj->collisionBox));
 					}
 				}
 			}
@@ -925,7 +925,7 @@ void MyScene::LoadAppleRedMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[AppleRed];
-					newObj->name = "AppleRed";
+					newObj->name = "Red Apple";
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(1, 1, 1);
 					newObj->price = 1.00;
@@ -933,8 +933,8 @@ void MyScene::LoadAppleRedMesh()
 					newObj->collisionBox.Centre += Fruitstand;
 					newObj->position = count++;
 					obj.push_back(newObj);
-					RedApple.push_back(newObj);
-					RedAppleCollisionBox.push_back(&(newObj->collisionBox));
+					Apple.push_back(newObj);
+					AppleCollisionBox.push_back(&(newObj->collisionBox));
 				}
 			}
 		}
@@ -971,7 +971,7 @@ void MyScene::LoadAppleGreenMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[AppleGreen];
-					newObj->name = "AppleGreen";
+					newObj->name = "Green Apple";
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(1, 1, 1);
 					newObj->price = 1.00;
@@ -979,8 +979,8 @@ void MyScene::LoadAppleGreenMesh()
 					newObj->collisionBox.Centre += Fruitstand;
 					newObj->position = count++;
 					obj.push_back(newObj);
-					GreenApple.push_back(newObj);
-					GreenAppleCollisionBox.push_back(&(newObj->collisionBox));
+					Apple.push_back(newObj);
+					AppleCollisionBox.push_back(&(newObj->collisionBox));
 				}
 			}
 		}
@@ -1175,7 +1175,7 @@ void MyScene::LoadSugarMesh()
 						NewObj->angle = -90.0f;
 	                    NewObj->rotation = Vector3(0, 1, 0);
 						NewObj->price = 0.80;
-						NewObj->collisionBox.Centre = Vector3(countx * 10, 2 + county * 8, countz * 4);
+						NewObj->collisionBox.Centre = Vector3(countx * 10, 2 + county * 7.2, countz * 4);
 						NewObj->collisionBox.Centre += Toy_Shelves;
 						NewObj->position = count++;
 					    sugar.push_back(NewObj);
