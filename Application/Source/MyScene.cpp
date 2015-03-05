@@ -219,8 +219,9 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	//Using the toilet
 	SitDown = 0;
-	StandUp = 0;
 	ToiletUsed = false;
+	TDoorOpen = false;
+
 	
 	soundJump = false;
 	money = 100;
@@ -335,6 +336,23 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
+	for (int i = 0; i < obj.size(); i++)
+	{
+	if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			if (Application::Mouse_Click(0) && TDoorOpen)
+			{
+				TDoorOpen = true;
+				translateDoorX += 10 * dt;
+			}
+
+			if (Application::Mouse_Click(0) && TDoorOpen)
+			{
+				TDoorOpen = false;
+			}
+		}
+	}
+
 
 	{
 		int targeted = MyScene::targeted(shelfItemsCollisionBox);
@@ -377,6 +395,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
+
 	if (talk == true)
 	{
 		if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
@@ -404,7 +423,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;

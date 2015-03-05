@@ -104,12 +104,6 @@ void MyScene::Render()
 		RenderCar();
 	}modelStack.PopMatrix();
 
-	modelStack.PushMatrix();{
-		modelStack.Translate(-40, 8, 710);
-		modelStack.Rotate(90, 0, 1, 0);
-		RenderPCar();
-	}modelStack.PopMatrix();
-
 	RenderSkyBox();
 
 	modelStack.PushMatrix();
@@ -140,8 +134,7 @@ void MyScene::Render()
 	modelStack.Scale(5, 6.5, 5);
 	RenderMesh(meshList[ELEVATOR], true);
 	modelStack.PopMatrix();
-
-
+	
 	RenderObjects();
 
 	RenderInterior();
@@ -182,21 +175,23 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 	
-	//Toilet Interaction
-	
-	/*if (targeted(ToiletDoor->collisionBox))
+	//Toilet Interaction5
+	for (int i = 0; i < obj.size(); i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Click to Open Door.", Color(1, 1, 0), 3, 1, 19);
-	}
+		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 20) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to Open Door.", Color(1, 1, 0), 3, 1, 19);
+		}
 
-	if (TDoorLocked == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Unlock Door first.", Color(1, 1, 0), 3, 1, 19);
-	}*/
+		if (TDoorLocked == true)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Unlock Door first.", Color(1, 1, 0), 3, 1, 19);
+		}
+	}
 
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((obj[i]->name == "Toiletbowl") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "Toiletbowl") && (camera.target.x < obj[i]->collisionBox.Centre.x + 20) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			if (ToiletUsed == false)
 			{
@@ -209,14 +204,6 @@ void MyScene::Render()
 			}
 		}
 	}
-
-	/*for (int i = 0; i < obj.size(); i++)
-	{
-		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-
-		}
-	}*/
 
 	RenderTargetDetails();
 	if (checklistout == false)
@@ -275,9 +262,9 @@ void MyScene::Render()
 	else if (insertL == true)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
-		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22	);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
-	
+
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	
@@ -448,9 +435,9 @@ void MyScene::RenderInterior()
 	modelStack.PushMatrix(); {
 		modelStack.Scale(20, 20, 20);
 
-		RenderMesh(meshList[INT_WALL], true);
-		RenderMesh(meshList[INT_FLOOR], true);
-		RenderMesh(meshList[WHITE_GLASS], true);
+		RenderMesh(meshList[INT_WALL], false);
+		RenderMesh(meshList[INT_FLOOR], false);
+		RenderMesh(meshList[WHITE_GLASS], false);
 		RenderMesh(meshList[FENCE], true);
 	} modelStack.PopMatrix();
 }
@@ -743,12 +730,4 @@ void MyScene::RenderCar()
 
 	zPos += 80;
 	}
-}
-
-void MyScene::RenderPCar()
-{
-	modelStack.PushMatrix();
-	modelStack.Scale(5, 5, 5);
-	RenderMesh(meshList[Car], false);
-	modelStack.PopMatrix();
 }
