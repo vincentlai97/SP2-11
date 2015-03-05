@@ -91,6 +91,7 @@ class MyScene : public Scene
 		Car2,
 		Car3,
 		Toiletbowl,
+		Basin,
 		Fridge, 
 		Fruitstand,
 		Pizza,
@@ -99,7 +100,11 @@ class MyScene : public Scene
 		Detergent,
 		AppleRed,
 		AppleGreen,
-		//ToiletDoor,
+		ToiletDoor,
+		FerreroRocher,
+		LaysChips,
+		Sugar,
+		Dre,
 		NUM_GEOMETRY,
 	};
 
@@ -198,7 +203,8 @@ private:
 
 	float OpenToilet;
 	float CloseToilet;
-	bool TDoorState;
+	bool TDoorOpen;
+	bool TDoorClosed;
 	bool TDoorLocked;
 
 	bool checklistout;
@@ -207,6 +213,8 @@ private:
 	bool insertL;
 
 	float translateCarX;
+
+	float translateDoorX;
 
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -227,7 +235,9 @@ private:
 	CollisionBox elevatorDown;
 	CollisionBox elevatorArea;
 
-	Object* ToiletDoor;
+	Object* toiletDoor;
+	Object* TDoorState; 
+	CollisionBox TDoor;
 
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
@@ -241,6 +251,16 @@ private:
 	std::vector<CollisionBox*> RedAppleCollisionBox;
 	std::vector<Gettable*> GreenApple;
 	std::vector<CollisionBox*> GreenAppleCollisionBox;
+	std::vector<Gettable*> FR;
+	std::vector<CollisionBox*> FRCollisionBox;
+	std::vector<Gettable*> pizza;
+	std::vector<CollisionBox*> pizzaCollisionBox;
+	std::vector<Gettable*> Chips;
+	std::vector<CollisionBox*> ChipsCollisionBox;
+	std::vector<Gettable*> sugar;
+	std::vector<CollisionBox*> sugarCollisionBox;
+	std::vector<Gettable*> dre;
+	std::vector<CollisionBox*> dreCollisionBox;
 
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;
@@ -272,6 +292,10 @@ private:
 	void LoadDetergentMesh();
 	void LoadAppleRedMesh();
 	void LoadAppleGreenMesh();
+	void LoadFRMesh();
+	void LoadChipsMesh();
+	void LoadSugarMesh();
+	void LoadDreMesh();
 
 	void InitCollisionBox();
 	void InitShelfPaths();
@@ -283,6 +307,8 @@ private:
 	void InteractElevator(double dt);
 	void InteractElevatorButton(double dt);
 	void InteractElevatorDoor(double dt);
+
+	void InteractToiletDoor(double dt);
 
 	void updateAI(double dt);
 
