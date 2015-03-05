@@ -91,3 +91,39 @@ Path* Pathing::selectPath(const Vector3& current, Vector3& dir, const std::vecto
 
 	return paths[selected];
 }
+
+Path* Pathing::selectNearestPath(const Vector3& current, Vector3& dir, const std::vector<Path*>& paths, const Vector3 dest)
+{
+	Path* shortest;
+	Vector3 nearest = current;
+
+	for (int count = 0; count < paths.size(); count++)
+	{
+		if (current == paths[count]->point[Path::START])
+		{
+			if ((paths[count]->point[Path::END] - dest).Length() < (nearest - dest).Length())
+			{
+				shortest = paths[count];
+				nearest = paths[count]->point[Path::END];
+			}
+		}
+		else if (current == paths[count]->point[Path::END])
+		{
+			if ((paths[count]->point[Path::START] - dest).Length() < (nearest - dest).Length())
+			{
+				shortest = paths[count];
+				nearest = paths[count]->point[Path::START];
+			}
+		}
+	}
+
+	if (current == shortest->point[Path::START])
+	{
+		dir = shortest->dir().Normalized();
+	}
+	else if (current == shortest->point[Path::END])
+	{
+		dir = -(shortest->dir()).Normalized();
+	}
+	return shortest;
+}

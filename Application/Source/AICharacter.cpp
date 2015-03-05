@@ -59,3 +59,35 @@ bool AICharacter::isendofpath()
 	}
 	return false;
 }
+
+void AICharacter::track(double dt, std::vector<CollisionBox*> collisionBox, Vector3 dest)
+{
+	for (int count = 0; count < collisionBox.size(); count++)
+	{
+		if (collisionBox[count] == &this->collisionBox)
+			collisionBox.erase(collisionBox.begin() + count);
+	}
+
+	if (endofpath)
+	{
+		path = Pathing::selectNearestPath(pos, dir, paths, dest);
+		endofpath = false;
+	}
+	else
+	{
+		if (Pathing::moveAlong(pos, dir, path, 30 * dt))
+		{
+			endofpath = true;
+		}
+	}
+	
+	if (this->collisionBox.checkCollision(collisionBox) && !collide)
+	{
+		collide = true;
+		dir = -dir;
+		angle = dir.Angle(Vector3(0, 0, 1)) * (dir.x > 0 ? 1 : -1);
+	}
+	else if (!this->collisionBox.checkCollision(collisionBox)) collide = false;
+	
+	this->collisionBox.Centre = pos;
+}

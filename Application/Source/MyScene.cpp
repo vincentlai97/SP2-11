@@ -196,6 +196,18 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	InitAICharacters(shelfCharacters, shelfCharactersCollisionBox, shelfpaths, 3);
 	v.insert(v.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
 	shelfCharactersCollisionBox.push_back(&cameraCollisionBox);
+	
+	InitFruitstandPaths();
+
+	InitAICharacters(fruitstandCharacters, fruitstandCharactersCollisionBox, fruitstandpaths, 3);
+	v.insert(v.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
+	fruitstandCharactersCollisionBox.push_back(&cameraCollisionBox);
+
+	InitGuardPaths();
+
+	InitAICharacters(guards, guardsCollisionBox, guardspaths, 1);
+	guardsCollisionBox.insert(guardsCollisionBox.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
+	guardsCollisionBox.insert(guardsCollisionBox.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
 
 	buttonBuffer = 0;
 	checklistBuffer = 0;
@@ -213,6 +225,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	soundJump = false;
 	money = 100;
 	win = false;
+	busted = false;
 	gameover = false;
 	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));

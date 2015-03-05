@@ -33,6 +33,7 @@ class MyScene : public Scene
 		INT_WALL,
 		INT_FLOOR,
 		WHITE_GLASS,
+		FENCE,
 		EXT_WALL,
 		EXT_WALL_BOT = EXT_WALL,
 		EXT_WALL_MID,
@@ -182,10 +183,13 @@ private:
 	float answerBuffer;
 	string PlayerName;
 	string Answer;
+
 	float money;
+	float checkoutprice;
 	bool completeInventory;
 	bool enoughmoney;
 	bool win;
+	bool busted;
 	bool gameover;
 
 	double xPos;
@@ -255,7 +259,6 @@ private:
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
 
-	std::vector<Path*> shelfpaths;
 	std::vector<string> temp;
 	std::vector<string> message;
 	std::vector<string> dialogue;
@@ -264,10 +267,26 @@ private:
 
 	std::vector<Character*> cashiers;
 	std::vector<CollisionBox*> cashiersCollisionBox;
-	float checkoutprice;
+
+	std::vector<Character*> guards;
+	std::vector<CollisionBox*> guardsCollisionBox;
+	std::vector<Path*> guardspaths;
 
 	std::vector<Character*> shelfCharacters;
 	std::vector<CollisionBox*> shelfCharactersCollisionBox;
+	std::vector<Path*> shelfpaths;
+
+	std::vector<Character*> fruitstandCharacters;
+	std::vector<CollisionBox*> fruitstandCharactersCollisionBox;
+	std::vector<Path*> fruitstandpaths;
+
+	void InitCollisionBox();
+	void InitShelfPaths();
+	void InitFruitstandPaths();
+	void InitGuardPaths();
+	void InitGuardPaths(float xMax, float xMin, float zMax, float zMin);
+	void InitAICharacters(std::vector<Character*>& character, std::vector<CollisionBox*>& characterCollisionBox, std::vector<Path*> paths, int num);
+	int InitSound();
 
 	void LoadMesh();
 
@@ -281,11 +300,6 @@ private:
 	void LoadDetergentMesh();
 	void LoadAppleRedMesh();
 	void LoadAppleGreenMesh();
-
-	void InitCollisionBox();
-	void InitShelfPaths();
-	void InitAICharacters(std::vector<Character*>& character, std::vector<CollisionBox*>& characterCollisionBox, std::vector<Path*> paths, int num);
-	int InitSound();
 
 	void InteractDoor(double dt);
 

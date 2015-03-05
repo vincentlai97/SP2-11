@@ -15,6 +15,7 @@ public:
 	static bool moveAlong(Vector3& current, Vector3 dir, const std::vector<Path*>& paths, float dist);
 	static bool moveAlong(Vector3& current, Vector3 dir, const Path* path, float dist);
 	static Path* selectPath(const Vector3& current, Vector3& dir, const std::vector<Path*>& paths);
+	static Path* selectNearestPath(const Vector3& current, Vector3& dir, const std::vector<Path*>& paths, const Vector3 dest);
 };
 
 #endif

@@ -29,6 +29,13 @@ void MyScene::LoadMesh()
 	meshList[WHITE_GLASS]->material.kSpecular.Set(.3, .3, .3);
 	meshList[WHITE_GLASS]->material.kShininess = 10;
 
+	meshList[FENCE] = MeshBuilder::GenerateOBJ("fence", "OBJ//Fence.obj");
+	meshList[FENCE]->textureID = LoadTGA("Image//metal.tga");
+	meshList[FENCE]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	meshList[FENCE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[FENCE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[FENCE]->material.kShininess = 1.f;
+
 	meshList[ESCALATOR] = MeshBuilder::GenerateOBJ("escalator", "OBJ//travel.obj");
 	meshList[ESCALATOR]->textureID = LoadTGA("Image//travel.tga");
 	meshList[ESCALATOR]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
@@ -485,6 +492,8 @@ void MyScene::LoadMesh()
 		cashiersCollisionBox.push_back(&cashier->collisionBox);
 	}
 
+
+
 	//Toilet Door
 	/*meshList[ToiletDoor] = MeshBuilder::GenerateOBJ("ToiletDoor", "OBJ//ToiletDoor.obj");
 	meshList[ToiletDoor]->textureID = LoadTGA("Image//ToiletDoor.tga");
@@ -551,6 +560,8 @@ void MyScene::LoadMesh()
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "PaperBag";
 	obj.push_back(NewObj);
+
+	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1), 0.1);
 }
 
 void MyScene::LoadElevatorMesh()

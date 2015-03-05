@@ -22,6 +22,7 @@ public:
 
 	void update(double dt, std::vector<CollisionBox*> collisionBox);
 	bool isendofpath();
+	void track(double dt, std::vector<CollisionBox*> collisionBox, Vector3 dest);
 };
 
 #endif
