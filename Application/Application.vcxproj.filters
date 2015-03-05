@@ -91,6 +91,18 @@
     <ClCompile Include="Source\Start_Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Lose_Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Win_Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Winning_Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Losing_Screen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Source\MySceneUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -163,6 +175,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\newScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\Winning_Screen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\Losing_Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

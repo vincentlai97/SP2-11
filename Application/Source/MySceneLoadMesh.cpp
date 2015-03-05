@@ -37,13 +37,13 @@ void MyScene::LoadMesh()
 	meshList[FENCE]->material.kShininess = 1.f;
 
 	meshList[ESCALATOR] = MeshBuilder::GenerateOBJ("escalator", "OBJ//travel.obj");
-	meshList[ESCALATOR]->textureID = LoadTGA("Image//travel.tga");
+	meshList[ESCALATOR]->textureID = LoadTGA("Image//handle.tga");
 	meshList[ESCALATOR]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[ESCALATOR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[ESCALATOR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[ESCALATOR]->material.kShininess = 1.f;
 
-	meshList[ESCALATOR_HANDLE] = MeshBuilder::GenerateOBJ("handle", "OBJ//T_Handle.obj");
+	meshList[ESCALATOR_HANDLE] = MeshBuilder::GenerateOBJ("handle", "OBJ//TravelatorH.obj");
 	meshList[ESCALATOR_HANDLE]->textureID = LoadTGA("Image//handle.tga");
 	meshList[ESCALATOR_HANDLE]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
 	meshList[ESCALATOR_HANDLE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
@@ -224,7 +224,7 @@ void MyScene::LoadMesh()
 	meshList[CashierTable]->material.kShininess = 5.f;
 
 
-	for (int posX = 120, count = 0; posX <= 270; posX += 50)
+	for (int posX = 120, count = 0; count < 5; posX += 50)
 	{
 		NewObj = new Object;
 		NewObj->mesh = meshList[CashierTable];
@@ -390,6 +390,40 @@ void MyScene::LoadMesh()
 		cashiersCollisionBox.push_back(&cashier->collisionBox);
 	}
 
+	for(int count = 0; count < 4; count++)
+	{
+		Character* customer = new Character;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Head.obj"));
+		customer->mesh[0]->textureID = LoadTGA("Image//Face.tga");
+		customer->mesh[0]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[0]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[0]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[0]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Body.obj"));
+		customer->mesh[1]->textureID = LoadTGA("Image//CustomerShirt2.tga");
+		customer->mesh[1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[1]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
+		customer->mesh[2]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
+		customer->mesh[2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[2]->material.kShininess = 5.f;
+		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
+		customer->mesh[3]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
+		customer->mesh[3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+		customer->mesh[3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		customer->mesh[3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
+		customer->mesh[3]->material.kShininess = 5.f;
+		customer->pos = Vector3(50 * count + 125, 0, 205);
+		customer->angle = -90;
+		customers.push_back(customer);		
+		customer->collisionBox.set(Vector3(customer->pos), Vector3(15, 20, 15), Vector3(-15, 0, -15));
+		customersCollisionBox.push_back(&customer->collisionBox);
+	}
+
 	//Restroom Wall - Back
 	meshList[RestroomBack] = MeshBuilder::GenerateOBJ("RestroomBack", "OBJ//Restroom_Back.obj");
 	meshList[RestroomBack]->textureID = LoadTGA("Image//Toilet.tga");
@@ -534,6 +568,9 @@ void MyScene::LoadMesh()
 	//CheckList
 	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
 
+	//Payment List
+	meshList[PaymentList] = MeshBuilder::GenerateQuad("Payment", Color(1, 1, 1), 1, 1);
+
 	//Inventory
 	meshList[Inventory] = MeshBuilder::GenerateQuad("Inventory", Color(1, 1, 1), 10, 1);
 	meshList[Inventory]->textureID = LoadTGA("Image//Inventory.tga");
@@ -574,7 +611,7 @@ void MyScene::LoadMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "PaperBag";
-	obj.push_back(NewObj);
+	MyScene::paperbag = NewObj;
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1), 0.1);
 }
@@ -838,9 +875,9 @@ void MyScene::LoadChocolateMesh()
 						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
 						NewObj->collisionBox.Centre += shelf;
 						NewObj->position = count++;
-						obj.push_back(NewObj);
-					    detergent.push_back(NewObj);
-					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+						obj.push_back(NewObj); 
+						shelfItems.push_back(NewObj);
+						shelfItemsCollisionBox.push_back(&(NewObj->collisionBox));
 					}
 				}
 			}
@@ -886,9 +923,9 @@ void MyScene::LoadDetergentMesh()
 						NewObj->collisionBox.Centre = Vector3(countx * 20, 2 + county * 8, countz * 7);
 						NewObj->collisionBox.Centre += shelf;
 						NewObj->position = count++;
-						obj.push_back(NewObj);
-					    detergent.push_back(NewObj);
-					    detergentCollisionBox.push_back(&(NewObj->collisionBox));	
+						obj.push_back(NewObj); 
+						shelfItems.push_back(NewObj);
+						shelfItemsCollisionBox.push_back(&(NewObj->collisionBox));
 					}
 				}
 			}
@@ -925,7 +962,7 @@ void MyScene::LoadAppleRedMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[AppleRed];
-					newObj->name = "AppleRed";
+					newObj->name = "Red Apple";
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(1, 1, 1);
 					newObj->price = 1.00;
@@ -933,8 +970,8 @@ void MyScene::LoadAppleRedMesh()
 					newObj->collisionBox.Centre += Fruitstand;
 					newObj->position = count++;
 					obj.push_back(newObj);
-					RedApple.push_back(newObj);
-					RedAppleCollisionBox.push_back(&(newObj->collisionBox));
+					Apple.push_back(newObj);
+					AppleCollisionBox.push_back(&(newObj->collisionBox));
 				}
 			}
 		}
@@ -971,7 +1008,7 @@ void MyScene::LoadAppleGreenMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[AppleGreen];
-					newObj->name = "AppleGreen";
+					newObj->name = "Green Apple";
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(1, 1, 1);
 					newObj->price = 1.00;
@@ -979,8 +1016,8 @@ void MyScene::LoadAppleGreenMesh()
 					newObj->collisionBox.Centre += Fruitstand;
 					newObj->position = count++;
 					obj.push_back(newObj);
-					GreenApple.push_back(newObj);
-					GreenAppleCollisionBox.push_back(&(newObj->collisionBox));
+					Apple.push_back(newObj);
+					AppleCollisionBox.push_back(&(newObj->collisionBox));
 				}
 			}
 		}
@@ -1175,7 +1212,7 @@ void MyScene::LoadSugarMesh()
 						NewObj->angle = -90.0f;
 	                    NewObj->rotation = Vector3(0, 1, 0);
 						NewObj->price = 0.80;
-						NewObj->collisionBox.Centre = Vector3(countx * 10, 2 + county * 8, countz * 4);
+						NewObj->collisionBox.Centre = Vector3(countx * 10, 2 + county * 7.2, countz * 4);
 						NewObj->collisionBox.Centre += Toy_Shelves;
 						NewObj->position = count++;
 					    sugar.push_back(NewObj);

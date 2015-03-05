@@ -205,6 +205,10 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitGuardPaths();
 
+	InitAICharacters(guards, guardsCollisionBox, guardspaths, 1);
+	guardsCollisionBox.insert(guardsCollisionBox.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
+	guardsCollisionBox.insert(guardsCollisionBox.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
+
 	buttonBuffer = 0;
 	checklistBuffer = 0;
 
@@ -350,7 +354,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-
+	//ShelfItems
 	{
 		int targeted = MyScene::targeted(shelfItemsCollisionBox);
 		if (targeted != -1)
@@ -377,6 +381,196 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
+	//GreenApple
+	{
+		int targeted = MyScene::targeted(AppleCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Apple[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Strawberry Icecream
+	{
+		int targeted = MyScene::targeted(ICCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = IC[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//FerreroRocher Objects
+	{
+		int targeted = MyScene::targeted(FRCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = FR[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Pizza Objects
+	{
+		int targeted = MyScene::targeted(pizzaCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = pizza[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Chips Objects
+	{
+		int targeted = MyScene::targeted(ChipsCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Chips[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Sugar Objects
+	{
+		int targeted = MyScene::targeted(sugarCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = sugar[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Dre Objects
+	{
+		int targeted = MyScene::targeted(dreCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = dre[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	
 	//AI Dialogue
 	Application::IsKeyPressed(VK_RETURN);
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)
@@ -502,7 +696,13 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 						checkoutprice += inventory[count]->getPrice();
 					}
 					if (money < checkoutprice) enoughmoney = false;
-					else win = true;
+					else
+					{
+						inventory.clear();
+						win = true;
+						inventory.push_back(paperbag);
+						checkList.clear();
+					}
 				}
 				else completeInventory = false;
 			}
@@ -524,14 +724,80 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		translateCarX = -400;
 	}
 
+//Entering into cashier scenario
+	for(int i = 0; i < obj.size(); i++)
+	{
+		if((obj[i]->name == "Cashier Table" && obj[i]->position == 4) && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			translateCustomerZ += 120 * dt;
+			if(Application::Mouse_Click(0) && mouseBuffer < 0)
+			{
+				camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+				cameraCollisionBox.Centre = camera.position;
+				mouseBuffer += 0.5;
+				cashierScene = true;
+			}
+
+			if(cashierScene == true)
+			{
+				camera.Init(Vector3(325, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+				cashierScene = false;
+			}
+
+			else if(Application::IsKeyPressed('E'))
+			{
+				camera.Init(Vector3(335, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
+			}
+
+			//Customer Movements
+			if(translateCustomerZ >= 200)
+			{
+				translateCustomerZ = 200;
+				customer = true;
+				paid = false;
+			}
+
+			if(Application::IsKeyPressed('T'))
+			{
+				paid = true;
+			}
+
+			if(paid == true)
+			{
+				translateCustomerZ1 += 20 * dt;
+				customer = false;
+			}
+
+			if (insertNum == true && PNumBuffer <= 0)
+			{
+				for (char letter = '0'; letter < '9'; letter++)
+				{
+					if (Application::IsKeyPressed(letter))
+					{
+						PNumList.push_back(letter);
+						PNumBuffer = 0.2;
+					}
+				}
+
+				if (Application::IsKeyPressed(VK_BACK) && PNumList.size() != 0 && eraseBuffer <= 0)
+				{
+					PNumList.erase(PNumList.begin() + PNumList.size() - 1);
+					eraseBuffer = 0.2;
+				}
+			}
+		}
+	}
+
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
 	if (talkBuffer > 0) talkBuffer -= dt;
 	if (insertBuffer > 0) insertBuffer -= dt;
 	if (PNameBuffer > 0) PNameBuffer -= dt;
+	if (PNumBuffer > 0) PNumBuffer -= dt;
 	if (letterBuffer > 0) letterBuffer -= dt;
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
+	if (mouseBuffer > 0) mouseBuffer -= dt;
 
 	if (win && targeted(car->collisionBox)) 
 		if (Application::Mouse_Click(0)) gameover = true;

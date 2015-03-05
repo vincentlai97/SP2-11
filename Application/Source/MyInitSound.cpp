@@ -29,9 +29,7 @@ int MyScene::InitSound()
 	sound[FOOTSTEPS] = engine->play2D("../irrKlang/media/Footstep.mp3", true, true);
 	sound[FOOTSTEPS]->setVolume(0.8f);
 
-	//Set up Jumping Music
-	//sound[JUMP] = engine->play2D("../irrKlang/media/Jump.mp3", true, true);
-	//sound[JUMP]->setVolume(0.8f);
+	soundJump = false;
 
 	//Set up lift level Music
 	sound[REACH] = engine->play2D("../irrKlang/media/Bell.mp3", true, true);

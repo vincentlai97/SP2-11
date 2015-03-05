@@ -12,6 +12,8 @@
 
 #include "MyScene.h"
 #include "newScene.h"
+#include "Winning_Screen.h"
+#include "Losing_Screen.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -110,21 +112,31 @@ void Application::Init()
 void Application::Run()
 {
 	//Main Loop
-	Scene *scene[2];
-
+	Scene *scene[4];
+	
+	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	{
 	scene[0] = new GameState();
 	scene[0]->Init(m_window, width, height);
 
 	scene[1] = new MyScene();
 	scene[1]->Init(m_window, width, height);
 
+	scene[2] = new WinState();
+	scene[2]->Init(m_window, width, height);
+
+	scene[3] = new LoseState();
+	scene[3]->Init(m_window, width, height);
 
 	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
+	while (!IsKeyPressed('R') || !IsKeyPressed(VK_ESCAPE))
 	{
 		scene[state]->Update(m_timer.getElapsedTime(), m_window, width, height);
 		scene[state]->Render();
+<<<<<<< HEAD
 		if (scene[state]->getBusted()) break;
+=======
+>>>>>>> origin/master
 
 		//Swap buffers
 		glfwSwapBuffers(m_window);
@@ -134,6 +146,8 @@ void Application::Run()
 	
 		state = scene[state]->returnstate();
 	} //Check if the ESC key had been pressed or if the window had been closed
+	state = 0;
+	}
 	scene[state]->Exit();
 	delete scene[state];
 }

@@ -115,6 +115,12 @@ void MyScene::Render()
 	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix();
+	modelStack.Translate(-250, 55, 260);
+	modelStack.Scale(15, 15, 15);
+	RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	modelStack.PopMatrix();
+
 	//modelStack.PushMatrix();
 	//modelStack.Translate(-280, 40, 260);
 	//modelStack.Rotate(-10, 0, 0, 1);
@@ -147,13 +153,6 @@ void MyScene::Render()
 	RenderExterior();
 	
 	RenderTextOnScreen(meshList[GEO_TEXT], "FPS:" + to_string(fps), Color(0, 0, 0), 2, 30, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "X:" + to_string(camera.position.x), Color(1, 0, 1), 2, 1, 24.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Y:" + to_string(camera.position.y), Color(1, 0, 1), 2, 1, 25.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Z:" + to_string(camera.position.z), Color(1, 0, 1), 2, 1, 26.5);
-
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetX:" + to_string(camera.target.x), Color(0, 0, 0), 2, 1, 27.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetY:" + to_string(camera.target.y), Color(0, 0, 0), 2, 1, 28.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "TargetZ:" + to_string(camera.target.z), Color(0, 0, 0), 2, 1, 29.5);
 
 	if (targeted(eDoorButton1->collisionBox) || targeted(eDoorButton2->collisionBox))
 	{
@@ -256,7 +255,7 @@ void MyScene::Render()
 
 	if (talk == true && insertL == false)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], dialogue[0], Color(0, 0, 0), 3, 11, 12);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Npc:" + dialogue[0], Color(0, 0, 0), 2, 6, 5);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to insert reply.", Color(0, 0, 0), 2, 1, 23);
 	}
 	else if (insertL == true)
@@ -276,11 +275,11 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "and have became a thief!", Color(0, 0, 0), 2, .5, 6);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Get to your car to escape!", Color(0, 0, 0), 2, .5, 5);
 	}
-
-	if (!completeInventory) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(0, 1, 0), 5, 8.3, 6);
-	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(0, 1, 0), 5, 8.3, 6);
-
-	if (gameover) RenderTextOnScreen(meshList[GEO_TEXT], "GAMEOVER!", Color(0, 1, 0), 5, 8.3, 6);
+	
+	if (!completeInventory && win == false) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(1, 0, 0), 2, 1, 18);
+	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(1, 0, 0), 5, 1, 12);
+	if (win && !gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "Proceed to car!", Color(1, 0, 0), 5, 1, 10);
+	if (gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "GameOver!", Color(1, 0, 0), 5, 1, 10);
 
 	/*{
 		for (int count = 0; count < guardspaths.size(); count++)
@@ -295,6 +294,23 @@ void MyScene::Render()
 			} modelStack.PopMatrix();
 		}
 	}*/
+
+	//Customers
+	modelStack.PushMatrix();
+	modelStack.Translate(300, 0, 0);
+	RenderCustomers(customers);
+	modelStack.PopMatrix();
+
+	if(customer == false)
+	{
+		RenderInventory();
+	}
+	else if(customer == true)
+	{
+		RenderPList();
+		RenderPayment();
+		insertNum = true;
+	}
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -393,7 +409,7 @@ void MyScene::RenderTextOnScreen(Mesh* mesh, std::string text, Color color, floa
 	for(unsigned i = 0; i < text.length(); ++i)
 	{
 		Mtx44 characterSpacing;
-		characterSpacing.SetToTranslation(i * 1.0f, 0, 0); //1.0f is the spacing of each character, you may change this value
+		characterSpacing.SetToTranslation(i * 0.6f, 0, 0); //1.0f is the spacing of each character, you may change this value
 		Mtx44 MVP = projectionStack.Top() * viewStack.Top() * modelStack.Top() * characterSpacing;
 		glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &MVP.a[0]);
 
@@ -609,6 +625,7 @@ void MyScene::RenderTargetDetails()
 {
 	Vector3 view = camera.target - camera.position;
 	
+	//Shelf Objects Level 1
 	int targeted = MyScene::targeted(shelfItemsCollisionBox);
 	if (targeted != -1)
 	{
@@ -616,16 +633,101 @@ void MyScene::RenderTargetDetails()
 
 		if (targetedObj->name.size() && !targetedObj->getTaken())
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 0), 3, 1, 19);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
 		}
 	}
-
+	//Cashier checkout detection
 	targeted = MyScene::targeted(cashiersCollisionBox);
 	if (targeted != -1)
 	{
-		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 3, 1, 18);
-		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 3, 1, 19);
+		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 2, 1, 18);
+		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 2, 1, 19);
+	}
+
+	//Apple Objects
+	targeted = MyScene::targeted(AppleCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Apple[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Strawberry Icecream Object
+	targeted = MyScene::targeted(ICCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = IC[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//FerreroRocher Object
+	targeted = MyScene::targeted(FRCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = FR[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Pizza Object
+	targeted = MyScene::targeted(pizzaCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = pizza[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Chips Object
+	targeted = MyScene::targeted(ChipsCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Chips[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Sugar Object
+	targeted = MyScene::targeted(sugarCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = sugar[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Dre Object
+	targeted = MyScene::targeted(dreCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = dre[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
 	}
 }
 
@@ -676,7 +778,8 @@ void MyScene::RenderInventory()
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
-		modelStack.Scale(0.8, 0.8, 0.8);
+		modelStack.Scale(0.2, 0.2, 0.2);
+		modelStack.Scale(inventory[i]->size.x, inventory[i]->size.y, inventory[i]->size.z);
 		RenderMesh(inventory[i]->mesh, false);
 		modelStack.PopMatrix();
 	}
@@ -710,7 +813,7 @@ void MyScene::RenderRoad()
 		modelStack.PushMatrix();
 		modelStack.Translate((i * 50) - 1200, 0.2, 650);
 		modelStack.Rotate(90, 0, 1, 0);
-		modelStack.Rotate(90, 1, 0, 0);
+		modelStack.Rotate(-90, 1, 0, 0);
 		modelStack.Scale(10, 10, 10);
 		RenderMesh(meshList[road], false);
 		modelStack.PopMatrix();
@@ -737,4 +840,69 @@ void MyScene::RenderCar()
 
 	zPos += 80;
 	}
+}
+
+void MyScene::RenderCustomers(std::vector<Character*> customers)
+{
+	for (int count = 0; count < customers.size(); count++)
+	{
+		Character character(*customers[count]);
+		modelStack.PushMatrix(); {
+			modelStack.Translate(0, 0, translateCustomerZ);
+			modelStack.Translate(0, 0, translateCustomerZ1);
+			modelStack.Rotate(180, 0, 1, 0);
+			modelStack.Rotate(character.angle, 0, 1, 0);
+			modelStack.Scale(2, 2, 2);
+
+			RenderMesh(character.mesh[0], false);
+			RenderMesh(character.mesh[1], false);
+			for (int count = -1; count < 2; count += 2)
+			{
+				modelStack.PushMatrix(); {
+					modelStack.Translate(1.5 * count, 6.375, 0);
+					modelStack.Translate(0.625 * count, 0.625, 0);
+
+					RenderMesh(character.mesh[2], false);
+				} modelStack.PopMatrix();
+
+				modelStack.PushMatrix(); {
+					modelStack.Translate(0.75 * count, 3, 0);
+
+					RenderMesh(character.mesh[3], false);
+				} modelStack.PopMatrix();
+			}
+		} modelStack.PopMatrix();
+	}
+}
+
+void MyScene::RenderPayment()
+{	
+	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 18);
+}
+
+void MyScene::RenderPList()
+{
+	glDisable(GL_DEPTH_TEST);
+	Mtx44 ortho;
+	ortho.SetToOrtho(0, 80, 0, 60, -10, 10); //size of screen UI
+	projectionStack.PushMatrix();
+	projectionStack.LoadMatrix(ortho);
+	viewStack.PushMatrix();
+	viewStack.LoadIdentity(); //No need camera for ortho mode
+
+	modelStack.PushMatrix();
+	modelStack.Translate(66, 20, 0);
+	modelStack.Scale(25, 30, 1);
+	RenderMesh(meshList[PaymentList], false);
+	modelStack.PopMatrix();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
+	glEnable(GL_DEPTH_TEST);
+	projectionStack.PopMatrix();
+	viewStack.PopMatrix();
 }

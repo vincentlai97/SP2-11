@@ -106,6 +106,7 @@ class MyScene : public Scene
 		LaysChips,
 		Sugar,
 		Dre,
+		PaymentList,
 		NUM_GEOMETRY,
 	};
 
@@ -190,9 +191,11 @@ private:
 	float talkBuffer;
 	float insertBuffer;
 	float PNameBuffer;
+	float PNumBuffer;
 	float letterBuffer;
 	float eraseBuffer;
 	float answerBuffer;
+	float mouseBuffer;
 	string PlayerName;
 	string Answer;
 
@@ -234,6 +237,17 @@ private:
 	
 	float translateDoorX;
 
+	bool insertNum;
+	std::vector<const char*> customerInventory;
+	std::vector<char> PNumList;
+	std::vector<Character*> customers;
+	std::vector<CollisionBox*> customersCollisionBox;
+	float translateCustomerZ;
+	float translateCustomerZ1;
+	bool cashierScene;
+	bool customer;
+	bool paid;
+
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
 	std::vector<CollisionBox> travelatorDown;
@@ -241,7 +255,10 @@ private:
 
 	std::vector<Object*> obj;
 
+	Object* paperbag;
+
 	Object* car;
+	Object* T_Handle;
 
 	Object* DoorL;
 	Object* DoorR;
@@ -367,7 +384,10 @@ private:
 	void RenderCar();
 	void RenderPCar();
 	void RenderCheckList();
-	
+	void RenderCustomers(std::vector<Character*> customers);
+	void RenderPList();
+	void RenderPayment();
+
 	void Start_Screen();
 	void RenderScreens();
 

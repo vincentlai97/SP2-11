@@ -1,5 +1,5 @@
-#ifndef NEWSCENE_H
-#define NEWSCENE_H
+#ifndef LOSINGSCENE_H
+#define LOSINGSCENE_H
 
 #include <math.h>
 #include "Mtx44.h"
@@ -21,21 +21,14 @@
 #include "Application.h"
 #include "MyScene.h"
 
-class GameState : public Scene
+class LoseState : public Scene
 {
-	
 	enum stages
 	{
-		START_SCREEN = 0,
-		OPTION_SCREEN,
-		WINNING_SCREEN,
-		LOSING_SCREEN,
+		LOSING_SCREEN = 0,
 	};
 	enum SCREENS
 	{
-		startscreen,
-		optionscreen,
-		winscreen,
 		losescreen,
 		TOTAL_SCREENS,
 	};
@@ -89,10 +82,6 @@ private:
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[2];
 
-	
-	void Start_Screen();
-	void Options_Screen();
-	void Win_Screen();
 	void Lose_Screen();
 	void RenderScreens();
 	void LoadMesh();
@@ -125,7 +114,6 @@ public:
 	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
 	virtual void Render();
 	virtual void Exit();
-
 };
 
 #endif
