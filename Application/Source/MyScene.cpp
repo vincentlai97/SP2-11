@@ -182,7 +182,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	checklistout = false;
 	srand(time(NULL));
 	random_shuffle(itemList.begin(), itemList.end());
-	for (int i = 0; i < 10 && i < itemList.size(); i++)
+	for (int i = 0; i < 1 && i < itemList.size(); i++)
 	{
 		checkList.push_back(itemList[i]);
 	}
@@ -353,7 +353,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-
+	//ShelfItems
 	{
 		int targeted = MyScene::targeted(shelfItemsCollisionBox);
 		if (targeted != -1)
@@ -380,6 +380,196 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
+	//GreenApple
+	{
+		int targeted = MyScene::targeted(AppleCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Apple[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Strawberry Icecream
+	{
+		int targeted = MyScene::targeted(ICCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = IC[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//FerreroRocher Objects
+	{
+		int targeted = MyScene::targeted(FRCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = FR[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Pizza Objects
+	{
+		int targeted = MyScene::targeted(pizzaCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = pizza[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Chips Objects
+	{
+		int targeted = MyScene::targeted(ChipsCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Chips[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Sugar Objects
+	{
+		int targeted = MyScene::targeted(sugarCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = sugar[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	//Dre Objects
+	{
+		int targeted = MyScene::targeted(dreCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = dre[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	
 	//AI Dialogue
 	Application::IsKeyPressed(VK_RETURN);
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)

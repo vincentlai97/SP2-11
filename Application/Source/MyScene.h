@@ -269,14 +269,8 @@ private:
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Gettable*> pizza;
 	std::vector<CollisionBox*> pizzaCollisionBox;
-	std::vector<Gettable*> chocolate;
-	std::vector<CollisionBox*> chocolateCollisionBox;
-	std::vector<Gettable*> detergent;
-	std::vector<CollisionBox*> detergentCollisionBox;
-	std::vector<Gettable*> RedApple;
-	std::vector<CollisionBox*> RedAppleCollisionBox;
-	std::vector<Gettable*> GreenApple;
-	std::vector<CollisionBox*> GreenAppleCollisionBox;
+	std::vector<Gettable*> Apple;
+	std::vector<CollisionBox*> AppleCollisionBox;
 	std::vector<Gettable*> FR;
 	std::vector<CollisionBox*> FRCollisionBox;
 	std::vector<Gettable*> Chips;

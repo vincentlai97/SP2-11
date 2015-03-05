@@ -205,7 +205,7 @@ void MyScene::Render()
 	}
 
 	RenderTargetDetails();
-	if (checklistout == false && customer == false)
+	if (checklistout == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'P'", Color(1, 0, 0), 2, 31, 17);
 		RenderTextOnScreen(meshList[GEO_TEXT], "for", Color(1, 0, 0), 2, 31, 16);
@@ -218,7 +218,7 @@ void MyScene::Render()
 	}
 	//Player Name
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Your Latest Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
 	for (int xPos = 5, count = 0; count < PNameList.size(); xPos++, count++)
 	{
@@ -620,6 +620,7 @@ void MyScene::RenderTargetDetails()
 {
 	Vector3 view = camera.target - camera.position;
 	
+	//Shelf Objects Level 1
 	int targeted = MyScene::targeted(shelfItemsCollisionBox);
 	if (targeted != -1)
 	{
@@ -627,16 +628,101 @@ void MyScene::RenderTargetDetails()
 
 		if (targetedObj->name.size() && !targetedObj->getTaken())
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 1), 2, 1, 19);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 1), 2, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
 		}
 	}
-
+	//Cashier checkout detection
 	targeted = MyScene::targeted(cashiersCollisionBox);
 	if (targeted != -1)
 	{
 		if (checkoutprice) RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(checkoutprice), Color(1, 1, 0), 2, 1, 18);
 		else RenderTextOnScreen(meshList[GEO_TEXT], "Click to check out", Color (1, 0, 1), 2, 1, 19);
+	}
+
+	//Apple Objects
+	targeted = MyScene::targeted(AppleCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Apple[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Strawberry Icecream Object
+	targeted = MyScene::targeted(ICCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = IC[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//FerreroRocher Object
+	targeted = MyScene::targeted(FRCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = FR[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Pizza Object
+	targeted = MyScene::targeted(pizzaCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = pizza[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Chips Object
+	targeted = MyScene::targeted(ChipsCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Chips[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Sugar Object
+	targeted = MyScene::targeted(sugarCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = sugar[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+	//Dre Object
+	targeted = MyScene::targeted(dreCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = dre[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
 	}
 }
 
@@ -687,7 +773,8 @@ void MyScene::RenderInventory()
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(xPos + 0.45, -0.4, 0); //-4.6
-		modelStack.Scale(0.8, 0.8, 0.8);
+		modelStack.Scale(0.2, 0.2, 0.2);
+		modelStack.Scale(inventory[i]->size.x, inventory[i]->size.y, inventory[i]->size.z);
 		RenderMesh(inventory[i]->mesh, false);
 		modelStack.PopMatrix();
 	}
