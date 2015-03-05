@@ -58,9 +58,6 @@
     <ClCompile Include="Source\Pathing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AIMovement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MySceneAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Start_Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MySceneUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,9 +154,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pathing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AIMovement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AICharacter.h">

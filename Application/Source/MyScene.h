@@ -160,6 +160,12 @@ class MyScene : public Scene
 		SOUND_TOTAL,
 	};
 
+	enum ROLE {
+		CUSTOMER,
+		CASHIER,
+		THIEF,
+	};
+
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -174,6 +180,7 @@ private:
 
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
+	bool lockCamera;
 
 	int gameState;
 
@@ -195,6 +202,7 @@ private:
 	bool enoughmoney;
 	bool win;
 	bool busted;
+	int role;
 	bool gameover;
 
 	double xPos;
@@ -238,6 +246,8 @@ private:
 	Object* DoorL;
 	Object* DoorR;
 	CollisionBox doorArea;
+
+	CollisionBox fenceArea;
 
 	Object* eDoor1;
 	Object* eDoor2;
@@ -332,7 +342,9 @@ private:
 
 	void InteractToiletDoor(double dt);
 
-	void updateAI(double dt);
+	void UpdateAI(double dt);
+
+	void UpdateRole();
 
 	int targeted(const std::vector<CollisionBox*> v);
 	bool targeted(const CollisionBox collisionBox);
@@ -371,6 +383,8 @@ public:
 	virtual void UpdateSound(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	bool getBusted() {return busted;};
 };
 
 #endif

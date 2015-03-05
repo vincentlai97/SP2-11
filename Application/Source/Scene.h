@@ -17,6 +17,7 @@ public:
 	virtual void Exit() = 0;
 	
 	int returnstate() {return state;};
+	virtual bool getBusted() {return false;};
 };
 
 #endif

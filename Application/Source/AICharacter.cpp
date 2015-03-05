@@ -75,7 +75,7 @@ void AICharacter::track(double dt, std::vector<CollisionBox*> collisionBox, Vect
 	}
 	else
 	{
-		if (Pathing::moveAlong(pos, dir, path, 30 * dt))
+		if (Pathing::moveAlong(pos, dir, path, 70 * dt))
 		{
 			endofpath = true;
 		}

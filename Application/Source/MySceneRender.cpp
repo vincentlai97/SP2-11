@@ -270,12 +270,19 @@ void MyScene::Render()
 	
 	RenderInventory();
 
+	if (role == THIEF)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "You have not paid for your items", Color(0, 0, 0), 2, .5, 7);
+		RenderTextOnScreen(meshList[GEO_TEXT], "and have became a thief!", Color(0, 0, 0), 2, .5, 6);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Get to your car to escape!", Color(0, 0, 0), 2, .5, 5);
+	}
+
 	if (!completeInventory) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(0, 1, 0), 5, 8.3, 6);
 	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(0, 1, 0), 5, 8.3, 6);
 
 	if (gameover) RenderTextOnScreen(meshList[GEO_TEXT], "GAMEOVER!", Color(0, 1, 0), 5, 8.3, 6);
 
-	{
+	/*{
 		for (int count = 0; count < guardspaths.size(); count++)
 		{
 			modelStack.PushMatrix(); {
@@ -287,7 +294,7 @@ void MyScene::Render()
 				RenderMesh(meshList[TEST], false);
 			} modelStack.PopMatrix();
 		}
-	}
+	}*/
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)

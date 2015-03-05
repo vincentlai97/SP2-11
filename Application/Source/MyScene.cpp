@@ -205,10 +205,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitGuardPaths();
 
-	InitAICharacters(guards, guardsCollisionBox, guardspaths, 1);
-	guardsCollisionBox.insert(guardsCollisionBox.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
-	guardsCollisionBox.insert(guardsCollisionBox.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
-
 	buttonBuffer = 0;
 	checklistBuffer = 0;
 
@@ -222,17 +218,18 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	ToiletUsed = false;
 	TDoorOpen = false;
 
-	
 	soundJump = false;
 	money = 100;
 	win = false;
+	role = CUSTOMER;
 	busted = false;
 	gameover = false;
 	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
+	lockCamera = false;
 	Mtx44 projection;
-	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
+	projection.SetToPerspective(45.f, w/h, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
 
 	state = 1;
@@ -432,20 +429,20 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 	else
 	{
-		updateAI(dt);
+		UpdateAI(dt);
 	}
 	//Player name input
 	if (insert == false && talk == false)
 	{
 		//Don't update camera if user choses to input text
-		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-		cameraCollisionBox.Centre = camera.position;
 		if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
 		{
 			checklistout = !checklistout;
 			checklistBuffer = 0.5;
 		}
 	}
+	else lockCamera = true;
+
 	if (Application::IsKeyPressed(VK_HOME) && insertBuffer <= 0)
 	{
 		insert = !insert;
@@ -518,6 +515,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
+	UpdateRole();
+
 	translateCarX += 50 * dt;
 
 	if(translateCarX >= 1000)
@@ -536,6 +535,13 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	if (win && targeted(car->collisionBox)) 
 		if (Application::Mouse_Click(0)) gameover = true;
+
+	if (!lockCamera) 
+	{
+		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+		cameraCollisionBox.Centre = camera.position;
+	}
+	lockCamera = false;
 }
 
 void MyScene::Exit()

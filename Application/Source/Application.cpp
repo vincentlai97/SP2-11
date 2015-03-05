@@ -56,8 +56,8 @@ Application::~Application()
 
 void Application::Init()
 {
-	width = 800;
-	height = 600;
+	width = 1600;
+	height = 900;
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
@@ -75,7 +75,7 @@ void Application::Init()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); //We don't want the old OpenGL 
 
 	//Create a window and create its OpenGL context
-	m_window = glfwCreateWindow(800, 600, "Computer Graphics", NULL, NULL);
+	m_window = glfwCreateWindow(width, height, "Computer Graphics", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -124,7 +124,8 @@ void Application::Run()
 	{
 		scene[state]->Update(m_timer.getElapsedTime(), m_window, width, height);
 		scene[state]->Render();
-		
+		if (scene[state]->getBusted()) break;
+
 		//Swap buffers
 		glfwSwapBuffers(m_window);
 		//Get and organize events, like keyboard and mouse input, window resizing, etc...

@@ -117,6 +117,23 @@ Path* Pathing::selectNearestPath(const Vector3& current, Vector3& dir, const std
 		}
 	}
 
+	if (nearest == current)
+	{
+		for (int count = 0; count < paths.size(); count++)
+		{
+			if (current == paths[count]->point[Path::START])
+			{
+				shortest = paths[count];
+				nearest = paths[count]->point[Path::END];
+			}
+			else if (current == paths[count]->point[Path::END])
+			{
+				shortest = paths[count];
+				nearest = paths[count]->point[Path::START];
+			}
+		}
+	}
+
 	if (current == shortest->point[Path::START])
 	{
 		dir = shortest->dir().Normalized();
