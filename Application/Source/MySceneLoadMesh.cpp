@@ -574,7 +574,7 @@ void MyScene::LoadMesh()
 	NewObj->angle = 0;
 	NewObj->rotation = Vector3(0, 1, 0);
 	NewObj->name = "PaperBag";
-	obj.push_back(NewObj);
+	MyScene::paperbag = NewObj;
 
 	meshList[TEST] = MeshBuilder::GenerateCube("test", Color(1, 0, 1), 0.1);
 }

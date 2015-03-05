@@ -423,7 +423,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;
@@ -505,7 +505,13 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 						checkoutprice += inventory[count]->getPrice();
 					}
 					if (money < checkoutprice) enoughmoney = false;
-					else win = true;
+					else
+					{
+						inventory.clear();
+						win = true;
+						inventory.push_back(paperbag);
+						checkList.clear();
+					}
 				}
 				else completeInventory = false;
 			}

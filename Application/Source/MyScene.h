@@ -233,6 +233,8 @@ private:
 
 	std::vector<Object*> obj;
 
+	Object* paperbag;
+
 	Object* car;
 
 	Object* DoorL;
