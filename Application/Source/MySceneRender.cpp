@@ -575,8 +575,8 @@ void MyScene::RenderTargetDetails()
 
 		if (targetedObj->name.size() && !targetedObj->getTaken())
 		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 0), 3, 1, 19);
-			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 0), 3, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(1, 1, 1), 3, 1, 18);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(1, 1, 1), 3, 1, 17);
 		}
 	}
 

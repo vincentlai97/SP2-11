@@ -253,14 +253,14 @@ private:
 	std::vector<CollisionBox*> GreenAppleCollisionBox;
 	std::vector<Gettable*> FR;
 	std::vector<CollisionBox*> FRCollisionBox;
-	std::vector<Gettable*> pizza;
-	std::vector<CollisionBox*> pizzaCollisionBox;
 	std::vector<Gettable*> Chips;
 	std::vector<CollisionBox*> ChipsCollisionBox;
 	std::vector<Gettable*> sugar;
 	std::vector<CollisionBox*> sugarCollisionBox;
 	std::vector<Gettable*> dre;
 	std::vector<CollisionBox*> dreCollisionBox;
+	std::vector<Gettable*> IC;
+	std::vector<CollisionBox*> ICCollisionBox;
 
 	std::vector<Object*> inventory;
 	std::vector<const char*> itemList;

@@ -489,10 +489,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		translateCarX = -400;
 	}
 
-	updateAI(dt);
-
-	camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-	cameraCollisionBox.Centre = camera.position;
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
