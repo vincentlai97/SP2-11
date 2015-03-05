@@ -207,9 +207,9 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	//Using the toilet
 	SitDown = 0;
-	StandUp = 0;
 	ToiletUsed = false;
-	
+	TDoorOpen = false;
+	TDoorClosed = false;
 
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
@@ -314,6 +314,28 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				camera.ToggleToilet = false;
 				ToiletUsed = false;
 				camera.target.y += 10;
+			}
+		}
+	}
+
+	for (int i = 0; i < obj.size(); i++)
+	{
+	if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			if (Application::Mouse_Click(0) && TDoorOpen)
+			{
+				TDoorOpen = true;
+				translateDoorX += 10 * dt;
+			}
+
+			if (Application::Mouse_Click(0) && TDoorClosed)
+			{
+				TDoorClosed = true;
+			}
+
+			if (TDoorOpen == true || TDoorClosed == true)
+			{
+				toiletDoor->collisionBox.Centre.x -= 15 *dt;
 			}
 		}
 	}

@@ -177,21 +177,23 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
 	
-	//Toilet Interaction
-	
-	/*if (targeted(ToiletDoor->collisionBox))
+	//Toilet Interaction5
+	for (int i = 0; i < obj.size(); i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Click to Open Door.", Color(1, 1, 0), 3, 1, 19);
-	}
+		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 20) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to Open Door.", Color(1, 1, 0), 3, 1, 19);
+		}
 
-	if (TDoorLocked == true)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Unlock Door first.", Color(1, 1, 0), 3, 1, 19);
-	}*/
+		if (TDoorLocked == true)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Unlock Door first.", Color(1, 1, 0), 3, 1, 19);
+		}
+	}
 
 	for (int i = 0; i < obj.size(); i++)
 	{
-		if ((obj[i]->name == "Toiletbowl") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "Toiletbowl") && (camera.target.x < obj[i]->collisionBox.Centre.x + 20) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			if (ToiletUsed == false)
 			{
@@ -204,14 +206,6 @@ void MyScene::Render()
 			}
 		}
 	}
-
-	/*for (int i = 0; i < obj.size(); i++)
-	{
-		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 30) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-
-		}
-	}*/
 
 	RenderTargetDetails();
 	if (checklistout == false)
