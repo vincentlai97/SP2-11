@@ -214,9 +214,9 @@ void MyScene::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
-	for (int xPos = 1, count = 0; count < PNameList.size(); xPos++, count++)
+	for (int xPos = 5, count = 0; count < PNameList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
 	if (insert == false && talk == false)
 	{
@@ -224,6 +224,7 @@ void MyScene::Render()
 	}
 	else if (insert == true && talk == false)
 	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Input:", Color(0, 0, 0), 2, 1, 21);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Home' to lock in your name.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
@@ -234,9 +235,9 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	for (int xPos = 1, count = 0; count < LetterList.size(); xPos++, count++)
+	for (int xPos = 5, count = 0; count < LetterList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
@@ -254,6 +255,7 @@ void MyScene::Render()
 	}
 	else if (insertL == true)
 	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "Input:", Color(0, 0, 0), 2, 1, 21);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
