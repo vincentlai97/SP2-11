@@ -205,10 +205,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitGuardPaths();
 
-	InitAICharacters(guards, guardsCollisionBox, guardspaths, 1);
-	guardsCollisionBox.insert(guardsCollisionBox.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
-	guardsCollisionBox.insert(guardsCollisionBox.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
-
 	buttonBuffer = 0;
 	checklistBuffer = 0;
 
@@ -235,8 +231,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	Mtx44 projection;
 	projection.SetToPerspective(45.f, w/h, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
-
-	state = 1;
 }
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
@@ -244,6 +238,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
+
+	state = Application::GAME;
 
 	//Update the sound every frame
 	UpdateSound(dt);
@@ -325,7 +321,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				camera.ToggleToilet = true;
 				camera.target.z	+= 180;
 				camera.target.y -= 10;
-				camera.position.z == camera.target.z;
+				camera.position.z = camera.target.z;
 			}
 
 			if (Application::IsKeyPressed('F') && ToiletUsed == true)
@@ -798,9 +794,30 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
 	if (mouseBuffer > 0) mouseBuffer -= dt;
+	
+	if (Application::Mouse_Click(0))
+	{
+		if (win && targeted(car->collisionBox))
+			state = Application::WIN;
+		else if (role == THIEF && targeted(car->collisionBox))
+		{
+			int count = 0;
+			for (int i = 0; i < checkList.size(); i++)
+			{
+				for (int j = 0; j < inventory.size(); j++)
+				{
+					if (checkList[i] == inventory[j]->name)
+					{
+						count++;
+						break;
+					}
+				}
+			}
+			if (count == checkList.size())
+				state = Application::WIN;
+		}
+	}
 
-	if (win && targeted(car->collisionBox)) 
-		if (Application::Mouse_Click(0)) gameover = true;
 
 	if (!lockCamera) 
 	{

@@ -37,7 +37,7 @@ void MyScene::InitCollisionBox()
 	collisionBox = new CollisionBox(Vector3(-80, 10, 270), 10, 20, 60); // Fence
 	v.push_back(collisionBox);
 	doorArea = CollisionBox(Vector3(0, 35, 300), 140, 70, 100);
-	fenceArea = CollisionBox(Vector3(0, 35, 265), 190, 70, 70);
+	fenceArea = CollisionBox(Vector3(0, 35, 265), 150, 70, 70);
 
 	//Elevator Hitbox
 	collisionBox = new CollisionBox(Vector3(-370, 32.5, 170), 50, 35, 10); //Elevator on Level One

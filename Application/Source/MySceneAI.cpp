@@ -1,4 +1,5 @@
 #include "MyScene.h"
+#include "Application.h"
 
 void MyScene::UpdateAI(double dt)
 {
@@ -10,6 +11,6 @@ void MyScene::UpdateAI(double dt)
 	{
 		guards[0] -> track(dt, guardsCollisionBox, camera.position);
 		if (guards[0]->collisionBox.checkCollision(cameraCollisionBox))
-			busted = true;
+			state = Application::LOSE;
 	}
 }

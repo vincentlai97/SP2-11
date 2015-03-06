@@ -6,6 +6,13 @@
 class Application
 {
 public:
+	enum STATE {
+		GAME,
+		MAINMENU,
+		WIN,
+		LOSE,
+	};
+
 	Application();
 	~Application();
 	void Init();

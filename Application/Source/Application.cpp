@@ -11,9 +11,9 @@
 #include <stdlib.h>
 
 #include "MyScene.h"
-#include "newScene.h"
-#include "Winning_Screen.h"
-#include "Losing_Screen.h"
+#include "StartMenu.h"
+#include "WinMenu.h"
+#include "LoseMenu.h"
 
 GLFWwindow* m_window;
 const unsigned char FPS = 60; // FPS of this game
@@ -58,8 +58,8 @@ Application::~Application()
 
 void Application::Init()
 {
-	width = 1600;
-	height = 900;
+	width = 800;
+	height = 600;
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 
@@ -106,20 +106,18 @@ void Application::Init()
 		//return -1;
 	}
 
-	state = 0;
+	state = MAINMENU;
 }
 
 void Application::Run()
 {
 	//Main Loop
 	Scene *scene[4];
-	
-	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
-	{
-	scene[0] = new GameState();
+
+	scene[0] = new MyScene();
 	scene[0]->Init(m_window, width, height);
 
-	scene[1] = new MyScene();
+	scene[1] = new GameState();
 	scene[1]->Init(m_window, width, height);
 
 	scene[2] = new WinState();
@@ -128,25 +126,37 @@ void Application::Run()
 	scene[3] = new LoseState();
 	scene[3]->Init(m_window, width, height);
 
-	m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-	while (!IsKeyPressed('R') || !IsKeyPressed(VK_ESCAPE))
+	while (!glfwWindowShouldClose(m_window) && !IsKeyPressed(VK_ESCAPE))
 	{
-		scene[state]->Update(m_timer.getElapsedTime(), m_window, width, height);
-		scene[state]->Render();
-<<<<<<< HEAD
-		if (scene[state]->getBusted()) break;
-=======
->>>>>>> origin/master
+		if (state == 0)
+		{
+			scene[0] = new MyScene();
+			scene[0]->Init(m_window, width, height);
+		}
 
-		//Swap buffers
-		glfwSwapBuffers(m_window);
-		//Get and organize events, like keyboard and mouse input, window resizing, etc...
-		glfwPollEvents();
-        m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
-	
-		state = scene[state]->returnstate();
-	} //Check if the ESC key had been pressed or if the window had been closed
-	state = 0;
+		m_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+		while (!IsKeyPressed('R') && !IsKeyPressed(VK_ESCAPE) && !glfwWindowShouldClose(m_window))
+		{
+			scene[state]->Update(m_timer.getElapsedTime(), m_window, width, height);
+			scene[state]->Render();
+
+			//Swap buffers
+			glfwSwapBuffers(m_window);
+			//Get and organize events, like keyboard and mouse input, window resizing, etc...
+			glfwPollEvents();
+			m_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.   
+
+			if (state != scene[state]->returnstate() && scene[state]->returnstate() == GAME)
+			{
+				state = scene[state]->returnstate();
+				break;
+			}
+			state = scene[state]->returnstate();
+			if (IsKeyPressed('R'))
+			{
+				state = MAINMENU;
+			}
+		} //Check if the ESC key had been pressed or if the window had been closed
 	}
 	scene[state]->Exit();
 	delete scene[state];

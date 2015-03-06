@@ -43,12 +43,12 @@ void MyScene::LoadMesh()
 	meshList[ESCALATOR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[ESCALATOR]->material.kShininess = 1.f;
 
-	meshList[ESCALATOR_HANDLE] = MeshBuilder::GenerateOBJ("handle", "OBJ//TravelatorH.obj");
-	meshList[ESCALATOR_HANDLE]->textureID = LoadTGA("Image//handle.tga");
-	meshList[ESCALATOR_HANDLE]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-	meshList[ESCALATOR_HANDLE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
-	meshList[ESCALATOR_HANDLE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[ESCALATOR_HANDLE]->material.kShininess = 1.f;
+	//meshList[ESCALATOR_HANDLE] = MeshBuilder::GenerateOBJ("handle", "OBJ//TravelatorH.obj");
+	//meshList[ESCALATOR_HANDLE]->textureID = LoadTGA("Image//handle.tga");
+	//meshList[ESCALATOR_HANDLE]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
+	//meshList[ESCALATOR_HANDLE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	//meshList[ESCALATOR_HANDLE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	//meshList[ESCALATOR_HANDLE]->material.kShininess = 1.f;
 
 	meshList[ELEVATOR] = MeshBuilder::GenerateOBJ("Elevator", "OBJ//Elevator.obj");
 	meshList[ELEVATOR]->textureID = LoadTGA("Image//metal.tga");

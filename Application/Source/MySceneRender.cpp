@@ -1,5 +1,4 @@
 #include "MyScene.h"
-#include "newScene.h"
 #include "GL\glew.h"
 #include "Utility.h"
 #include "Application.h"
@@ -118,7 +117,7 @@ void MyScene::Render()
 	modelStack.PushMatrix();
 	modelStack.Translate(-250, 55, 260);
 	modelStack.Scale(15, 15, 15);
-	RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
 	modelStack.PopMatrix();
 
 	//modelStack.PushMatrix();
