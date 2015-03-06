@@ -55,15 +55,15 @@ void LoseState::Update(double dt, GLFWwindow* m_window, float w, float h)
 	yPosition = &yPos;
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		if(Application::Mouse_Click(0) && (*xPosition > 205 && *xPosition < 601 && *yPosition > 240 && *yPosition < 310))
+		if(Application::Mouse_Click(0) && ((*xPosition > 500 && *xPosition < 878 && *yPosition > 315 && *yPosition < 415)))
 		{
-			state = 1;
+			state = Application::GAME;
 			xPos = w / 2;
 			yPos = h / 2;
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 
-		if(Application::Mouse_Click(0) && (*xPosition > 205 && *xPosition < 601 && *yPosition > 395 && *yPosition < 470))
+		if(Application::Mouse_Click(0) && (*xPosition > 500 && *xPosition < 878 && *yPosition > 470 && *yPosition < 570))
 		{
 			exit(0); //Exit the game
 		}

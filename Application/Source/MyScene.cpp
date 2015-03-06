@@ -316,7 +316,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				camera.ToggleToilet = true;
 				camera.target.z	+= 180;
 				camera.target.y -= 10;
-				camera.position.z = camera.target.z;
+				camera.position.z = -285;
 			}
 
 			if (Application::IsKeyPressed('F') && ToiletUsed == true)
@@ -324,23 +324,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				camera.ToggleToilet = false;
 				ToiletUsed = false;
 				camera.target.y += 10;
-			}
-		}
-	}
-
-	for (int i = 0; i < obj.size(); i++)
-	{
-		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			if (Application::Mouse_Click(0) && TDoorOpen)
-			{
-				TDoorOpen = true;
-				translateDoorX += 10 * dt;
-			}
-
-			if (Application::Mouse_Click(0) && TDoorOpen)
-			{
-				TDoorOpen = false;
 			}
 		}
 	}
@@ -562,6 +545,117 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
+	{
+		int targeted = MyScene::targeted(BlueCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Blue[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+
+	//Green Shirt
+	{
+		int targeted = MyScene::targeted(GreenCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Green[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+
+	//Red Shirt
+	{
+		int targeted = MyScene::targeted(RedCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Red[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+
+	//Yellow Shirt
+	{
+		int targeted = MyScene::targeted(YellowCollisionBox);
+		if (targeted != -1)
+		{
+			Gettable* targetedObj = Yellow[targeted];
+
+			if (Application::Mouse_Click(0) && buttonBuffer <= 0)
+			{
+				if (targetedObj->getTaken() && inventory.size())
+				{
+					Vector3 temp;
+					temp = inventory[0]->collisionBox.Centre;
+					inventory[0]->collisionBox.Centre = targetedObj->collisionBox.Centre;
+					inventory[0]->setTaken(false);
+					targetedObj->collisionBox.Centre = temp;
+					inventory.erase(inventory.begin());
+				}
+				else if (!targetedObj->getTaken() && inventory.size() < 10)
+				{
+					targetedObj->setTaken(true);
+					inventory.push_back(targetedObj);
+				}
+				buttonBuffer = 0.5;
+			}
+		}
+	}
+	
 	//AI Dialogue
 	Application::IsKeyPressed(VK_RETURN);
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)
@@ -570,7 +664,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		for (int count = 0; count < shelfCharacters.size(); count++)
 		{
 			Character character(*shelfCharacters[count]);
-			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 			{
 				talk = !talk;
 				talkBuffer = 0.5;
@@ -579,7 +673,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		for (int count = 0; count < fruitstandCharacters.size(); count++)
 		{
 			Character character(*fruitstandCharacters[count]);
-			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 			{
 				talk = !talk;
 				talkBuffer = 0.5;
@@ -614,7 +708,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;

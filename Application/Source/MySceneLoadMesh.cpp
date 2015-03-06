@@ -529,24 +529,10 @@ void MyScene::LoadMesh()
 	LoadChipsMesh();
 	LoadSugarMesh();
 	LoadDreMesh();
-
-	//Toilet Door
-	meshList[ToiletDoor] = MeshBuilder::GenerateOBJ("ToiletDoor", "OBJ//ToiletDoor.obj");
-	meshList[ToiletDoor]->textureID = LoadTGA("Image//ToiletDoor.tga");
-	meshList[ToiletDoor]->material.kAmbient.Set(0.8f, 0.8f, 0.8f);
-	meshList[ToiletDoor]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
-	meshList[ToiletDoor]->material.kSpecular.Set(1.f, 1.f, 1.f);
-	meshList[ToiletDoor]->material.kShininess = 3.f;
-
-	NewObj = new Object;
-	NewObj->mesh = meshList[ToiletDoor];
-	NewObj->collisionBox = CollisionBox(Vector3(350, 0, -240), Vector3(20, 50, 5), Vector3(-15, 0, -5));
-	NewObj->size = Vector3(8, 10, 8);
-	NewObj->angle = -90.0f;
-	NewObj->rotation = Vector3(0, 1, 0);
-	NewObj->name = "ToiletDoor";
-	v.push_back(&NewObj->collisionBox);
-	obj.push_back(NewObj);
+	LoadBlueMesh();
+	LoadGreenMesh();
+	LoadRedMesh();
+	LoadYellowMesh();
 
 	//CheckList
 	meshList[CheckList] = MeshBuilder::GenerateQuad("CheckList", Color(1, 1, 1), 1, 1);
@@ -1179,35 +1165,35 @@ void MyScene::LoadSugarMesh()
 		Vector3 Toy_Shelves;
 
 		for (int count = 0; count < obj.size(); count++)
-			{
-				if (obj[count]->name == "Toy_Shelves" && obj[count]->position == typecount)
-					Toy_Shelves = obj[count]->collisionBox.Centre;
-			}
+		{
+			if (obj[count]->name == "Toy_Shelves" && obj[count]->position == typecount)
+				Toy_Shelves = obj[count]->collisionBox.Centre;
+		}
 
-		for (float countx = -15.5, count = 0; countx < -13.5; countx++)
+		for (float countx = -15.25, count = 0; countx < -13.25; countx++)
+		{
+			for (float county = 0; county < 4; county++)
 			{
-				for (float county = -2.5; county < 1.5; county++)
-				{
-					for (float countz = 0.4; countz < 6.4; countz += 2)
-					{	
-						NewObj = new Gettable();
-						NewObj->mesh = meshList[Sugar];
-						NewObj->name = "Sugar";
-						NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
-						NewObj->size = Vector3(1.5, 1.5, 1.5);
-						NewObj->angle = -90.0f;
-	                    NewObj->rotation = Vector3(0, 1, 0);
-						NewObj->price = 0.80;
-						NewObj->collisionBox.Centre = Vector3(countx * 10, 2 + county * 7.2, countz * 4);
-						NewObj->collisionBox.Centre += Toy_Shelves;
-						NewObj->position = count++;
-					    sugar.push_back(NewObj);
-					    sugarCollisionBox.push_back(&(NewObj->collisionBox));	
-						obj.push_back(NewObj);
-					}
+				for (float countz = -2; countz < 4; countz += 2)
+				{	
+					NewObj = new Gettable();
+					NewObj->mesh = meshList[Sugar];
+					NewObj->name = "Sugar";
+					NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+					NewObj->size = Vector3(1.5, 1.5, 1.5);
+					NewObj->angle = -90.0f;
+					NewObj->rotation = Vector3(0, 1, 0);
+					NewObj->price = 0.80;
+					NewObj->collisionBox.Centre = Vector3(countx * 10.2, 2 + county * 7.2, countz * 4);
+					NewObj->collisionBox.Centre += Toy_Shelves;
+					NewObj->position = count++;
+					sugar.push_back(NewObj);
+					sugarCollisionBox.push_back(&(NewObj->collisionBox));	
+					obj.push_back(NewObj);
 				}
 			}
-	    }
+		}
+	}
 }
 
 void MyScene::LoadDreMesh()
@@ -1258,6 +1244,204 @@ void MyScene::LoadDreMesh()
 				}
 			}
 	    }
+}
+
+void MyScene::LoadBlueMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//BlueShirt.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[ShirtBlue] = MeshBuilder::GenerateOBJ("Blue", "OBJ//ShirtBlue.obj");
+		meshList[ShirtBlue]->textureID = LoadTGA("Image//BlueShirt.tga");
+		meshList[ShirtBlue]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[ShirtBlue]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[ShirtBlue]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[ShirtBlue]->material.kShininess = 3.f;
+
+		Vector3 ClothesRack;
+
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "ClothesRack" && obj[count]->position == typecount)
+				ClothesRack = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = -4, count = 0; countx < 1; countx++)
+		{
+			for (float county = 0.31; county < 0.41; county++)
+			{
+				for (float countz = 3; countz < 8; countz += 2)
+				{	
+					NewObj = new Gettable();
+					NewObj->mesh = meshList[ShirtBlue];
+					NewObj->name = "Blue";
+					NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+					NewObj->size = Vector3(3, 3, 3);
+					NewObj->angle = -90.0f;
+					NewObj->rotation = Vector3(0, 1, 0);
+					NewObj->price = 21.00;
+					NewObj->collisionBox.Centre = Vector3(countx * 50, county * 10, countz * 1);
+					NewObj->collisionBox.Centre += ClothesRack;
+					NewObj->position = count++;
+					Blue.push_back(NewObj);
+					BlueCollisionBox.push_back(&(NewObj->collisionBox));	
+					obj.push_back(NewObj);
+				}
+			}
+		}
+	}
+}
+
+void MyScene::LoadGreenMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//GreenShirt.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[ShirtGreen] = MeshBuilder::GenerateOBJ("Green", "OBJ//ShirtGreen.obj");
+		meshList[ShirtGreen]->textureID = LoadTGA("Image//GreenShirt.tga");
+		meshList[ShirtGreen]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[ShirtGreen]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[ShirtGreen]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[ShirtGreen]->material.kShininess = 3.f;
+
+		Vector3 ClothesRack;
+
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "ClothesRack" && obj[count]->position == typecount)
+				ClothesRack = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = 5, count = 0; countx < 8; countx++)
+		{
+			for (float county = 0.1; county < 0.2; county++)
+			{
+				for (float countz = 0; countz < 2; countz += 2)
+				{	
+					NewObj = new Gettable();
+					NewObj->mesh = meshList[ShirtGreen];
+					NewObj->name = "Green";
+					NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+					NewObj->size = Vector3(3, 3, 3);
+					//NewObj->angle = -90.0f;
+					//NewObj->rotation = Vector3(0, 1, 0);
+					NewObj->price = 21.00;
+					NewObj->collisionBox.Centre = Vector3(countx * 1, county * 10, countz * 20);
+					NewObj->collisionBox.Centre += ClothesRack;
+					NewObj->position = count++;
+					Green.push_back(NewObj);
+					GreenCollisionBox.push_back(&(NewObj->collisionBox));	
+					obj.push_back(NewObj);
+				}
+			}
+		}
+	}
+}
+
+void MyScene::LoadYellowMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//YellowShirt.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[ShirtYellow] = MeshBuilder::GenerateOBJ("Yellow", "OBJ//ShirtYellow.obj");
+		meshList[ShirtYellow]->textureID = LoadTGA("Image//YellowShirt.tga");
+		meshList[ShirtYellow]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[ShirtYellow]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[ShirtYellow]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[ShirtYellow]->material.kShininess = 3.f;
+
+		Vector3 ClothesRack;
+
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "ClothesRack" && obj[count]->position == typecount)
+				ClothesRack = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = -207, count = 0; countx < -204; countx++)
+		{
+			for (float county = 0.5; county < 0.6; county++)
+			{
+				for (float countz = 0; countz < 2; countz += 2)
+				{	
+					NewObj = new Gettable();
+					NewObj->mesh = meshList[ShirtYellow];
+					NewObj->name = "Yellow";
+					NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+					NewObj->size = Vector3(3, 3, 3);
+					NewObj->price = 21.00;
+					NewObj->collisionBox.Centre = Vector3(countx * 1, 2 + county * 7, countz * 4);
+					NewObj->collisionBox.Centre += ClothesRack;
+					NewObj->position = count++;
+					Yellow.push_back(NewObj);
+					YellowCollisionBox.push_back(&(NewObj->collisionBox));	
+					obj.push_back(NewObj);
+				}
+			}
+		}
+	}
+}
+
+void MyScene::LoadRedMesh()
+{
+	Gettable* NewObj;
+
+	for (int typecount = 0; typecount < 5; typecount++)
+	{
+		std::string texturepath = "Image//Red.tga ";
+		texturepath += '1' + typecount;
+
+		meshList[ShirtRed] = MeshBuilder::GenerateOBJ("Red", "OBJ//ShirtRed.obj");
+		meshList[ShirtRed]->textureID = LoadTGA("Image//Red.tga");
+		meshList[ShirtRed]->material.kAmbient.Set(0.25f, 0.25f, 0.25f);
+		meshList[ShirtRed]->material.kDiffuse.Set(1.f, 1.f, 1.f);
+		meshList[ShirtRed]->material.kSpecular.Set(1.f, 1.f, 1.f);
+		meshList[ShirtRed]->material.kShininess = 3.f;
+
+		Vector3 ClothesRack;
+
+		for (int count = 0; count < obj.size(); count++)
+		{
+			if (obj[count]->name == "ClothesRack" && obj[count]->position == typecount)
+				ClothesRack = obj[count]->collisionBox.Centre;
+		}
+
+		for (float countx = -4, count = 0; countx < 1; countx++)
+		{
+			for (float county = 0.75; county < 0.85; county++)
+			{
+				for (float countz = -8; countz < -2; countz += 2)
+				{	
+					NewObj = new Gettable();
+					NewObj->mesh = meshList[ShirtRed];
+					NewObj->name = "Red";
+					NewObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(10, 10, 5), Vector3(-10, 0, -5));
+					NewObj->size = Vector3(3, 3, 3);
+					NewObj->angle = -90.0f;
+					NewObj->rotation = Vector3(0, 1, 0);
+					NewObj->price = 21.00;
+					NewObj->collisionBox.Centre = Vector3(countx * 50, county * 10, countz * 1);
+					NewObj->collisionBox.Centre += ClothesRack;
+					NewObj->position = count++;
+					Red.push_back(NewObj);
+					RedCollisionBox.push_back(&(NewObj->collisionBox));	
+					obj.push_back(NewObj);
+				}
+			}
+		}
+	}
 }
 
 

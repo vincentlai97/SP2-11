@@ -58,8 +58,8 @@ Application::~Application()
 
 void Application::Init()
 {
-    width = 1600;
-    height = 900;
+	width = 1368;
+	height = 768;
 	//Set the error callback
 	glfwSetErrorCallback(error_callback);
 

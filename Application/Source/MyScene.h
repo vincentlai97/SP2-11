@@ -101,11 +101,14 @@ class MyScene : public Scene
 		Detergent,
 		AppleRed,
 		AppleGreen,
-		ToiletDoor,
 		FerreroRocher,
 		LaysChips,
 		Sugar,
 		Dre,
+		ShirtBlue,
+		ShirtGreen,
+		ShirtRed,
+		ShirtYellow,
 		PaymentList,
 		NUM_GEOMETRY,
 	};
@@ -276,10 +279,6 @@ private:
 	CollisionBox elevatorDown;
 	CollisionBox elevatorArea;
 
-	Object* toiletDoor;
-	Object* TDoorState; 
-	CollisionBox TDoor;
-
 	std::vector<Gettable*> shelfItems;
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Gettable*> pizza;
@@ -300,6 +299,15 @@ private:
 	std::vector<CollisionBox*> dreCollisionBox;
 	std::vector<Gettable*> IC;
 	std::vector<CollisionBox*> ICCollisionBox;
+
+	std::vector<Gettable*> Blue;
+	std::vector<CollisionBox*> BlueCollisionBox;
+	std::vector<Gettable*> Red;
+	std::vector<CollisionBox*> RedCollisionBox;
+	std::vector<Gettable*> Green;
+	std::vector<CollisionBox*> GreenCollisionBox;
+	std::vector<Gettable*> Yellow;
+	std::vector<CollisionBox*> YellowCollisionBox;
 
 	std::vector<Object*> inventory;
 	std::vector<Object*> CustInventory;
@@ -355,14 +363,16 @@ private:
 	void LoadChipsMesh();
 	void LoadSugarMesh();
 	void LoadDreMesh();
+	void LoadBlueMesh();
+	void LoadRedMesh();
+	void LoadGreenMesh();
+	void LoadYellowMesh();
 
 	void InteractDoor(double dt);
 
 	void InteractElevator(double dt);
 	void InteractElevatorButton(double dt);
 	void InteractElevatorDoor(double dt);
-
-	void InteractToiletDoor(double dt);
 
 	void UpdateAI(double dt);
 

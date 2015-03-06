@@ -165,20 +165,6 @@ void MyScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press DOWN Arrow Key to go Level 1", Color(1, 1, 0), 2, 1, 19);
 	}
-	
-	//Toilet Interaction5
-	for (int i = 0; i < obj.size(); i++)
-	{
-		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 20) && (camera.target.x > obj[i]->collisionBox.Centre.x - 10) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Click to Open Door.", Color(1, 1, 0), 3, 1, 19);
-		}
-
-		if (TDoorLocked == true)
-		{
-			RenderTextOnScreen(meshList[GEO_TEXT], "Unlock Door first.", Color(1, 1, 0), 3, 1, 19);
-		}
-	}
 
 	for (int i = 0; i < obj.size(); i++)
 	{
@@ -212,7 +198,7 @@ void MyScene::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Your Latest Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
-	for (int xPos = 5, count = 0; count < PNameList.size(); xPos++, count++)
+	for (int xPos = 1, count = 0; count < PNameList.size(); xPos++, count++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
@@ -232,7 +218,7 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	for (int xPos = 5, count = 0; count < LetterList.size(); xPos++, count++)
+	for (int xPos = 1, count = 0; count < LetterList.size(); xPos++, count++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
@@ -240,7 +226,7 @@ void MyScene::Render()
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
-		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
@@ -249,7 +235,7 @@ void MyScene::Render()
 	for (int count = 0; count < fruitstandCharacters.size(); count++)
 	{
 		Character character(*fruitstandCharacters[count]);
-		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
@@ -264,7 +250,6 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
-
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	
@@ -714,6 +699,58 @@ void MyScene::RenderTargetDetails()
 	if (targeted != -1)
 	{
 		Gettable* targetedObj = dre[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+
+	//Blue Shirts Object
+	targeted = MyScene::targeted(BlueCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Blue[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+
+	//Green Shirts Object
+	targeted = MyScene::targeted(GreenCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Green[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+
+	//Red Shirts Object
+	targeted = MyScene::targeted(RedCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Red[targeted];
+
+		if (targetedObj->name.size() && !targetedObj->getTaken())
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Name:" + targetedObj->name, Color(0, 0, 0), 2, 1, 19);
+			RenderTextOnScreen(meshList[GEO_TEXT], "Price:$" + to_price(targetedObj->getPrice()), Color(0, 0, 0), 2, 1, 18);
+		}
+	}
+
+	//Yellow Shirts Object
+	targeted = MyScene::targeted(YellowCollisionBox);
+	if (targeted != -1)
+	{
+		Gettable* targetedObj = Yellow[targeted];
 
 		if (targetedObj->name.size() && !targetedObj->getTaken())
 		{
