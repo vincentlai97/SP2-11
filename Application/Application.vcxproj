@@ -82,10 +82,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Lose_Screen.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Losing_Screen.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Winning_Screen.cpp" />
-    <ClCompile Include="..\..\..\GDT%2714\SP2-11\Application\Source\Win_Screen.cpp" />
     <ClCompile Include="Source\AICharacter.cpp" />
     <ClCompile Include="Source\AIMovement.cpp" />
     <ClCompile Include="Source\Application.cpp" />
@@ -97,6 +93,8 @@
     <ClCompile Include="Source\Gettable.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
+    <ClCompile Include="Source\Lose_Screen.cpp" />
+    <ClCompile Include="Source\Losing_Screen.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\MeshBuilder.cpp" />
@@ -117,10 +115,10 @@
     <ClCompile Include="Source\Start_Menu.cpp" />
     <ClCompile Include="Source\UpdateSound.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
+    <ClCompile Include="Source\Winning_Screen.cpp" />
+    <ClCompile Include="Source\Win_Screen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\Losing_Screen.h" />
-    <ClInclude Include="..\..\..\GDT%2714\SP2-11\Application\Source\Winning_Screen.h" />
     <ClInclude Include="Source\AICharacter.h" />
     <ClInclude Include="Source\AIMovement.h" />
     <ClInclude Include="Source\Application.h" />
@@ -133,6 +131,7 @@
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />
+    <ClInclude Include="Source\Losing_Screen.h" />
     <ClInclude Include="Source\Material.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\MeshBuilder.h" />
@@ -145,6 +144,7 @@
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />
     <ClInclude Include="Source\Vertex.h" />
+    <ClInclude Include="Source\Winning_Screen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\Blending.fragmentshader" />

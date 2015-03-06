@@ -245,6 +245,7 @@ void MyScene::Render()
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
+	//Shelf NPCs
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
@@ -253,7 +254,15 @@ void MyScene::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
 	}
-
+	//Fruit Stand NPCs
+	for (int count = 0; count < fruitstandCharacters.size(); count++)
+	{
+		Character character(*fruitstandCharacters[count]);
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
+		}
+	}
 	if (talk == true && insertL == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Npc:" + dialogue[0], Color(0, 0, 0), 2, 6, 5);
