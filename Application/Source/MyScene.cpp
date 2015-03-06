@@ -3,6 +3,8 @@
 #include "Application.h"
 #include "Utility.h"
 #include <fstream>
+#include "MeshBuilder.h"
+#include "LoadTGA.h"
 
 #include "shader.hpp"
 
@@ -163,20 +165,23 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	//Loading of obj names from text file
 	ifstream Name;
 	string Temp;
+	float Temp2;
 
 	Name.open("Source//Name.txt");
 	while (!Name.eof())
 	{
-		getline(Name, Temp);
-		temp.push_back(Temp);
+		Name >> Temp;
+		Name >> Temp2;
+		name.push_back(Temp);
+		price.push_back(Temp2);
 	}
 	Name.close();
 
 	//Itemlist init
-	for (int i = 0; i < temp.size(); i++)
+	for (int i = 0; i < name.size(); i++)
 	{
-		const char* tempy = temp[i].c_str();
-		itemList.push_back(tempy);
+		const char* temp = name[i].c_str();
+		itemList.push_back(temp);
 	}
 	//CheckList init
 	checklistout = false;
@@ -185,14 +190,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	for (int i = 0; i < 3 && i < itemList.size(); i++)
 	{
 		checkList.push_back(itemList[i]);
-	}
-
-	//Payment Init
-	srand(time(NULL));
-	random_shuffle(itemList.begin(), itemList.end());
-	for(int i = 0; i < 5 && i < itemList.size(); i++)
-	{
-		paymentList.push_back(itemList[i]);
 	}
 
 	LoadMesh();
@@ -204,7 +201,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	InitAICharacters(shelfCharacters, shelfCharactersCollisionBox, shelfpaths, 3);
 	v.insert(v.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
 	shelfCharactersCollisionBox.push_back(&cameraCollisionBox);
-	
+
 	InitFruitstandPaths();
 
 	InitAICharacters(fruitstandCharacters, fruitstandCharactersCollisionBox, fruitstandpaths, 3);
@@ -227,12 +224,12 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	TDoorOpen = false;
 
 	soundJump = false;
-	money = 100;
+	money = 0;
 	win = false;
 	role = CUSTOMER;
 	busted = false;
 	gameover = false;
-	
+
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
 	lockCamera = false;
@@ -253,15 +250,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	UpdateSound(dt);
 
 	const float LSPEED = 5.f;
-
-	if (Application::IsKeyPressed('1'))
-		glEnable(GL_CULL_FACE);
-	if (Application::IsKeyPressed('2'))
-		glDisable(GL_CULL_FACE);
-	if (Application::IsKeyPressed('3'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	if (Application::IsKeyPressed('4'))
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	if(Application::IsKeyPressed('I'))
 		light[0].position.z -= (float)(LSPEED * dt);
@@ -305,7 +293,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		camera.target.y -= 25 * dt;
 	}
 
-
 	InteractDoor(dt);
 
 	InteractElevator(dt);
@@ -343,7 +330,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 
 	for (int i = 0; i < obj.size(); i++)
 	{
-	if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
+		if ((obj[i]->name == "ToiletDoor") && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
 		{
 			if (Application::Mouse_Click(0) && TDoorOpen)
 			{
@@ -574,7 +561,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			}
 		}
 	}
-	
+
 	//AI Dialogue
 	Application::IsKeyPressed(VK_RETURN);
 	if (Application::Mouse_Click(0) && talkBuffer <= 0)
@@ -737,89 +724,6 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		translateCarX = -400;
 	}
 
-//Entering into cashier scenario
-	for(int i = 0; i < obj.size(); i++)
-	{
-		if((obj[i]->name == "Cashier Table" && obj[i]->position == 4) && (camera.target.x < obj[i]->collisionBox.Centre.x + 15) && (camera.target.x > obj[i]->collisionBox.Centre.x - 15) && (camera.target.y < obj[i]->collisionBox.Centre.y + 25) && (camera.target.y > obj[i]->collisionBox.Centre.y - 5) && (camera.target.z < obj[i]->collisionBox.Centre.z + 20) && (camera.target.z > obj[i]->collisionBox.Centre.z - 20))
-		{
-			translateCustomerZ += 120 * dt;
-			if(Application::Mouse_Click(0) && mouseBuffer < 0)
-			{
-				camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-				cameraCollisionBox.Centre = camera.position;
-				mouseBuffer += 0.5;
-				cashierScene = true;
-			}
-
-			if(cashierScene == true)
-			{
-				camera.Init(Vector3(325, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
-				cashierScene = false;
-			}
-
-			else if(Application::IsKeyPressed('E')) // Exits cashier scenario
-			{
-				camera.Init(Vector3(335, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
-			}
-
-			//Customer Movements
-			if(translateCustomerZ >= 200)
-			{
-				translateCustomerZ = 200;
-				customer = true;
-				insertNum = true;
-				paid = true;
-			}
-
-			/*if(insertNum == true)
-			{
-				if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
-				{
-					insertL = !insertL;
-					answerBuffer = 0.5;
-					if (insertL == false)
-					{
-						AnswerNum = "";
-						for (int i = 0; i < NumList.size(); i++)
-						{
-							AnswerNum += NumList[i];
-						}
-						NumList.clear();
-						insertNum = false;
-					}
-				}
-				if (insertL == true && letterBuffer <= 0)
-				{
-					for (char letter = '0'; letter < '10'; letter++)
-					{
-						if (Application::IsKeyPressed(letter))
-						{
-							NumList.push_back(letter);
-							letterBuffer = 0.2;
-						}
-					}
-					if (Application::IsKeyPressed(VK_BACK) && NumList.size() != 0 && eraseBuffer <= 0)
-					{
-						NumList.erase(LetterList.begin() + NumList.size() - 1);
-						eraseBuffer = 0.2;
-					}
-				}
-			}*/
-		}
-	}
-				if(Application::IsKeyPressed('T') && paid == true)
-			{
-				translateCustomerZ1 += 120 * dt;
-			}
-
-			if(paid == true && customer == true)
-			{
-				
-			}
-				if(translateCustomerZ1 >= 280)
-				{
-					translateCustomerZ1 = 160;
-				}
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
@@ -832,7 +736,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (answerBuffer > 0) answerBuffer -= dt;
 	if (mouseBuffer > 0) mouseBuffer -= dt;
 	if (paidBuffer > 0) paidBuffer -= dt;
-	
+
 	if (Application::Mouse_Click(0))
 	{
 		if (win && targeted(car->collisionBox))
@@ -856,13 +760,70 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		}
 	}
 
-
 	if (!lockCamera) 
 	{
 		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
 		cameraCollisionBox.Centre = camera.position;
 	}
 	lockCamera = false;
+
+	if (role == CASHIER)
+	{
+		if (!paying)
+		{
+			paying = true;
+
+			paymentList.clear();
+			srand(time(NULL));
+			random_shuffle(itemList.begin(), itemList.end());
+			for (int i = 0; i < rounds/2 + 2; i++)
+			{
+				paymentList.push_back(itemList[i]);
+			}
+			ans = "";
+		}
+		else
+		{
+			for (char letter = '0'; letter <= '9'; letter++)
+			{
+				if (Application::IsKeyPressed(letter) && letterBuffer <= 0)
+				{
+					ans += letter;
+					letterBuffer = 0.2;
+				}
+			}
+			if (Application::IsKeyPressed('.') && letterBuffer <= 0)
+			{
+				ans += '.';
+				letterBuffer = 0.2;
+			}
+			if (Application::IsKeyPressed(VK_BACK) && eraseBuffer <= 0)
+			{
+				ans.erase(ans.end() - 1);
+				eraseBuffer = 0.2;
+			}
+		}
+		if (Application::IsKeyPressed(VK_RETURN))
+		{
+			rounds++;
+			float price = 0;
+			for (int i = 0; i < paymentList.size(); i++)
+			{
+				for (int count = 0; count < name.size(); count++)
+				{
+					if (name[count] == paymentList[i])
+						price += MyScene::price[count];
+				}
+			}
+			string pricestr = to_price(price);
+			if (pricestr == ans)
+			{
+				money += 1;
+				paying = false;
+				ans = "";
+			}
+		}
+	}
 }
 
 void MyScene::Exit()

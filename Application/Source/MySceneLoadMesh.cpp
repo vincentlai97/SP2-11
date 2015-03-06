@@ -229,13 +229,14 @@ void MyScene::LoadMesh()
 		NewObj = new Object;
 		NewObj->mesh = meshList[CashierTable];
 		NewObj->name = "Cashier Table";
-		NewObj->collisionBox = CollisionBox(Vector3(posX, 0, 200), Vector3(10,10,20), Vector3(-10,0,-20));
+		NewObj->collisionBox = CollisionBox(Vector3(posX, 0, 200), Vector3(10,15,20), Vector3(-10,0,-20));
 		NewObj->size = Vector3(4,4,4);
 		NewObj->angle = 180.0f;
 		NewObj->rotation = Vector3(0, 1, 0);
 		NewObj->position = count++;
 		v.push_back(&NewObj->collisionBox);
 		obj.push_back(NewObj);
+		if (count == 5) emptyCashier = NewObj;
 	}
 
 	//Toy Shelves - 2nd Floor
@@ -390,38 +391,20 @@ void MyScene::LoadMesh()
 		cashiersCollisionBox.push_back(&cashier->collisionBox);
 	}
 
-	for(int count = 0; count < 4; count++)
 	{
 		Character* customer = new Character;
 		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Head.obj"));
 		customer->mesh[0]->textureID = LoadTGA("Image//Face.tga");
-		customer->mesh[0]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-		customer->mesh[0]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-		customer->mesh[0]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-		customer->mesh[0]->material.kShininess = 5.f;
 		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Body.obj"));
-		customer->mesh[1]->textureID = LoadTGA("Image//CustomerShirt2.tga");
-		customer->mesh[1]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-		customer->mesh[1]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-		customer->mesh[1]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-		customer->mesh[1]->material.kShininess = 5.f;
+		customer->mesh[1]->textureID = LoadTGA("Image//CustomerShirt1.tga");
 		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
-		customer->mesh[2]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
-		customer->mesh[2]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-		customer->mesh[2]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-		customer->mesh[2]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-		customer->mesh[2]->material.kShininess = 5.f;
+		customer->mesh[2]->textureID = LoadTGA("Image//CustomerLimbs1.tga");
 		customer->mesh.push_back(MeshBuilder::GenerateOBJ("customer", "OBJ//Limb.obj"));
-		customer->mesh[3]->textureID = LoadTGA("Image//CustomerLimbs2.tga");
-		customer->mesh[3]->material.kAmbient.Set(0.2f, 0.2f, 0.2f);
-		customer->mesh[3]->material.kDiffuse.Set(1.f, 1.f, 1.f);
-		customer->mesh[3]->material.kSpecular.Set(0.8f, 0.8f, 0.8f);
-		customer->mesh[3]->material.kShininess = 5.f;
-		customer->pos = Vector3(50 * count + 125, 0, 205);
-		customer->angle = -90;
-		customers.push_back(customer);		
-		customer->collisionBox.set(Vector3(customer->pos), Vector3(15, 20, 15), Vector3(-15, 0, -15));
-		customersCollisionBox.push_back(&customer->collisionBox);
+		customer->mesh[3]->textureID = LoadTGA("Image//CustomerLimbs1.tga");
+
+		customer->pos = Vector3(305, 0, 205);
+		customer->angle = 90;
+		MyScene::customer.push_back(customer);
 	}
 
 	//Restroom Wall - Back
@@ -773,7 +756,7 @@ void MyScene::LoadCansMesh()
 				{	
 					newObj = new Gettable();
 					newObj->mesh = meshList[Shelf_Items + typecount];
-					newObj->name = temp[typecount];
+					newObj->name = name[typecount];
 					newObj->collisionBox = CollisionBox(Vector3(0, 0, 0), Vector3(1.6, 4, 1.6), Vector3(-1.6, 0, -1.6));
 					newObj->size = Vector3(4, 4, 4);
 					newObj->price = 2.00;

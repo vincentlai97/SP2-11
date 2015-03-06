@@ -1,15 +1,30 @@
-Original Soda
-Mountain Dew
-Dog Ham
-Fishy Tuna
-Tomato Soup
+OriginalSoda
+2.00
+MountainDew
+2.00
+DogHam
+2.00
+FishyTuna
+2.00
+TomatoSoup
+2.00
 IceCream
+5.00
 Chocolate
+1.60
 Detergent
-Red Apple
-Green Apple
+3.60
+RedApple
+1.00
+GreenApple
+1.00
 FerreroRocher
+8.00
 Pizza
+8.00
 LaysChips
+1.20
 Sugar
+0.80
 Dre
+0.80

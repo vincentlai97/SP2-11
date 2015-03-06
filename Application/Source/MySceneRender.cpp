@@ -140,6 +140,7 @@ void MyScene::Render()
 	RenderCharacter(shelfCharacters);
 	RenderCharacter(fruitstandCharacters);
 	RenderCharacter(guards);
+	if (role == CASHIER) RenderCharacter(customer);
 
 	RenderExterior();
 	
@@ -276,10 +277,19 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Get to your car to escape!", Color(0, 0, 0), 2, .5, 5);
 	}
 	
+	RenderTextOnScreen(meshList[GEO_TEXT], "$" + to_price(money), Color(1, 1, 1), 2, 0.5, 25);
+
 	if (!completeInventory && win == false) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(1, 0, 0), 2, 1, 18);
 	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(1, 0, 0), 5, 1, 12);
 	if (win && !gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "Proceed to car!", Color(1, 0, 0), 5, 1, 10);
 	if (gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "GameOver!", Color(1, 0, 0), 5, 1, 10);
+
+	if (role == CASHIER)
+	{
+		RenderPList();
+		RenderPayment();
+		RenderTextOnScreen(meshList[GEO_TEXT], ans, Color(0, 0, 0), 2, 28, 20);
+	}
 
 	/*{
 		for (int count = 0; count < guardspaths.size(); count++)
@@ -294,23 +304,6 @@ void MyScene::Render()
 			} modelStack.PopMatrix();
 		}
 	}*/
-
-	//Customers
-	modelStack.PushMatrix();
-	modelStack.Translate(300, 0, 0);
-	RenderCustomers(customers);
-	modelStack.PopMatrix();
-
-	if(customer == false)
-	{
-		RenderInventory();
-	}
-	else if(customer == true)
-	{
-		RenderPList();
-		RenderPayment();
-		insertNum = true;
-	}
 }
 
 void MyScene::RenderMesh(Mesh *mesh, bool enableLight)
@@ -841,44 +834,18 @@ void MyScene::RenderCar()
 	}
 }
 
-void MyScene::RenderCustomers(std::vector<Character*> customers)
-{
-	for (int count = 0; count < customers.size(); count++)
-	{
-		Character character(*customers[count]);
-		modelStack.PushMatrix(); {
-			modelStack.Translate(0, 0, translateCustomerZ);
-			modelStack.Translate(0, 0, translateCustomerZ1);
-			modelStack.Rotate(180, 0, 1, 0);
-			modelStack.Rotate(character.angle, 0, 1, 0);
-			modelStack.Scale(2, 2, 2);
-
-			RenderMesh(character.mesh[0], false);
-			RenderMesh(character.mesh[1], false);
-			for (int count = -1; count < 2; count += 2)
-			{
-				modelStack.PushMatrix(); {
-					modelStack.Translate(1.5 * count, 6.375, 0);
-					modelStack.Translate(0.625 * count, 0.625, 0);
-
-					RenderMesh(character.mesh[2], false);
-				} modelStack.PopMatrix();
-
-				modelStack.PushMatrix(); {
-					modelStack.Translate(0.75 * count, 3, 0);
-
-					RenderMesh(character.mesh[3], false);
-				} modelStack.PopMatrix();
-			}
-		} modelStack.PopMatrix();
-	}
-}
-
 void MyScene::RenderPayment()
 {	
-	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	for (int zPos = 16, i = 0; zPos > 6, i < paymentList.size(); zPos--, i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+		float price;
+		RenderTextOnScreen(meshList[GEO_TEXT], paymentList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+		for (int count = 0; count < name.size(); count++)
+		{
+			if (name[count] == paymentList[i])
+				price = MyScene::price[count];
+		}
+		RenderTextOnScreen(meshList[GEO_TEXT], to_price(price), Color(0, 0, 0), 2, 37, zPos - 1);
 	}
 	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 18);
 }

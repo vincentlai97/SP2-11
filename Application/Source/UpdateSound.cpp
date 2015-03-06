@@ -33,7 +33,7 @@ void MyScene::UpdateSound(double dt)
 		soundJump = true;
 	}
 
-	if(Application::IsKeyPressed('T') && soundPaid == true && paid == true)
+	/*if(Application::IsKeyPressed('T') && soundPaid == true && paid == true)
 	{
 		sound[PAID] = engine->play2D("../irrKlang/media/Coin.mp3", false);
 		soundPaid = false;
@@ -42,7 +42,7 @@ void MyScene::UpdateSound(double dt)
 	if(!Application::IsKeyPressed('T') && paid == true)
 	{
 		soundPaid = true;
-	}
+	}*/
 
 	if((Application::IsKeyPressed(VK_UP) || Application::IsKeyPressed(VK_DOWN)) && up_down == true)
 	{

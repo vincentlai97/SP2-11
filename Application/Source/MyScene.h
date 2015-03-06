@@ -244,15 +244,9 @@ private:
 	
 	float translateDoorX;
 
-	bool insertNum;
-	std::vector<char> PNumList;
-	std::vector<Character*> customers;
-	std::vector<CollisionBox*> customersCollisionBox;
-	float translateCustomerZ;
-	float translateCustomerZ1;
-	bool cashierScene;
-	bool customer;
-	bool paid;
+	std::vector<Character*> customer;
+	bool paying;
+	int rounds;
 
 	std::vector<CollisionBox*> v;
 	std::vector<CollisionBox> travelatorUp;
@@ -260,6 +254,8 @@ private:
 	std::vector<CollisionBox*> cashierArea;
 
 	std::vector<Object*> obj;
+
+	Object* emptyCashier;
 
 	Object* paperbag;
 
@@ -311,12 +307,14 @@ private:
 	std::vector<const char*> checkList;
 	std::vector<const char*> paymentList;
 
-	std::vector<string> temp;
+	std::vector<string> name;
+	std::vector<float> price;
 	std::vector<string> message;
 	std::vector<string> dialogue;
 	std::vector<char> PNameList;
 	std::vector<char> LetterList;
 	std::vector<char> NumList;
+	string ans;
 
 	std::vector<Character*> cashiers;
 	std::vector<CollisionBox*> cashiersCollisionBox;
@@ -391,7 +389,6 @@ private:
 	void RenderCar();
 	void RenderPCar();
 	void RenderCheckList();
-	void RenderCustomers(std::vector<Character*> customers);
 	void RenderPList();
 	void RenderPayment();
 
