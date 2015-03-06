@@ -53,21 +53,17 @@ void WinState::Update(double dt, GLFWwindow* m_window, float w, float h)
 	xPosition = &xPos;
 	yPosition = &yPos;
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	Application::Mouse_Click(0);
 
-	if(Application::Mouse_Click(0))
+	if(Application::Mouse_Click(0) && ((*xPosition > 500 && *xPosition < 878 && *yPosition > 315 && *yPosition < 415)))
 	{
-		if (*xPosition > 185 && *xPosition < 585 && *yPosition > 165 && *yPosition < 240)
-		{
-			state = Application::GAME;
-			xPos = w / 2;
-			yPos = h / 2;
-			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		else if (*xPosition > 205 && *xPosition < 601 && *yPosition > 395 && *yPosition < 470)
-		{
-			exit(0); //Exit the game
-		}
+		state = Application::GAME;
+		xPos = w / 2;
+		yPos = h / 2;
+		glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+	else if (*xPosition > 500 && *xPosition < 878 && *yPosition > 470 && *yPosition < 570)
+	{
+		exit(0); //Exit the game
 	}
 }
 
