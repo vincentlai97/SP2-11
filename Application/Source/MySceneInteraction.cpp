@@ -62,11 +62,18 @@ void MyScene::InteractElevator(double dt)
 	{
 		camera.position.y = 110;
 		camera.target.y = 110;
+		up_down = true;
 	}
 	else if(cameraCollisionBox.checkCollision(elevatorDown) && Application::IsKeyPressed(VK_DOWN))
 	{
 		camera.position.y = 20;
 		camera.target.y = 20;
+		up_down = true;
+	}
+
+	else
+	{
+		up_down = false;
 	}
 }
 

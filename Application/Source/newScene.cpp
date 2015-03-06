@@ -161,18 +161,6 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 
-		if(Application::Mouse_Click(0))
-		{
-			mouseBuff = true;
-			if((*xPosition > 185 && *xPosition < 585 && *yPosition > 318 && *yPosition < 390) && mouseBuffer <= 1 && mouseBuff == true)
-			{
-				gameState = OPTION_SCREEN;
-				xPos = w / 2;
-				yPos = h / 2;
-				mouseBuffer = 0.5;
-			}
-		}
-
 		if(Application::Mouse_Click(0) && (*xPosition > 185 && *xPosition < 585 && *yPosition > 475 && *yPosition < 548))
 		{
 			exit(0); //Exit the game
@@ -315,11 +303,6 @@ void GameState::RenderScreens()
 	if(gameState == START_SCREEN)
 	{
 		Start_Screen();
-	}
-	
-	else if(gameState == OPTION_SCREEN)
-	{
-		Options_Screen();
 	}
 }
 

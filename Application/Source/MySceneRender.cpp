@@ -112,22 +112,14 @@ void MyScene::Render()
 	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 	modelStack.Scale(80, 166.43, 0);
 	modelStack.Translate(0, 0.5, 0);
-	RenderMesh(meshList[ESCALATOR], false);
+	RenderMesh(meshList[ESCALATOR], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-250, 55, 260);
-	modelStack.Scale(15, 15, 15);
-	RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	modelStack.Translate(-278, 50, 260);
+	modelStack.Scale(17, 15, 15);
+	RenderMesh(meshList[ESCALATOR_HANDLE], true);
 	modelStack.PopMatrix();
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(-280, 40, 260);
-	//modelStack.Rotate(-10, 0, 0, 1);
-	//modelStack.Scale(18, 14, 10);
-	//modelStack.Translate(-0.5, 0.5, 0);
-	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
-	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-374, 0, 150);
@@ -439,7 +431,6 @@ void MyScene::RenderOnScreen()
 	modelStack.Scale(20, 30, 1);
 	RenderMesh(meshList[CheckList], false);
 	modelStack.PopMatrix();
-
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -780,22 +771,22 @@ void MyScene::RenderInventory()
 	}
 	modelStack.PopMatrix();
 
-	if (inventory.size() >= 1)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(13, 5, 0);
-		modelStack.Scale(6, 6, 2);
-		RenderMesh(meshList[Selector], false);
-		modelStack.PopMatrix();
-		if (Application::IsKeyPressed(VK_RIGHT))
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(13, 5, 0);
-			modelStack.Scale(6, 6, 2);
-			RenderMesh(meshList[Selector], false);
-			modelStack.PopMatrix();
-		}
-	}
+	//if (inventory.size() >= 1)
+	//{
+	//	modelStack.PushMatrix();
+	//	modelStack.Translate(13, 5, 0);
+	//	modelStack.Scale(6, 6, 2);
+	//	RenderMesh(meshList[Selector], false);
+	//	modelStack.PopMatrix();
+	//	if (Application::IsKeyPressed(VK_RIGHT))
+	//	{
+	//		modelStack.PushMatrix();
+	//		modelStack.Translate(13, 5, 0);
+	//		modelStack.Scale(6, 6, 2);
+	//		RenderMesh(meshList[Selector], false);
+	//		modelStack.PopMatrix();
+	//	}
+	//}
 
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
@@ -872,11 +863,29 @@ void MyScene::RenderCustomers(std::vector<Character*> customers)
 
 void MyScene::RenderPayment()
 {	
-	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
+	for(int zPos = 16, i = 0; zPos > 6, i < paymentList.size(); zPos--, i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], paymentList[i], Color(0, 0, 0), 2, 28, zPos - 1);
 	}
-	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 18);
+
+	for(int zPos = 16, i = 0; zPos > 6, i < CustInventory.size(); zPos--, i++)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], to_price(CustInventory[i]->getPrice()), Color(0, 1, 0), 2, 28, zPos + 5);
+	}
+	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 16);
+	//Cashier's Answer
+	//RenderTextOnScreen(meshList[GEO_TEXT], "Total Amount:" + AnswerNum, Color(1, 0, 0), 2, 29, 10);
+	//for (int zPos = 16, i = 0; i < paymentList.size(); zPos--, i++)
+	//{
+	//	for (int j = 0; j < CustInventory.size(); j++)
+	//	{
+	//		if (paymentList[i] == to_price(CustInventory[i]->getPrice()))
+	//		{
+	//			RenderTextOnScreen(meshList[GEO_TEXT], "---------------------", Color(0, 0, 0), 2, 31, zPos);
+	//			break;
+	//		}
+	//	}
+	//}
 }
 
 void MyScene::RenderPList()

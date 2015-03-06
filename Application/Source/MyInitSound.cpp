@@ -30,14 +30,9 @@ int MyScene::InitSound()
 	sound[FOOTSTEPS]->setVolume(0.8f);
 
 	soundJump = false;
-
-	//Set up lift level Music
-	sound[REACH] = engine->play2D("../irrKlang/media/Bell.mp3", true, true);
-	sound[REACH]->setVolume(0.8f);
-
-	//Set up Opening of doors Music
-	//sound[OPENDOOR] = engine->play2D("../irrKlang/media/doorOpen.mp3", true, true);
-	
+	soundTake = false;
+	soundPaid = false;
+	soundUpDown = false;
 	
 	return 0;
 }

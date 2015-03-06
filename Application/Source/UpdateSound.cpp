@@ -16,7 +16,6 @@ void MyScene::UpdateSound(double dt)
 	}
 
 	sound[FOOTSTEPS]->setIsPaused(true);
-	sound[REACH]->setIsPaused(true);
 	
 	if(Application::IsKeyPressed('W') || Application::IsKeyPressed('A') || Application::IsKeyPressed('S') || Application::IsKeyPressed('D'))
 	{
@@ -34,11 +33,33 @@ void MyScene::UpdateSound(double dt)
 		soundJump = true;
 	}
 
-	if(Application::IsKeyPressed(VK_UP) && cameraCollisionBox.checkCollision(elevatorUp) || Application::IsKeyPressed(VK_DOWN) && cameraCollisionBox.checkCollision(elevatorDown))
+	if(Application::IsKeyPressed('T') && soundPaid == true && paid == true)
 	{
-		sound[REACH]->setIsPaused(false);
-		//sound[REACH]->setPlaybackSpeed(1.2f);
+		sound[PAID] = engine->play2D("../irrKlang/media/Coin.mp3", false);
+		soundPaid = false;
 	}
+
+	if(!Application::IsKeyPressed('T') && paid == true)
+	{
+		soundPaid = true;
+	}
+
+	if((Application::IsKeyPressed(VK_UP) || Application::IsKeyPressed(VK_DOWN)) && up_down == true)
+	{
+		sound[REACH] = engine->play2D("../irrKlang/media/DingDing.mp3", false);
+		soundUpDown = false;
+	}
+
+	if((Application::IsKeyPressed(VK_UP) || Application::IsKeyPressed(VK_DOWN)) && up_down == true)
+	{
+		soundUpDown = true;
+	}
+
+	//if(Application::IsKeyPressed(VK_UP) && cameraCollisionBox.checkCollision(elevatorUp) || Application::IsKeyPressed(VK_DOWN) && cameraCollisionBox.checkCollision(elevatorDown))
+	//{
+	//	sound[REACH]->setIsPaused(false);
+	//	//sound[REACH]->setPlaybackSpeed(1.2f);
+	//}
 
 	float multMusic = 0.1f;
 	Vector3 viewMusic = 0.0f;

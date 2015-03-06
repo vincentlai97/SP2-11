@@ -11,11 +11,6 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Camera2.h"
-#include "CameraFly.h"
-#include "Object.h"
-#include "Gettable.h"
-#include "CollisionBox.h"
-#include "AICharacter.h"
 #include "MeshBuilder.h"
 #include "LoadTGA.h"
 #include "Application.h"
@@ -23,18 +18,15 @@
 
 class GameState : public Scene
 {
-	
 	enum stages
 	{
 		START_SCREEN = 0,
-		OPTION_SCREEN,
 		WINNING_SCREEN,
 		LOSING_SCREEN,
 	};
 	enum SCREENS
 	{
 		startscreen,
-		optionscreen,
 		winscreen,
 		losescreen,
 		TOTAL_SCREENS,
@@ -89,9 +81,7 @@ private:
 	unsigned m_parameters[U_TOTAL]; //Store handlers for uniform parameters
 	Light light[2];
 
-	
 	void Start_Screen();
-	void Options_Screen();
 	void Win_Screen();
 	void Lose_Screen();
 	void RenderScreens();
@@ -118,14 +108,11 @@ private:
 	float mouseBuffer;
 	bool mouseBuff;
 
-
-
 public:
 	virtual void Init(GLFWwindow* m_window, float w, float h);
 	virtual void Update(double dt, GLFWwindow* m_window, float w, float h);
 	virtual void Render();
 	virtual void Exit();
-
 };
 
 #endif
