@@ -133,7 +133,7 @@ void GameState::LoadMesh()
 {
 	//Start_Screen
 	meshList[startscreen]= MeshBuilder::GenerateQuad("Start Screen", Color(1, 1, 1), 10, 10);
-	meshList[startscreen]->textureID = LoadTGA("Image//Start_Screen.tga");
+	meshList[startscreen]->textureID = LoadTGA("Image//Start_Screen2.tga");
 }
 
 void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)

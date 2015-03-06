@@ -592,6 +592,15 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				talkBuffer = 0.5;
 			}
 		}
+		for (int count = 0; count < fruitstandCharacters.size(); count++)
+		{
+			Character character(*fruitstandCharacters[count]);
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			{
+				talk = !talk;
+				talkBuffer = 0.5;
+			}
+		}
 	}
 
 	if (talk == true)
