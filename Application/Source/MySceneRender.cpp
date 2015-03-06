@@ -239,7 +239,7 @@ void MyScene::Render()
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
-		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
@@ -248,7 +248,7 @@ void MyScene::Render()
 	for (int count = 0; count < fruitstandCharacters.size(); count++)
 	{
 		Character character(*fruitstandCharacters[count]);
-		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 		{
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}

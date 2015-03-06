@@ -583,7 +583,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		for (int count = 0; count < shelfCharacters.size(); count++)
 		{
 			Character character(*shelfCharacters[count]);
-			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 			{
 				talk = !talk;
 				talkBuffer = 0.5;
@@ -592,7 +592,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 		for (int count = 0; count < fruitstandCharacters.size(); count++)
 		{
 			Character character(*fruitstandCharacters[count]);
-			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.y < character.pos.y + 5 && camera.position.y > character.pos.y - 5 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
 			{
 				talk = !talk;
 				talkBuffer = 0.5;
