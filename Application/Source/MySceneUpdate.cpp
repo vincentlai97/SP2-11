@@ -5,7 +5,7 @@
 void MyScene::UpdateRole()
 {
 	if (role != THIEF && cameraCollisionBox.checkCollision(fenceArea))
-	if (inventory.size() > 0 && inventory[0]->name != "paperbag")
+	if (!win && inventory.size() > 0 && inventory[0]->name != "paperbag")
 	{
 		role = THIEF;
 
