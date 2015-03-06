@@ -21,6 +21,7 @@ public:
 	virtual void Exit() = 0;
 	bool gameover;
 	int returnstate() {return state;};
+	virtual bool getBusted() {return false;};
 };
 
 #endif

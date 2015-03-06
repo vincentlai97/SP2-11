@@ -79,7 +79,7 @@ void MyScene::InitFruitstandPaths()
 
 void MyScene::InitGuardPaths()
 {
-	/*InitGuardPaths(395, 285, 295, 175);
+	InitGuardPaths(395, 285, 295, 175);
 	InitGuardPaths(285, 85, 295, 235);
 	InitGuardPaths(85, 75, 290, 240);
 	InitGuardPaths(75, -75, 295, 240);
@@ -101,9 +101,35 @@ void MyScene::InitGuardPaths()
 	InitGuardPaths(-95, -205, -115, -160);
 	InitGuardPaths(-95, -205, -190, -235);
 	InitGuardPaths(-95, -205, -265, -295);
-	InitGuardPaths(380, 105, 174, 95);
-	InitGuardPaths(380, 260, 95, -230);*/
+	InitGuardPaths(380, 105, 175, 95);
+	InitGuardPaths(380, 260, 95, -230);
 	InitGuardPaths(330, 35, -235, -295);
+	InitGuardPaths(85, 60, 95, -235);
+	InitGuardPaths(135, 110, 95, -235);
+	InitGuardPaths(185, 160, 95, -235);
+	InitGuardPaths(235, 210, 95, -235);
+	InitGuardPaths(60, 35, 65, 20);
+	InitGuardPaths(60, 35, -10, -55);
+	InitGuardPaths(60, 35, -85, -130);
+	InitGuardPaths(60, 35, -160, -205);
+	InitGuardPaths(110, 85, 65, 20);
+	InitGuardPaths(110, 85, -10, -55);
+	InitGuardPaths(110, 85, -85, -130);
+	InitGuardPaths(110, 85, -160, -205);
+	InitGuardPaths(160, 35, 65, 20);
+	InitGuardPaths(160, 35, -10, -55);
+	InitGuardPaths(160, 35, -85, -130);
+	InitGuardPaths(160, 35, -160, -205);
+	InitGuardPaths(210, 85, 65, 20);
+	InitGuardPaths(210, 85, -10, -55);
+	InitGuardPaths(210, 85, -85, -130);
+	InitGuardPaths(210, 85, -160, -205);
+	InitGuardPaths(260, 35, 65, 20);
+	InitGuardPaths(260, 35, -10, -55);
+	InitGuardPaths(260, 35, -85, -130);
+	InitGuardPaths(260, 35, -160, -205);
+	InitGuardPaths(395, 375, -230, -270);
+	InitGuardPaths(10, -10, 240, 230);
 }
 
 void MyScene::InitGuardPaths(float xMax, float xMin, float zMax, float zMin)

@@ -182,7 +182,7 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	checklistout = false;
 	srand(time(NULL));
 	random_shuffle(itemList.begin(), itemList.end());
-	for (int i = 0; i < 1 && i < itemList.size(); i++)
+	for (int i = 0; i < 3 && i < itemList.size(); i++)
 	{
 		checkList.push_back(itemList[i]);
 	}
@@ -213,10 +213,6 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 
 	InitGuardPaths();
 
-	InitAICharacters(guards, guardsCollisionBox, guardspaths, 1);
-	guardsCollisionBox.insert(guardsCollisionBox.end(), shelfCharactersCollisionBox.begin(), shelfCharactersCollisionBox.end());
-	guardsCollisionBox.insert(guardsCollisionBox.end(), fruitstandCharactersCollisionBox.begin(), fruitstandCharactersCollisionBox.end());
-
 	buttonBuffer = 0;
 	checklistBuffer = 0;
 
@@ -230,20 +226,19 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	ToiletUsed = false;
 	TDoorOpen = false;
 
-	
 	soundJump = false;
 	money = 100;
 	win = false;
+	role = CUSTOMER;
 	busted = false;
 	gameover = false;
 	
 	camera.Init(Vector3(0, 20, 50), Vector3(0, 0, 0), Vector3(0, 1, 0));
 	cameraCollisionBox.set(Vector3(0, 20, 50), Vector3(5, 5, 5), Vector3(-5, -15, -5));
+	lockCamera = false;
 	Mtx44 projection;
-	projection.SetToPerspective(45.f, 4.f/3.f, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
+	projection.SetToPerspective(45.f, w/h, 0.1f, 10000.0f); //FOV, Aspect Ration, Near plane, Far plane
 	projectionStack.LoadMatrix(projection);
-
-	state = 1;
 }
 
 void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
@@ -251,6 +246,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	glfwGetCursorPos(m_window, &xPos, &yPos);
 
 	glfwSetCursorPos(m_window, w / 2, h / 2);
+
+	state = Application::GAME;
 
 	//Update the sound every frame
 	UpdateSound(dt);
@@ -332,7 +329,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				camera.ToggleToilet = true;
 				camera.target.z	+= 180;
 				camera.target.y -= 10;
-				camera.position.z == camera.target.z;
+				camera.position.z = camera.target.z;
 			}
 
 			if (Application::IsKeyPressed('F') && ToiletUsed == true)
@@ -630,7 +627,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 					letterBuffer = 0.2;
 				}
 			}
-			if (Application::IsKeyPressed(VK_BACK) && LetterList.size() != 0 && eraseBuffer <= 0)
+			if (Application::IsKeyPressed(VK_BACK) && PNameList.size() != 0 && eraseBuffer <= 0)
 			{
 				LetterList.erase(LetterList.begin() + LetterList.size() - 1);
 				eraseBuffer = 0.2;
@@ -639,20 +636,20 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	}
 	else
 	{
-		updateAI(dt);
+		UpdateAI(dt);
 	}
 	//Player name input
 	if (insert == false && talk == false)
 	{
 		//Don't update camera if user choses to input text
-		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
-		cameraCollisionBox.Centre = camera.position;
 		if (Application::IsKeyPressed('P') && checklistBuffer <= 0)
 		{
 			checklistout = !checklistout;
 			checklistBuffer = 0.5;
 		}
 	}
+	else lockCamera = true;
+
 	if (Application::IsKeyPressed(VK_HOME) && insertBuffer <= 0)
 	{
 		insert = !insert;
@@ -730,6 +727,8 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			enoughmoney = true;
 		}
 	}
+
+	UpdateRole();
 
 	translateCarX += 50 * dt;
 
@@ -833,9 +832,37 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (answerBuffer > 0) answerBuffer -= dt;
 	if (mouseBuffer > 0) mouseBuffer -= dt;
 	if (paidBuffer > 0) paidBuffer -= dt;
+	
+	if (Application::Mouse_Click(0))
+	{
+		if (win && targeted(car->collisionBox))
+			state = Application::WIN;
+		else if (role == THIEF && targeted(car->collisionBox))
+		{
+			int count = 0;
+			for (int i = 0; i < checkList.size(); i++)
+			{
+				for (int j = 0; j < inventory.size(); j++)
+				{
+					if (checkList[i] == inventory[j]->name)
+					{
+						count++;
+						break;
+					}
+				}
+			}
+			if (count == checkList.size())
+				state = Application::WIN;
+		}
+	}
 
-	if (win && targeted(car->collisionBox)) 
-		if (Application::Mouse_Click(0)) state = 2;
+
+	if (!lockCamera) 
+	{
+		camera.Update(dt, cameraCollisionBox, v, w / 2, h / 2, &xPos, &yPos);
+		cameraCollisionBox.Centre = camera.position;
+	}
+	lockCamera = false;
 }
 
 void MyScene::Exit()

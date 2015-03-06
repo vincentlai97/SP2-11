@@ -58,9 +58,6 @@
     <ClCompile Include="Source\Pathing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AIMovement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MySceneAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,25 +82,16 @@
     <ClCompile Include="Source\MySceneInitCharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\newScene.cpp">
+    <ClCompile Include="Source\MySceneUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Options_Screen.cpp">
+    <ClCompile Include="Source\StartMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Start_Menu.cpp">
+    <ClCompile Include="Source\WinMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Lose_Screen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Losing_Screen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Winning_Screen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Win_Screen.cpp">
+    <ClCompile Include="Source\LoseMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -168,22 +156,19 @@
     <ClInclude Include="Source\Pathing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\AIMovement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\AICharacter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\newScene.h">
+    <ClInclude Include="Source\StartMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Losing_Screen.h">
+    <ClInclude Include="source\WinMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Winning_Screen.h">
+    <ClInclude Include="source\LoseMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

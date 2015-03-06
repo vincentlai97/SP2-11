@@ -162,6 +162,12 @@ class MyScene : public Scene
 		SOUND_TOTAL,
 	};
 
+	enum ROLE {
+		CUSTOMER,
+		CASHIER,
+		THIEF,
+	};
+
 private:
 	unsigned m_vertexArrayID;
 	Mesh* meshList[NUM_GEOMETRY];
@@ -176,6 +182,9 @@ private:
 
 	Camera2 camera;
 	CollisionBox cameraCollisionBox;
+	bool lockCamera;
+
+	int gameState;
 
 	float fps;
 	float buttonBuffer;
@@ -199,6 +208,8 @@ private:
 	bool enoughmoney;
 	bool win;
 	bool busted;
+	int role;
+	bool gameover;
 
 	double xPos;
 	double yPos;
@@ -259,6 +270,8 @@ private:
 	Object* DoorR;
 	CollisionBox doorArea;
 
+	CollisionBox fenceArea;
+
 	Object* eDoor1;
 	Object* eDoor2;
 	Object* eDoorButton1;
@@ -275,6 +288,10 @@ private:
 	std::vector<CollisionBox*> shelfItemsCollisionBox;
 	std::vector<Gettable*> pizza;
 	std::vector<CollisionBox*> pizzaCollisionBox;
+	std::vector<Gettable*> chocolate;
+	std::vector<CollisionBox*> chocolateCollisionBox;
+	std::vector<Gettable*> detergent;
+	std::vector<CollisionBox*> detergentCollisionBox;
 	std::vector<Gettable*> Apple;
 	std::vector<CollisionBox*> AppleCollisionBox;
 	std::vector<Gettable*> FR;
@@ -349,7 +366,9 @@ private:
 
 	void InteractToiletDoor(double dt);
 
-	void updateAI(double dt);
+	void UpdateAI(double dt);
+
+	void UpdateRole();
 
 	int targeted(const std::vector<CollisionBox*> v);
 	bool targeted(const CollisionBox collisionBox);
@@ -376,7 +395,6 @@ private:
 	void RenderPList();
 	void RenderPayment();
 
-
 	void Start_Screen();
 	void RenderScreens();
 
@@ -392,6 +410,8 @@ public:
 	virtual void UpdateSound(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	bool getBusted() {return busted;};
 };
 
 #endif

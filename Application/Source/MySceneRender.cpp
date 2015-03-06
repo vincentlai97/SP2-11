@@ -1,5 +1,4 @@
 #include "MyScene.h"
-#include "newScene.h"
 #include "GL\glew.h"
 #include "Utility.h"
 #include "Application.h"
@@ -112,13 +111,13 @@ void MyScene::Render()
 	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 	modelStack.Scale(80, 166.43, 0);
 	modelStack.Translate(0, 0.5, 0);
-	RenderMesh(meshList[ESCALATOR], true);
+	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-278, 50, 260);
 	modelStack.Scale(17, 15, 15);
-	RenderMesh(meshList[ESCALATOR_HANDLE], true);
+	RenderMesh(meshList[ESCALATOR_HANDLE], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -222,7 +221,6 @@ void MyScene::Render()
 	}
 	else if (insert == true && talk == false)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Input:", Color(0, 0, 0), 2, 1, 21);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Home' to lock in your name.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
@@ -262,7 +260,6 @@ void MyScene::Render()
 	}
 	else if (insertL == true)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], "Input:", Color(0, 0, 0), 2, 1, 21);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
@@ -272,12 +269,19 @@ void MyScene::Render()
 	
 	RenderInventory();
 
+	if (role == THIEF)
+	{
+		RenderTextOnScreen(meshList[GEO_TEXT], "You have not paid for your items", Color(0, 0, 0), 2, .5, 7);
+		RenderTextOnScreen(meshList[GEO_TEXT], "and have became a thief!", Color(0, 0, 0), 2, .5, 6);
+		RenderTextOnScreen(meshList[GEO_TEXT], "Get to your car to escape!", Color(0, 0, 0), 2, .5, 5);
+	}
+	
 	if (!completeInventory && win == false) RenderTextOnScreen(meshList[GEO_TEXT], "You don't have all the items in the checklist", Color(1, 0, 0), 2, 1, 18);
 	else if (!enoughmoney) RenderTextOnScreen(meshList[GEO_TEXT], "Not Enough Money", Color(1, 0, 0), 5, 1, 12);
 	if (win && !gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "Proceed to car!", Color(1, 0, 0), 5, 1, 10);
 	if (gameover)	RenderTextOnScreen(meshList[GEO_TEXT], "GameOver!", Color(1, 0, 0), 5, 1, 10);
 
-	{
+	/*{
 		for (int count = 0; count < guardspaths.size(); count++)
 		{
 			modelStack.PushMatrix(); {
@@ -289,7 +293,7 @@ void MyScene::Render()
 				RenderMesh(meshList[TEST], false);
 			} modelStack.PopMatrix();
 		}
-	}
+	}*/
 
 	//Customers
 	modelStack.PushMatrix();
@@ -872,29 +876,11 @@ void MyScene::RenderCustomers(std::vector<Character*> customers)
 
 void MyScene::RenderPayment()
 {	
-	for(int zPos = 16, i = 0; zPos > 6, i < paymentList.size(); zPos--, i++)
+	for (int zPos = 16, i = 0; zPos > 6, i < checkList.size(); zPos--, i++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], paymentList[i], Color(0, 0, 0), 2, 28, zPos - 1);
+		RenderTextOnScreen(meshList[GEO_TEXT], checkList[i], Color(0, 0, 0), 2, 28, zPos - 1);
 	}
-
-	for(int zPos = 16, i = 0; zPos > 6, i < CustInventory.size(); zPos--, i++)
-	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_price(CustInventory[i]->getPrice()), Color(0, 1, 0), 2, 28, zPos + 5);
-	}
-	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 16);
-	//Cashier's Answer
-	//RenderTextOnScreen(meshList[GEO_TEXT], "Total Amount:" + AnswerNum, Color(1, 0, 0), 2, 29, 10);
-	//for (int zPos = 16, i = 0; i < paymentList.size(); zPos--, i++)
-	//{
-	//	for (int j = 0; j < CustInventory.size(); j++)
-	//	{
-	//		if (paymentList[i] == to_price(CustInventory[i]->getPrice()))
-	//		{
-	//			RenderTextOnScreen(meshList[GEO_TEXT], "---------------------", Color(0, 0, 0), 2, 31, zPos);
-	//			break;
-	//		}
-	//	}
-	//}
+	RenderTextOnScreen(meshList[GEO_TEXT], "Customer Items", Color(1, 0, 0), 2, 29, 18);
 }
 
 void MyScene::RenderPList()
