@@ -197,7 +197,7 @@ void MyScene::Render()
 	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
 	RenderTextOnScreen(meshList[GEO_TEXT], "Your Latest Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
-	for (int xPos = 5, count = 0; count < PNameList.size(); xPos++, count++)
+	for (int xPos = 1, count = 0; count < PNameList.size(); xPos++, count++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
@@ -217,7 +217,7 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	for (int xPos = 5, count = 0; count < LetterList.size(); xPos++, count++)
+	for (int xPos = 1, count = 0; count < LetterList.size(); xPos++, count++)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
@@ -249,7 +249,6 @@ void MyScene::Render()
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Enter' to lock in response.", Color(0, 0, 0), 2, 1, 23);
 		RenderTextOnScreen(meshList[GEO_TEXT], "Press 'Backspace' to delete a character.", Color(0, 0, 0), 2, 1, 22);
 	}
-
 	//Crosshair
 	RenderTextOnScreen(meshList[GEO_TEXT], "+", Color(0, 1, 0), 5, 8.3, 6);
 	
