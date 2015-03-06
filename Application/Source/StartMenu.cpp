@@ -54,22 +54,18 @@ void GameState::Update(double dt, GLFWwindow* m_window, float w, float h)
 	xPosition = &xPos;
 	yPosition = &yPos;
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
+		std::cout << *xPosition << std::endl; std::cout << *yPosition << std::endl;
 	if(Application::Mouse_Click(0))
 	{
-		if (*xPosition > 185 && *xPosition < 585 && *yPosition > 165 && *yPosition < 240)
+		if (*xPosition > 500 && *xPosition < 878 && *yPosition > 315 && *yPosition < 415)
 		{
 			state = Application::GAME;
 			xPos = w / 2;
 			yPos = h / 2;
 			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
-		else if (*xPosition > 185 && *xPosition < 585 && *yPosition > 318 && *yPosition < 390)
-		{
-			xPos = w / 2;
-			yPos = h / 2;
-		}
-		else if (*xPosition < 585 && *xPosition > 185 && *yPosition > 475 && *yPosition < 548)
+
+		else if (*xPosition > 500 && *xPosition < 878 && *yPosition > 470 && *yPosition < 570)
 		{
 			exit(0); //Exit the game
 		}
