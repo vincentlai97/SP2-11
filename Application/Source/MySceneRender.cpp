@@ -111,13 +111,13 @@ void MyScene::Render()
 	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 	modelStack.Scale(80, 166.43, 0);
 	modelStack.Translate(0, 0.5, 0);
-	RenderMesh(meshList[ESCALATOR], true);
+	RenderMesh(meshList[ESCALATOR], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-250, 55, 260);
-	modelStack.Scale(15, 15, 15);
-	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
+	modelStack.Translate(-278, 50, 260);
+	modelStack.Scale(17, 15, 15);
+	RenderMesh(meshList[ESCALATOR_HANDLE], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
