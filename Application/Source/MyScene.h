@@ -156,6 +156,7 @@ class MyScene : public Scene
 		BG_MUSIC = 0,
 		FOOTSTEPS,
 		JUMP,
+		PAID,
 		OPENDOOR,
 		REACH,
 		SOUND_TOTAL,
@@ -196,8 +197,10 @@ private:
 	float eraseBuffer;
 	float answerBuffer;
 	float mouseBuffer;
+	float paidBuffer;
 	string PlayerName;
 	string Answer;
+	string AnswerNum;
 
 	float money;
 	float checkoutprice;
@@ -234,11 +237,14 @@ private:
 	float translateCarX;
 
 	bool soundJump;
+	bool soundTake;
+	bool soundPaid;
+	bool soundUpDown;
+	bool up_down;
 	
 	float translateDoorX;
 
 	bool insertNum;
-	std::vector<const char*> customerInventory;
 	std::vector<char> PNumList;
 	std::vector<Character*> customers;
 	std::vector<CollisionBox*> customersCollisionBox;
@@ -300,14 +306,17 @@ private:
 	std::vector<CollisionBox*> ICCollisionBox;
 
 	std::vector<Object*> inventory;
+	std::vector<Object*> CustInventory;
 	std::vector<const char*> itemList;
 	std::vector<const char*> checkList;
+	std::vector<const char*> paymentList;
 
 	std::vector<string> temp;
 	std::vector<string> message;
 	std::vector<string> dialogue;
 	std::vector<char> PNameList;
 	std::vector<char> LetterList;
+	std::vector<char> NumList;
 
 	std::vector<Character*> cashiers;
 	std::vector<CollisionBox*> cashiersCollisionBox;

@@ -182,9 +182,17 @@ void MyScene::Init(GLFWwindow* m_window, float w, float h)
 	checklistout = false;
 	srand(time(NULL));
 	random_shuffle(itemList.begin(), itemList.end());
-	for (int i = 0; i < 10 && i < itemList.size(); i++)
+	for (int i = 0; i < 3 && i < itemList.size(); i++)
 	{
 		checkList.push_back(itemList[i]);
+	}
+
+	//Payment Init
+	srand(time(NULL));
+	random_shuffle(itemList.begin(), itemList.end());
+	for(int i = 0; i < 5 && i < itemList.size(); i++)
+	{
+		paymentList.push_back(itemList[i]);
 	}
 
 	LoadMesh();
@@ -581,6 +589,15 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				talkBuffer = 0.5;
 			}
 		}
+		for (int count = 0; count < fruitstandCharacters.size(); count++)
+		{
+			Character character(*fruitstandCharacters[count]);
+			if (camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+			{
+				talk = !talk;
+				talkBuffer = 0.5;
+			}
+		}
 	}
 
 	if (talk == true)
@@ -740,7 +757,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 				cashierScene = false;
 			}
 
-			else if(Application::IsKeyPressed('E'))
+			else if(Application::IsKeyPressed('E')) // Exits cashier scenario
 			{
 				camera.Init(Vector3(335, 15, 200), Vector3(0, 0, 150), Vector3(0, 1, 0));
 			}
@@ -750,39 +767,59 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 			{
 				translateCustomerZ = 200;
 				customer = true;
-				paid = false;
-			}
-
-			if(Application::IsKeyPressed('T'))
-			{
+				insertNum = true;
 				paid = true;
 			}
 
-			if(paid == true)
+			/*if(insertNum == true)
 			{
-				translateCustomerZ1 += 20 * dt;
-				customer = false;
-			}
-
-			if (insertNum == true && PNumBuffer <= 0)
-			{
-				for (char letter = '0'; letter < '9'; letter++)
+				if (Application::IsKeyPressed(VK_RETURN) && answerBuffer <= 0)
 				{
-					if (Application::IsKeyPressed(letter))
+					insertL = !insertL;
+					answerBuffer = 0.5;
+					if (insertL == false)
 					{
-						PNumList.push_back(letter);
-						PNumBuffer = 0.2;
+						AnswerNum = "";
+						for (int i = 0; i < NumList.size(); i++)
+						{
+							AnswerNum += NumList[i];
+						}
+						NumList.clear();
+						insertNum = false;
 					}
 				}
-
-				if (Application::IsKeyPressed(VK_BACK) && PNumList.size() != 0 && eraseBuffer <= 0)
+				if (insertL == true && letterBuffer <= 0)
 				{
-					PNumList.erase(PNumList.begin() + PNumList.size() - 1);
-					eraseBuffer = 0.2;
+					for (char letter = '0'; letter < '10'; letter++)
+					{
+						if (Application::IsKeyPressed(letter))
+						{
+							NumList.push_back(letter);
+							letterBuffer = 0.2;
+						}
+					}
+					if (Application::IsKeyPressed(VK_BACK) && NumList.size() != 0 && eraseBuffer <= 0)
+					{
+						NumList.erase(LetterList.begin() + NumList.size() - 1);
+						eraseBuffer = 0.2;
+					}
 				}
-			}
+			}*/
 		}
 	}
+				if(Application::IsKeyPressed('T') && paid == true)
+			{
+				translateCustomerZ1 += 120 * dt;
+			}
+
+			if(paid == true && customer == true)
+			{
+				
+			}
+				if(translateCustomerZ1 >= 280)
+				{
+					translateCustomerZ1 = 160;
+				}
 
 	if (buttonBuffer > 0) buttonBuffer -= dt;
 	if (checklistBuffer > 0) checklistBuffer -= dt;
@@ -794,6 +831,7 @@ void MyScene::Update(double dt, GLFWwindow* m_window, float w, float h)
 	if (eraseBuffer > 0) eraseBuffer -= dt;
 	if (answerBuffer > 0) answerBuffer -= dt;
 	if (mouseBuffer > 0) mouseBuffer -= dt;
+	if (paidBuffer > 0) paidBuffer -= dt;
 	
 	if (Application::Mouse_Click(0))
 	{

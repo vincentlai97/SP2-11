@@ -586,7 +586,10 @@ void MyScene::LoadMesh()
 	NewObj = new Object;
 	NewObj->mesh = MeshBuilder::GenerateOBJ("Car", "OBJ//Car.obj");
 	NewObj->mesh->textureID = LoadTGA("Image//car.tga");
-	NewObj->collisionBox = CollisionBox(Vector3(-40, 8, 710), 10, 10, 10);
+	NewObj->collisionBox = CollisionBox(Vector3(-40, 8, 710), 15, 10, 10);
+	NewObj->size = Vector3(5, 5, 5);
+	NewObj->angle = 90;
+	NewObj->rotation = Vector3(0, 1, 0);
 	obj.push_back(NewObj);
 	car = NewObj;
 	v.push_back(&NewObj->collisionBox);

@@ -111,7 +111,7 @@ void MyScene::Render()
 	modelStack.Rotate(float(90) - 32.735, -1, 0, 0);
 	modelStack.Scale(80, 166.43, 0);
 	modelStack.Translate(0, 0.5, 0);
-	RenderMesh(meshList[ESCALATOR], false);
+	RenderMesh(meshList[ESCALATOR], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
@@ -119,14 +119,6 @@ void MyScene::Render()
 	modelStack.Scale(15, 15, 15);
 	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
 	modelStack.PopMatrix();
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(-280, 40, 260);
-	//modelStack.Rotate(-10, 0, 0, 1);
-	//modelStack.Scale(18, 14, 10);
-	//modelStack.Translate(-0.5, 0.5, 0);
-	//RenderMesh(meshList[ESCALATOR_HANDLE], false);
-	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
 	modelStack.Translate(-374, 0, 150);
@@ -216,12 +208,12 @@ void MyScene::Render()
 		RenderCheckList();
 	}
 	//Player Name
-	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 3, 1, 18);
-	RenderTextOnScreen(meshList[GEO_TEXT], "Reply:" + Answer, Color(1, 0, 0), 3, 1, 17);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Hi" + PlayerName, Color(1, 0, 0), 2, 1, 29.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], "Your Latest Reply:" + Answer, Color(1, 0, 0), 2, 1, 28.5);
 
-	for (int xPos = 1, count = 0; count < PNameList.size(); xPos++, count++)
+	for (int xPos = 5, count = 0; count < PNameList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 3, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(PNameList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
 	if (insert == false && talk == false)
 	{
@@ -239,10 +231,11 @@ void MyScene::Render()
 	{
 		dialogue.push_back(message[i]);
 	}
-	for (int xPos = 1, count = 0; count < LetterList.size(); xPos++, count++)
+	for (int xPos = 5, count = 0; count < LetterList.size(); xPos++, count++)
 	{
-		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 3, xPos, 14);
+		RenderTextOnScreen(meshList[GEO_TEXT], to_string(LetterList[count]), Color(1, 0, 0), 2, xPos, 21);
 	}
+	//Shelf NPCs
 	for (int count = 0; count < shelfCharacters.size(); count++)
 	{
 		Character character(*shelfCharacters[count]);
@@ -251,7 +244,15 @@ void MyScene::Render()
 			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
 		}
 	}
-
+	//Fruit Stand NPCs
+	for (int count = 0; count < fruitstandCharacters.size(); count++)
+	{
+		Character character(*fruitstandCharacters[count]);
+		if (talk == false && camera.position.x < character.pos.x + 20 && camera.position.x > character.pos.x - 20 && camera.position.z < character.pos.z + 20 && camera.position.z > character.pos.z - 20)
+		{
+			RenderTextOnScreen(meshList[GEO_TEXT], "Click to interact.", Color(0, 0, 0), 2, 11, 19);
+		}
+	}
 	if (talk == true && insertL == false)
 	{
 		RenderTextOnScreen(meshList[GEO_TEXT], "Npc:" + dialogue[0], Color(0, 0, 0), 2, 6, 5);
@@ -443,7 +444,6 @@ void MyScene::RenderOnScreen()
 	modelStack.Scale(20, 30, 1);
 	RenderMesh(meshList[CheckList], false);
 	modelStack.PopMatrix();
-
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glUniform1i(m_parameters[U_TEXT_ENABLED], 0);
@@ -784,22 +784,22 @@ void MyScene::RenderInventory()
 	}
 	modelStack.PopMatrix();
 
-	if (inventory.size() >= 1)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate(13, 5, 0);
-		modelStack.Scale(6, 6, 2);
-		RenderMesh(meshList[Selector], false);
-		modelStack.PopMatrix();
-		if (Application::IsKeyPressed(VK_RIGHT))
-		{
-			modelStack.PushMatrix();
-			modelStack.Translate(13, 5, 0);
-			modelStack.Scale(6, 6, 2);
-			RenderMesh(meshList[Selector], false);
-			modelStack.PopMatrix();
-		}
-	}
+	//if (inventory.size() >= 1)
+	//{
+	//	modelStack.PushMatrix();
+	//	modelStack.Translate(13, 5, 0);
+	//	modelStack.Scale(6, 6, 2);
+	//	RenderMesh(meshList[Selector], false);
+	//	modelStack.PopMatrix();
+	//	if (Application::IsKeyPressed(VK_RIGHT))
+	//	{
+	//		modelStack.PushMatrix();
+	//		modelStack.Translate(13, 5, 0);
+	//		modelStack.Scale(6, 6, 2);
+	//		RenderMesh(meshList[Selector], false);
+	//		modelStack.PopMatrix();
+	//	}
+	//}
 
 	viewStack.PopMatrix();
 	projectionStack.PopMatrix();
